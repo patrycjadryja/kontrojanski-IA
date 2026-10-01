@@ -1,0 +1,17 @@
+{% import "instagram/_kafle.html" as K %}
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{{ fonty_url }}">
+<style>
+:root{ {{ css }} }
+{% include "_baza.css" %}
+html,body{margin:0;padding:0;background:{{ 'transparent' if nakladka else 'var(--ink)' }};width:{{ szer }}px;height:{{ wys }}px;overflow:hidden}
+.tile,.cov{width:{{ szer }}px!important;height:{{ wys }}px;aspect-ratio:auto}
+</style>
+</head>
+<body>
+{% if rodzaj == 'okladka' %}{{ K.okladka(t, baza, "kw") }}{% else %}{{ K.kafel(t, baza, dopisek, format, nakladka) }}{% endif %}
+</body>
+</html>

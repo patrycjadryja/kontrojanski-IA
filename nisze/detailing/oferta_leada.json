@@ -1,0 +1,135 @@
+{
+  "_opis": "Oferta osobista dla leada z landingu. Ceny orientacyjne rynkowe, NIE cennik studia. Nadpisania per klient: klient.json -> oferta_leada (listy podmieniaja sie w calosci).",
+  "waznosc_dni": 7,
+  "dla_ofert_wejsciowych": ["ppf-strefy"],
+  "przyklad": {
+    "imie": "Michał",
+    "auto": "BMW M340i",
+    "rocznik": "2024 lub nowsze",
+    "zakres": "Strefy narażone",
+    "plany": "Tak, jeszcze w tym roku",
+    "termin": "W tym miesiącu"
+  },
+  "nadwozia": [
+    {"id": "sedan", "nazwa": "Sedan", "mnoznik": 1.0},
+    {"id": "kombi", "nazwa": "Kombi", "mnoznik": 1.05},
+    {"id": "hatchback", "nazwa": "Hatchback", "mnoznik": 0.95},
+    {"id": "suv", "nazwa": "SUV", "mnoznik": 1.15},
+    {"id": "coupe", "nazwa": "Coupe", "mnoznik": 1.0}
+  ],
+  "kolory": [
+    {"id": "czarny", "nazwa": "Czarny", "hex": "#121214"},
+    {"id": "grafitowy", "nazwa": "Grafitowy", "hex": "#3a3d42"},
+    {"id": "szary", "nazwa": "Szary", "hex": "#7a7e84"},
+    {"id": "srebrny", "nazwa": "Srebrny", "hex": "#b9bdc2"},
+    {"id": "bialy", "nazwa": "Biały", "hex": "#ecebe7"},
+    {"id": "niebieski", "nazwa": "Niebieski", "hex": "#1f4a8c"},
+    {"id": "czerwony", "nazwa": "Czerwony", "hex": "#a51c1f"},
+    {"id": "zielony", "nazwa": "Zielony", "hex": "#24523f"},
+    {"id": "brazowy", "nazwa": "Brązowy", "hex": "#6a4a35"},
+    {"id": "zolty", "nazwa": "Żółty", "hex": "#d9a21b"}
+  ],
+  "modele": {
+    "kombi": ["kombi", "combi", "touring", "avant", "variant", "estate", "sportbrake", "shooting brake", "tourer", "sw", "v60", "v90", "allroad", "alltrack"],
+    "coupe": ["coupe", "cabrio", "roadster", "911", "718", "cayman", "boxster", "m2", "m4", "m8", "tt", "r8", "amg gt", "supra", "gr86", "gt86", "mustang", "camaro", "huracan", "aventador", "revuelto", "ferrari", "mclaren", "z4", "continental gt", "i8", "4c", "f-type"],
+    "suv": ["suv", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "xm", "ix", "q2", "q3", "q4", "q5", "q7", "q8", "sq5", "sq7", "sq8", "rsq8", "gla", "glb", "glc", "gle", "gls", "g63", "g500", "g 63", "g 500", "g klasa", "brabus", "urus", "cayenne", "macan", "tiguan", "touareg", "t-roc", "kodiaq", "karoq", "kamiq", "enyaq", "tucson", "sportage", "sorento", "santa fe", "kona", "rav4", "c-hr", "cr-v", "hr-v", "qashqai", "x-trail", "juke", "xc40", "xc60", "xc90", "model y", "model x", "duster", "bigster", "kuga", "puma", "ateca", "tarraco", "formentor", "stelvio", "bentayga", "cullinan", "range rover", "defender", "discovery", "evoque", "velar", "cx-5", "cx-30", "cx-60", "nx", "rx", "ux", "id.4", "id4", "e-tron", "3008", "5008", "2008", "captur", "austral", "grandland", "mokka", "jeep", "compass", "wrangler"],
+    "hatchback": ["hatchback", "golf", "polo", "a1", "a3", "s3", "rs3", "118", "120", "128", "m135", "a180", "a200", "a250", "a35", "a45", "klasa a", "fabia", "scala", "ibiza", "leon", "i20", "i30", "ceed", "rio", "picanto", "clio", "megane", "208", "308", "corsa", "astra", "yaris", "corolla", "civic", "mazda 2", "mazda 3", "mazda2", "mazda3", "focus", "fiesta", "mini", "cooper", "swift", "500", "panda", "c3", "c4", "id.3", "id3", "up"]
+  },
+  "strefy": [
+    {"id": "klamki", "nazwa": "Wnęki klamek", "cena": 190, "opis": "Rysy od paznokci, pierścionków i kluczy."},
+    {"id": "krawedzie", "nazwa": "Krawędzie drzwi", "cena": 200, "opis": "Obicia przy otwieraniu drzwi na parkingu."},
+    {"id": "reflektory", "nazwa": "Reflektory", "cena": 390, "opis": "Matowienie i odpryski. Wymiana lampy to często kilka tysięcy złotych."},
+    {"id": "lusterka", "nazwa": "Lusterka", "cena": 250, "opis": "Pierwsze miejsce, w które trafiają kamienie z trasy."},
+    {"id": "prog-bagaznika", "nazwa": "Próg bagażnika", "cena": 190, "opis": "Ślady po walizkach, wózkach i zakupach."},
+    {"id": "pas-przedni", "nazwa": "Pas maski i błotników", "cena": 1100, "opis": "Przednia krawędź maski i błotników, najbardziej narażona w trasie.", "w": ["maska", "blotniki-przod"]},
+    {"id": "progi", "nazwa": "Progi", "cena": 690, "opis": "Piasek i sól spod kół, rysy od butów przy wsiadaniu."},
+    {"id": "zderzak-przod", "nazwa": "Zderzak przedni", "cena": 1900, "opis": "Zbiera najwięcej odprysków ze wszystkich elementów."},
+    {"id": "maska", "nazwa": "Maska", "cena": 1900, "opis": "Duża, płaska powierzchnia. Odpryski widać na niej z daleka."},
+    {"id": "blotniki-przod", "nazwa": "Błotniki przednie", "cena": 1400, "opis": "Odpryski od kamieni spod kół aut jadących przed Tobą."},
+    {"id": "slupki", "nazwa": "Słupki A i krawędź dachu", "cena": 600, "opis": "Kamienie odbite od maski trafiają właśnie tutaj."},
+    {"id": "drzwi", "nazwa": "Drzwi", "cena": 3200, "opis": "Rysy parkingowe i zarysowania od gałęzi."},
+    {"id": "blotniki-tyl", "nazwa": "Błotniki tylne", "cena": 2200, "opis": "Piaskowanie lakieru za tylnym kołem."},
+    {"id": "dach", "nazwa": "Dach", "cena": 1900, "opis": "Ptasie odchody, żywica i słońce."},
+    {"id": "klapa", "nazwa": "Klapa bagażnika", "cena": 1500, "opis": "Zarysowania przy załadunku i myciu."},
+    {"id": "zderzak-tyl", "nazwa": "Zderzak tylny", "cena": 1700, "opis": "Otarcia parkingowe."}
+  ],
+  "pakiety": [
+    {"id": "klamki-krawedzie", "nazwa": "Klamki i krawędzie", "etykieta": "Najmniejszy zakres", "cena": 390, "czas": "1 dzień", "zakres_formularza": "Klamki i krawędzie",
+     "strefy": ["klamki", "krawedzie"]},
+    {"id": "strefy", "nazwa": "Strefy narażone", "etykieta": "Najczęściej wybierany", "cena": 890, "czas": "1 dzień", "zakres_formularza": "Strefy narażone",
+     "strefy": ["klamki", "krawedzie", "reflektory", "lusterka", "prog-bagaznika"]},
+    {"id": "pas-przedni", "nazwa": "Pas przedni", "etykieta": "Na trasy", "cena": 1900, "czas": "1 dzień", "zakres_formularza": "Pas przedni",
+     "strefy": ["pas-przedni", "reflektory", "lusterka", "klamki"]},
+    {"id": "full-front", "nazwa": "Full Front", "etykieta": "Cały przód auta", "cena": 5900, "czas": "2-3 dni",
+     "strefy": ["zderzak-przod", "maska", "blotniki-przod", "pas-przedni", "reflektory", "lusterka", "slupki"]},
+    {"id": "cale-auto", "nazwa": "Całe auto", "etykieta": "Pełna ochrona lakieru", "cena": 15900, "czas": "5-7 dni",
+     "strefy": ["klamki", "krawedzie", "reflektory", "lusterka", "prog-bagaznika", "pas-przedni", "progi", "zderzak-przod", "maska", "blotniki-przod", "slupki", "drzwi", "blotniki-tyl", "dach", "klapa", "zderzak-tyl"]}
+  ],
+  "domyslny_pakiet": "strefy",
+  "kolejny_krok": "full-front",
+  "dodatki": [
+    {"id": "korekta", "nazwa": "Korekta lakieru przed zabezpieczeniem", "cena": 900, "od": true,
+     "opis": "Usuwamy rysy i hologramy. Folia i powłoka zachowują dokładnie to, co pod nimi zostanie.", "polecane_dla_rocznika": ["2020-2023", "2019 lub starsze"]},
+    {"id": "ceramika-2", "grupa": "ceramika", "nazwa": "Powłoka ceramiczna na lakier, 2 lata", "cena": 1900,
+     "opis": "Głębszy połysk i łatwiejsze mycie. Nie chroni przed odpryskami, dlatego łączymy ją z folią na przodzie."},
+    {"id": "ceramika-5", "grupa": "ceramika", "nazwa": "Powłoka ceramiczna na lakier, 5 lat", "cena": 3400,
+     "opis": "Twardsza powłoka wielowarstwowa, z przeglądem raz w roku."},
+    {"id": "felgi", "nazwa": "Powłoka ceramiczna na felgi", "cena": 400, "staly": true,
+     "opis": "Pył z klocków schodzi pod samą wodą."},
+    {"id": "szyby", "nazwa": "Powłoka na szyby", "cena": 300, "staly": true,
+     "opis": "Niewidzialna wycieraczka. Woda spływa z szyby powyżej 70 km/h."}
+  ],
+  "teksty": {
+    "naglowek": "Oferta dla *{auto}*",
+    "lead": "{imie}, to propozycja przygotowana na podstawie Twoich odpowiedzi. Kliknij strefę na rysunku albo wybierz pakiet, a cena przeliczy się od razu.",
+    "rocznik": {
+      "2024 lub nowsze": "Nowy lakier to najlepszy moment na folię. Nie ma jeszcze czego poprawiać, więc zabezpieczamy stan z salonu.",
+      "2020-2023": "Przed folią sprawdzimy lakier pod lampą. Drobne rysy usuwamy, żeby folia zachowała lakier w najlepszym stanie.",
+      "2019 lub starsze": "Przed folią zrobimy korektę lakieru. Folia zachowa dokładnie to, co pod nią zostanie, dlatego najpierw przywracamy połysk."
+    },
+    "plany": {
+      "Tak, jeszcze w tym roku": "Planujesz ochronę całego auta jeszcze w tym roku. Strefy położone teraz zostają na aucie, a kolejne elementy dokładamy bez zdejmowania folii.",
+      "Może później": "Zaczynasz od stref. Kolejne elementy można dołożyć w dowolnym momencie, bez zdejmowania tego, co już jest na aucie.",
+      "Nie, wystarczą mi strefy": "Zabezpieczamy to, co niszczy się pierwsze. Bez dopłat za elementy, których nie potrzebujesz."
+    },
+    "uwaga_cena": "Ceny orientacyjne dla wybranego nadwozia. Dokładną cenę potwierdzamy po obejrzeniu auta.",
+    "uwaga_rysunek": "Rysunek poglądowy typu nadwozia. Nie odwzorowuje konkretnego modelu."
+  },
+  "porownanie": {
+    "naglowek": "Folia czy *powłoka*",
+    "lead": "To dwa różne zabezpieczenia. Często pracują razem: folia na przodzie, powłoka na reszcie auta.",
+    "kolumny": ["", "Folia PPF", "Powłoka ceramiczna"],
+    "wiersze": [
+      ["Przed czym chroni", "Odpryski od kamieni, rysy, otarcia", "Brud, chemia, promienie UV"],
+      ["Co widać", "Bezbarwna folia jest praktycznie niewidoczna", "Głębszy połysk, woda zbiera się w krople"],
+      ["Trwałość", "Wiele lat, zależnie od folii i eksploatacji", "Od 2 do 5 lat, zależnie od powłoki"],
+      ["Czas w studiu", "Od 1 dnia (strefy) do tygodnia (całe auto)", "2-3 dni razem z przygotowaniem lakieru"],
+      ["Po zdjęciu", "Lakier pod folią w stanie z dnia aplikacji", "Powłoka zużywa się i odnawia się ją"]
+    ]
+  },
+  "faq": [
+    ["Czy folię widać na aucie?", "Dobrze położona folia bezbarwna jest praktycznie niewidoczna. Krawędzie zawijamy za elementy karoserii."],
+    ["Czy folia żółknie?", "Współczesne folie poliuretanowe mają warstwę odporną na promienie UV. Warunki gwarancji producenta podajemy na piśmie razem z wyceną."],
+    ["Ile auto stoi w studiu?", "Strefy narażone i pas przedni robimy w jeden dzień. Full Front zajmuje 2-3 dni, całe auto 5-7 dni."],
+    ["Jak dbać o auto po aplikacji?", "Pierwsze mycie po około 7 dniach. Myjnia ręczna albo bezdotykowa, bez szczotek. Przy odbiorze dostajesz instrukcję pielęgnacji."],
+    ["Czy później mogę dołożyć kolejne elementy?", "Tak. Kolejne elementy dokładamy bez zdejmowania tego, co już jest na aucie. Zapłacone strefy nie przepadają."]
+  ],
+  "wizualizacja": {
+    "naglowek": "Twoje auto *w naszym studiu*",
+    "lead": "Wgraj zdjęcie auta z boku albo pod kątem. W kilkanaście sekund zobaczysz je pod lampami studia.",
+    "efekty": [
+      {"id": "studio", "nazwa": "W studiu pod lampami",
+       "prompt": "Place this exact car, unchanged, inside a dark premium detailing studio. Keep the car's make, model, body shape, wheels, paint colour and camera angle exactly as in the photo. Black walls, polished dark concrete floor with soft reflection, long linear LED light bars on the ceiling reflected along the car's body lines, freshly polished deep glossy paint. Replace the licence plate with a blank plate. No people, no text, no logos added. Photorealistic, medium format look."},
+      {"id": "satyna", "nazwa": "Folia satynowa (mat)",
+       "prompt": "Show this exact car with a satin matte paint protection film finish applied to all painted body panels. Keep the car's make, model, body shape, wheels, paint colour hue and camera angle exactly as in the photo. The paint must look satin matte with soft diffused highlights instead of glossy reflections; glass, lights and wheels stay unchanged. Place the car inside a dark premium detailing studio with linear LED light bars. Replace the licence plate with a blank plate. No people, no text, no logos added. Photorealistic."}
+    ],
+    "zgoda": "Zdjęcie wysyłamy do przetworzenia i nie publikujemy. Wizualizacja jest poglądowa, wygenerowana komputerowo."
+  },
+  "termin": {
+    "naglowek": "Wybierz *dzień*",
+    "lead": "Zaznacz dzień, który Ci pasuje. Potwierdzimy termin telefonicznie.",
+    "pory": ["Rano, 8-10", "Przed południem, 10-12", "Po południu, 14-16"],
+    "dni_naprzod": {"W tym miesiącu": 3, "W ciągu trzech miesięcy": 10, "Na razie się rozglądam": 14}
+  },
+  "sms": "{studio}: {imie}, oferta dla {auto} jest gotowa. Zobacz zakres i cenę: {link}"
+}

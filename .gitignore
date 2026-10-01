@@ -1,0 +1,9 @@
+.venv/
+klienci/
+fonty/
+agencja.json
+panel/panel.log
+__pycache__/
+*.pyc
+.DS_Store
+_qa.html

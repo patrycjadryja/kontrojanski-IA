@@ -1,0 +1,401 @@
+{% import "instagram/_kafle.html" as K with context %}
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pokaz prywatny - {{ d.nazwa }}</title>
+<meta name="description" content="Pokaz przygotowany dla {{ d.nazwa }}: nowy znak, nowy Instagram i strona zbierająca zapytania.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="{{ fonty_url }}" rel="stylesheet">
+<style>
+/* POKAZ PRYWATNY (warstwa 1, zimny kontakt). Wygenerowane przez Generator Agencji, zmiany wprowadzaj w klient.json. */
+:root{ {{ css }};--ease:cubic-bezier(.16,1,.3,1);--pad:clamp(20px,5vw,72px);--bar:56px }
+{{ css_akcentow }}
+{% include "_baza.css" %}
+{% include "pokaz/_pokaz.css" %}
+</style>
+<script>
+(function(){var ok={{ akcenty_id|tojson }},a=new URLSearchParams(location.search).get('akcent');if(a&&ok.indexOf(a)>0)document.documentElement.setAttribute('data-accent',a);})();
+</script>
+</head>
+<body>
+
+<div class="bar" id="bar">
+  <div class="who mono">{{ sygnet(1) }}<span>Pokaz prywatny<span class="now" id="now"></span></span></div>
+  <div class="sp"></div>
+  {% if akcenty|length > 1 %}
+  <span class="mono lab">Akcent</span>
+  <div class="dots" role="group" aria-label="Kolor akcentu">
+    {% for a in akcenty %}<button type="button" data-a="{{ a.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}" aria-label="{{ a.nazwa }}"><i style="background:{{ a.accent }}"></i></button>{% endfor %}
+  </div>
+  {% endif %}
+  <a class="btn sm" href="#rozmowa" data-ev="cta-pasek">Umów rozmowę</a>
+  <div class="prog" id="prog"></div>
+</div>
+
+<main>
+
+<section class="scene hero{{ ' film' if tlo_ai }}" id="start" data-scene="Start">
+  {% if tlo %}<div class="bg"><img src="{{ tlo }}" alt=""></div>{% endif %}
+  <div class="top"><span class="mono">{{ t.kurtyna.etykieta }}</span><span class="mono">{{ t.kurtyna.etykieta2 }}</span></div>
+  <div class="wrap">
+    <div class="hh">
+      <p class="sub rv in">{{ [d.nazwa, d.miasto]|select|join(" / ") }}</p>
+      <h1 class="rv in" style="--d:1">{{ t.kurtyna.naglowek|akcent }}</h1>
+    </div>
+    <div>
+      <p class="lead rv in" style="--d:2">{{ t.kurtyna.lead1 }}</p>
+      <p class="lead rv in" style="--d:3">{{ t.kurtyna.lead2 }}</p>
+      <div class="cta rv in" style="--d:4">
+        <a class="btn" href="#znak" data-ev="start">{{ t.kurtyna.cta }}</a>
+        <span class="mono">{{ t.kurtyna.pod_cta }}</span>
+      </div>
+    </div>
+    <div class="rv in" style="--d:5">
+      <div class="hello" id="hello">
+        <div id="hello-video" hidden>
+          <video src="wideo/powitanie.mp4" playsinline controls preload="none"></video>
+          <div class="cap"><span class="mono">Kilka słów od nas</span><span class="mono">1 min</span></div>
+        </div>
+        <ul class="list3" id="hello-list" style="border-top:0">
+          {% for x in t.kurtyna.lista %}<li><span class="mono">0{{ loop.index }}</span><b>{{ x }}</b></li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="znak" data-scene="Znak">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>01</b><span class="mono">Znak</span></p>
+      <h2 class="rv">{{ historia.naglowek|akcent }}</h2>
+      <p class="lead rv" style="--d:1">{{ historia.lead }}</p>
+    </div>
+    <div class="stage" id="stage">
+      {{ logo_anim }}
+      <div class="tagl">
+        <div class="was">{% if ig.awatar_przed %}<img src="{{ ig.awatar_przed }}" alt="Obecny znak studia"><span class="mono">Obecny znak</span>{% endif %}</div>
+        <button type="button" class="btn ghost sm" id="replay">Odtwórz ponownie</button>
+      </div>
+    </div>
+    <div class="facts">
+      {% for f in t.znak.fakty %}<div class="rv" style="--d:{{ loop.index0 }}"><b>{{ f[0] }}</b><p>{{ f[1] }}</p></div>{% endfor %}
+    </div>
+    {% if wiz %}
+    <div class="mos">
+      {% for w in wiz %}<figure class="{{ w.uklad }} rv" style="--d:{{ loop.index0 % 4 }}"><img src="{{ w.img }}" alt="{{ w.podpis }}" loading="lazy"><figcaption>{{ w.podpis }}</figcaption></figure>{% endfor %}
+    </div>
+    <p class="fine" style="margin-top:18px">{{ t.znak.uwaga_wiz }}</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="scene" id="instagram" data-scene="Instagram">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>02</b><span class="mono">Instagram</span></p>
+      <h2 class="rv">{{ t.instagram.naglowek|akcent }}</h2>
+      <p class="lead rv" style="--d:1">{{ t.instagram.lead if ma_zdjecia else t.instagram.lead_bez_zdjec }}</p>
+    </div>
+    <div class="igrid">
+      <div class="pcol rv">
+        <div class="ptag"><b>{{ "Dziś" if ig.prawdziwa_siatka else "Bez oprawy" }}</b><b>Propozycja</b></div>
+        <div class="phone"><div class="cmp" id="cmp">
+          {% for strona in ["po", "przed"] %}
+          <div class="screen {{ 'after' if strona == 'po' else 'before' }}"{% if strona == 'przed' %} aria-hidden="true"{% endif %}>
+            <div class="ig-bar">{{ d.ig_handle or d.nazwa }}</div>
+            <div class="ig-head">
+              <div class="ava">{% if strona == "po" %}{{ sygnet(2) }}{% elif ig.awatar_przed %}<img src="{{ ig.awatar_przed }}" alt="">{% endif %}</div>
+              <div>
+                <div class="ig-name">{{ d.ig_handle or d.nazwa }}</div>
+                {% if d.kategorie %}<div class="ig-cat">{{ d.kategorie }}</div>{% endif %}
+                <div class="ig-stats">{% if d.posty %}<span>Posty: <b>{{ d.posty|tysiace }}</b></span>{% endif %}{% if d.obserwujacy %}<span><b>{{ d.obserwujacy|tysiace }}</b> obserwujących</span>{% endif %}</div>
+              </div>
+            </div>
+            <div class="ig-bio">{% for l in (ig.bio_po if strona == "po" else ig.bio_przed) %}{{ l }}{% if not loop.last %}<br>{% endif %}{% endfor %}{% if www %}<a>{{ www }}</a>{% endif %}</div>
+            <div class="ig-btn">Obserwuj</div>
+            <div class="hl">
+              {% for w in ig.wyroznione[:5] %}
+              <figure><span class="c">{% if strona == "po" %}{{ K.okladka(w, "") }}{% elif w.img_przed %}<img src="{{ w.img_przed }}" alt="">{% else %}<span style="display:block;background:linear-gradient(135deg,#2a2f38,#171b21)"></span>{% endif %}</span><figcaption>{{ w.nazwa }}</figcaption></figure>
+              {% endfor %}
+            </div>
+            <div class="ig-grid">
+              {% if strona == "po" %}{% for x in ig.siatka_po[:12] %}{{ K.kafel(x, "", dopisek) }}{% endfor %}
+              {% else %}{% for x in ig.siatka_przed[:12] %}<div class="tile"><img src="{{ x }}" alt=""></div>{% endfor %}{% endif %}
+            </div>
+          </div>
+          {% endfor %}
+          <span class="ln"></span>
+          <input type="range" min="0" max="100" value="50" step="0.1" id="cmpr" aria-label="Porównanie profilu: dziś i propozycja">
+        </div></div>
+      </div>
+
+      <div class="diag">
+        <div class="hd"><p>Dziś</p><p>Po zmianie</p></div>
+        {% for w in ig.diagnoza[:6] %}<div class="rv"><p>{{ w[0] }}</p><p>{{ w[1] }}</p></div>{% endfor %}
+      </div>
+    </div>
+
+    <div class="tpl">
+      {% for g in szablony_ig %}
+      <figure class="rv" style="--d:{{ loop.index0 }}">{{ K.kafel(g, "", dopisek, "r45") }}<figcaption class="mono">{{ g.nazwa }}</figcaption></figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="strona" data-scene="Strona">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>03</b><span class="mono">Strona</span></p>
+      <h2 class="rv">{{ t.strona.naglowek|akcent }}</h2>
+      <p class="lead rv" style="--d:1">{{ t.strona.lead }}</p>
+    </div>
+    <div class="lgrid">
+      <div class="browser rv">
+        <div class="chrome"><i></i><i></i><i></i><div class="url">{{ adres_strony }}</div></div>
+        <div class="view">
+          <iframe id="lp" title="Strona usługi dla {{ d.nazwa }}" data-src="landing/index.html" loading="lazy"></iframe>
+          <button type="button" class="gate" id="gate">
+            <span class="mono" style="color:var(--bone)">Strona na żywo</span>
+            <span class="wide">Kliknij i przewijaj</span>
+            <span class="btn">Wejdź na stronę</span>
+          </button>
+        </div>
+        <div class="bact">
+          <button type="button" class="btn ghost sm" id="toform">Przejdź do formularza</button>
+          <a class="btn ghost sm" href="landing/index.html" target="_blank" rel="noopener" id="lpnew" data-ev="landing-nowa-karta">Otwórz w nowej karcie</a>
+          <button type="button" class="btn ghost sm" id="leave" hidden>Wróć do pokazu</button>
+        </div>
+      </div>
+      <aside class="notif">
+        <p class="mono" id="ntag">Przykładowe zapytanie</p>
+        <div class="card" id="card">
+          <div class="hd"><span class="mono">{{ sygnet(3) }}{{ znak_nazwa }} / nowe zapytanie</span><span class="mono" id="ntime">teraz</span></div>
+          <h3 id="ncar">{{ przyklad.auto }}</h3>
+          <dl id="ndl">
+            <dt>Ocena</dt><dd><span class="grade">PRIORYTET</span></dd>
+            {% for w in przyklad.wiersze %}<dt>{{ w[0] }}</dt><dd>{{ w[1] }}</dd>{% endfor %}
+            <dt>Działanie</dt><dd>{{ przyklad.dzialanie }}</dd>
+          </dl>
+        </div>
+        <p class="fine">{{ t.strona.uwaga }}</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% if akcenty|length > 1 %}
+<section class="scene" id="system" data-scene="System">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>04</b><span class="mono">System</span></p>
+      <h2 class="rv">{{ t.system.naglowek|akcent }}</h2>
+      <p class="lead rv" style="--d:1">{{ t.system.lead }}</p>
+    </div>
+    <div class="sys">
+      <div class="pick rv" role="group" aria-label="Kolor akcentu">
+        {% for a in akcenty %}<button type="button" data-a="{{ a.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}"><i style="background:{{ a.accent }}"></i><b>{{ a.nazwa }}</b><span class="mono">{{ a.opis }}</span></button>{% endfor %}
+      </div>
+      <div class="kit rv" style="--d:1">
+        <div class="k-logo">{{ logo_stat }}</div>
+        {{ K.kafel(kafel_systemu, "", dopisek, "r45") }}
+        <div class="k-web">
+          <p class="mono">Strona</p>
+          <p class="wide">{{ t.system.probka|akcent }}</p>
+          <span class="btn" style="align-self:flex-start;pointer-events:none">{{ cta_landingu }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="scene" id="liczby" data-scene="Liczby">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>0{{ 5 if akcenty|length > 1 else 4 }}</b><span class="mono">Liczby</span></p>
+      <h2 class="rv">{{ t.liczby.naglowek|akcent }}</h2>
+      <p class="lead rv" style="--d:1">{{ t.liczby.lead }}</p>
+    </div>
+    <div class="calc rv">
+      <div class="in">
+        {% for id, p in [("q", t.liczby.zapytania), ("w", t.liczby.skutecznosc), ("v", t.liczby.wartosc)] %}
+        <div class="fld"><label for="c-{{ id }}"><span class="mono">{{ p.etykieta }}</span><output id="o-{{ id }}"></output></label><input class="r" type="range" id="c-{{ id }}" min="{{ p.min }}" max="{{ p.max }}" step="{{ p.krok }}" value="{{ p.start }}"></div>
+        {% endfor %}
+      </div>
+      <div class="out">
+        <div><p class="mono" style="margin-bottom:12px">{{ t.liczby.wynik_mc }}</p><p class="num" id="n-m"></p></div>
+        <div><p class="mono" style="margin-bottom:12px">{{ t.liczby.wynik_rok }}</p><p class="num acc" id="n-y"></p></div>
+        <p class="fine" id="n-one"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene end" id="rozmowa" data-scene="Rozmowa">
+  <div class="wrap">
+    <p class="mono">0{{ 6 if akcenty|length > 1 else 5 }} / Rozmowa</p>
+    <h2 style="margin-top:18px">{{ t.rozmowa.naglowek }}</h2>
+    <div class="g">
+      <div>
+        <p class="lead">{{ t.rozmowa.lead }}</p>
+        <div class="cta">
+          <a class="btn" id="cta-cal" href="#" data-ev="cta-kalendarz">{{ t.rozmowa.cta }}</a>
+          <a class="btn ghost" id="cta-alt" href="#" data-ev="cta-wiadomosc">{{ t.rozmowa.cta2 }}</a>
+        </div>
+        <p class="sign" id="sign"></p>
+      </div>
+      <ol>
+        {% for x in t.rozmowa.kroki %}<li>{{ x }}</li>{% endfor %}
+      </ol>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap"><p class="fine">{{ t.stopka }}</p></div>
+</footer>
+
+<script type="application/json" id="cfg">{{ cfg_json|safe }}</script>
+<script>
+const CFG = JSON.parse(document.getElementById('cfg').textContent);
+
+(() => {
+  const root = document.documentElement;
+  const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const GLOWNY = CFG.akcenty[0];
+
+  /* zdarzenia */
+  const sid = Math.random().toString(36).slice(2, 10);
+  const sent = new Set();
+  function ev(name, once = true) {
+    if (once && sent.has(name)) return;
+    sent.add(name);
+    if (!CFG.track || location.protocol === 'file:') return;
+    try {
+      const d = new URLSearchParams({ p: CFG.prospekt, s: sid, e: name });
+      navigator.sendBeacon ? navigator.sendBeacon(CFG.track, d) : fetch(CFG.track, { method: 'POST', body: d, keepalive: true });
+    } catch (e) {}
+  }
+  ev('otwarcie');
+  document.addEventListener('click', e => { const a = e.target.closest('[data-ev]'); if (a) ev(a.dataset.ev); });
+
+  /* wezwanie */
+  const cal = $('#cta-cal'), alt = $('#cta-alt');
+  if (CFG.kalendarz) { cal.href = CFG.kalendarz; cal.target = '_blank'; cal.rel = 'noopener'; }
+  else if (CFG.wiadomosc) { cal.href = CFG.wiadomosc; cal.target = '_blank'; cal.rel = 'noopener'; alt.hidden = true; }
+  else if (CFG.telefon) { cal.href = 'tel:' + CFG.telefon.replace(/\s/g, ''); cal.textContent = 'Zadzwoń: ' + CFG.telefon; }
+  if (CFG.wiadomosc && CFG.kalendarz) { alt.href = CFG.wiadomosc; alt.target = '_blank'; alt.rel = 'noopener'; } else alt.hidden = true;
+  if (CFG.nadawca) $('#sign').textContent = CFG.nadawca;
+
+  /* wideo powitalne, jeśli plik istnieje */
+  if (CFG.wideo) { $('#hello-video').hidden = false; $('#hello-list').style.borderTop = ''; }
+
+  /* akcent: cały pokaz + strona w ramce */
+  const lp = $('#lp');
+  function accent(a, user) {
+    a === GLOWNY ? root.removeAttribute('data-accent') : root.setAttribute('data-accent', a);
+    $$('[data-a]').forEach(b => b.setAttribute('aria-pressed', b.dataset.a === a ? 'true' : 'false'));
+    try { const d = lp.contentDocument; if (d && d.documentElement) a === GLOWNY ? d.documentElement.removeAttribute('data-accent') : d.documentElement.setAttribute('data-accent', a); } catch (e) {}
+    $('#lpnew').href = 'landing/index.html' + (a === GLOWNY ? '' : '?akcent=' + a);
+    if (user) ev('akcent-' + a);
+  }
+  $$('[data-a]').forEach(b => b.addEventListener('click', () => accent(b.dataset.a, true)));
+  accent(root.getAttribute('data-accent') || GLOWNY);
+
+  /* pojawianie się + pasek + postęp */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .16 });
+  $$('.rv:not(.in)').forEach(el => io.observe(el));
+  const scenes = $$('[data-scene]'), now = $('#now'), bar = $('#bar'), prog = $('#prog');
+  const so = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const n = e.target.dataset.scene;
+    now.textContent = n === 'Start' ? '' : ' / ' + n;
+    ev('scena-' + n.toLowerCase());
+  }), { rootMargin: '-45% 0px -45% 0px' });
+  scenes.forEach(s => so.observe(s));
+  function onScroll() {
+    const h = document.documentElement.scrollHeight - innerHeight;
+    prog.style.width = (h > 0 ? scrollY / h * 100 : 0) + '%';
+    bar.classList.toggle('on', scrollY > innerHeight * .6);
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* znak */
+  const stage = $('#stage');
+  new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { stage.classList.add('in'); o.disconnect(); } }), { threshold: .45 }).observe(stage);
+  $('#replay').addEventListener('click', () => { stage.classList.remove('in'); void stage.offsetWidth; requestAnimationFrame(() => stage.classList.add('in')); ev('znak-powtorka'); });
+
+  /* suwak dziś / propozycja */
+  const cmp = $('#cmp'), cmpr = $('#cmpr');
+  cmpr.addEventListener('input', () => { cmp.style.setProperty('--p', cmpr.value + '%'); ev('suwak'); });
+  new IntersectionObserver((es, o) => es.forEach(e => {
+    if (!e.isIntersecting) return; o.disconnect();
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t0 = performance.now();
+    (function step(t) {
+      if (sent.has('suwak')) return;
+      const k = Math.min(1, (t - t0) / 2200), v = 50 + Math.sin(k * Math.PI * 2) * 26 * (1 - k * .3);
+      cmp.style.setProperty('--p', v + '%'); cmpr.value = v;
+      if (k < 1) requestAnimationFrame(step);
+    })(t0);
+  }), { threshold: .5 }).observe(cmp);
+
+  /* strona w ramce */
+  const gate = $('#gate'), leave = $('#leave');
+  new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { lp.src = lp.dataset.src + location.search; o.disconnect(); } }), { rootMargin: '600px' }).observe(lp);
+  function enter() { gate.hidden = true; leave.hidden = false; ev('landing-wejscie'); }
+  gate.addEventListener('click', enter);
+  leave.addEventListener('click', () => { gate.hidden = false; leave.hidden = true; ($('#system') || $('#liczby')).scrollIntoView(); });
+  $('#toform').addEventListener('click', () => {
+    enter();
+    try { const t = lp.contentDocument.getElementById('rezerwacja'); if (t) lp.contentWindow.scrollTo(0, t.getBoundingClientRect().top + lp.contentWindow.scrollY); } catch (e) {}
+    ev('landing-formularz');
+  });
+  lp.addEventListener('load', () => {
+    accent(root.getAttribute('data-accent') || GLOWNY);
+    let d; try { d = lp.contentDocument; } catch (e) { return; }
+    const res = d && d.getElementById('result'); if (!res) return;
+    new MutationObserver(() => {
+      if (res.hidden) return;
+      const esc = t => (t || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      let auto = '', html = '';
+      [...d.querySelectorAll('#rdl dt')].forEach(dt => {
+        const k = dt.textContent.trim(), dd = dt.nextElementSibling, g = dd.querySelector('.grade');
+        if (k === CFG.pole_auta) { auto = dd.textContent; return; }
+        html += '<dt>' + esc(k) + '</dt><dd>' + (g ? '<span class="' + esc(g.className) + '">' + esc(g.textContent) + '</span>' : esc(dd.textContent)) + '</dd>';
+      });
+      if (auto) $('#ncar').textContent = auto;
+      $('#ndl').innerHTML = html;
+      $('#ntag').textContent = 'Wasze zapytanie z formularza';
+      const c = $('#card'); c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop');
+      ev('landing-zapytanie');
+    }).observe(res, { attributes: true, attributeFilter: ['hidden'] });
+  });
+
+  /* liczby */
+  const q = $('#c-q'), w = $('#c-w'), v = $('#c-v');
+  const zl = n => String(Math.round(n)).replace(/\B(?=(\d{3})+$)/g, ' ');
+  function calc() {
+    [q, w, v].forEach(r => r.style.setProperty('--f', ((r.value - r.min) / (r.max - r.min) * 100) + '%'));
+    const jobs = q.value * w.value / 100, m = jobs * v.value;
+    $('#o-q').textContent = q.value;
+    $('#o-w').textContent = w.value + '%';
+    $('#o-v').textContent = zl(v.value) + ' zł';
+    $('#n-m').innerHTML = zl(m) + '<small>zł</small>';
+    $('#n-y').innerHTML = zl(m * 12) + '<small>zł</small>';
+    $('#n-one').textContent = 'Przy tych ustawieniach jeden dodatkowy klient w miesiącu to ' + zl(v.value * 12) + ' zł w skali roku. Do jednego zlecenia potrzeba średnio ' + (100 / w.value).toFixed(1).replace('.', ',').replace(',0', '') + ' zapytań.';
+  }
+  [q, w, v].forEach(r => r.addEventListener('input', () => { calc(); ev('kalkulator'); }));
+  calc();
+})();
+</script>
+</body>
+</html>

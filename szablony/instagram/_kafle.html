@@ -1,0 +1,43 @@
+{# Kafle Instagrama. t = opis kafla, baza = sciezka do folderu klienta, nakladka = bez zdjecia (PNG przezroczysty) #}
+{% macro znak(t, baza, dopisek) %}
+<div class="wm">{% if logotyp_inline is defined %}{{ logotyp_inline }}{% else %}<img src="{{ baza }}branding/final/{{ 'logotyp-na-akcencie' if t.uklad in ['solid','kontakt'] else 'logotyp-jasny' }}.svg" alt="">{% endif %}{% if t.dopisek and dopisek %}<small>{{ dopisek }}</small>{% endif %}</div>
+{% endmacro %}
+
+{% macro etykieta(t) %}
+{% if t.licznik %}<span class="tag">{{ t.licznik }}</span>{% elif t.etykieta %}<span class="tag{{ ' chip' if t.etykieta_chip }}">{{ t.etykieta }}</span>{% endif %}
+{% endmacro %}
+
+{% macro kafel(t, baza, dopisek, format="", nakladka=false, pole=false) %}
+{% set foto = t.img and not nakladka %}
+{% set slowa = (t.tytul or 'x')|replace('*','')|replace('/',' ') %}{% set naj = slowa.split()|map('length')|max %}
+{% set dl = ' bdlugi' if naj > 11 else (' dlugi' if naj > 8 or slowa|length > 17 else '') %}
+<div class="tile {{ format }}{% if t.uklad in ['solid','kontakt'] %} solid{% endif %}{% if t.uklad == 'split' %} split{% endif %}{% if t.img and t.uklad not in ['solid','kontakt','ciemny','tresc'] %} graded{% if t.uklad in ['okladka','podpis','tytulowy','split'] %} shade{% endif %}{% endif %}"{% if nakladka %} style="background:transparent"{% endif %}>
+  {% if foto and t.uklad not in ['solid','kontakt','ciemny','tresc'] %}<img src="{{ baza }}{{ t.img }}" alt="{{ t.alt or '' }}">{% endif %}
+  {% if nakladka and t.uklad in ['okladka','podpis','tytulowy'] %}<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(var(--ink-rgb),.55) 0%,rgba(var(--ink-rgb),0) 26%,rgba(var(--ink-rgb),0) 46%,rgba(var(--ink-rgb),.92) 100%)"></div>{% endif %}
+  {% if pole %}<div class="safe"><span>Pole widoczne w siatce 3:4</span></div>{% endif %}
+  {% if t.uklad == 'okladka' %}
+    <div class="ov"><div class="row">{{ znak(t, baza, dopisek) }}{{ etykieta(t) }}</div><div><div class="ttl{{ dl }}">{{ t.tytul|akcent }}</div>{% if t.podpis %}<div class="sub">{{ t.podpis }}</div>{% endif %}</div></div>
+  {% elif t.uklad == 'podpis' %}
+    <div class="ov sign"><div class="row" style="align-items:flex-end"><div class="sub">{{ t.podpis }}</div>{{ znak(t, baza, dopisek) }}</div></div>
+  {% elif t.uklad in ['solid','ciemny'] %}
+    <div class="ov"><div class="row">{{ znak(t, baza, dopisek) }}{{ etykieta(t) }}</div><div><div class="ttl{{ dl }}">{{ t.tytul|akcent }}</div>{% if t.podpis %}<div class="sub">{{ t.podpis }}</div>{% endif %}</div></div>
+  {% elif t.uklad == 'split' %}
+    <span class="sbar"></span>
+    <div class="ov"><div class="row"><span class="tag">Przed</span><span class="tag chip">Po</span></div><div class="row" style="align-items:flex-end"><div><div class="ttl">50<em>/</em>50</div>{% if t.podpis %}<div class="sub">{{ t.podpis }}</div>{% endif %}</div>{% if t.licznik %}<span class="tag">{{ t.licznik }}</span>{% endif %}</div></div>
+  {% elif t.uklad == 'tytulowy' %}
+    <div class="ov"><div class="row">{{ znak(t, baza, dopisek) }}{{ etykieta(t) }}</div><div>{% if t.nadtytul %}<div class="tag" style="margin-bottom:3cqw">{{ t.nadtytul|czysty }}</div>{% endif %}<div class="ttl{{ dl }}">{{ t.tytul|akcent }}</div></div></div>
+  {% elif t.uklad == 'tresc' %}
+    <div class="ov"><div class="row">{{ znak(t, baza, dopisek) }}{{ etykieta(t) }}</div><div class="body-txt">{{ t.tresc }}</div><div class="sub">{{ t.podpis }}</div></div>
+  {% elif t.uklad == 'kontakt' %}
+    <div class="ov"><div class="row">{{ znak(t, baza, dopisek) }}{{ etykieta(t) }}</div><div><div class="ttl">{{ t.tytul|czysty }}</div><div class="body-txt" style="margin-top:4cqw;font-weight:600">{% for l in t.linie %}{{ l }}{% if not loop.last %}<br>{% endif %}{% endfor %}</div></div></div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro okladka(w, baza, klasa="") %}
+<div class="cov {{ w.styl }} {{ klasa }}" style="width:100%">
+  {% if w.styl == 'p' and w.img %}<img src="{{ baza }}{{ w.img }}" alt="">{% endif %}
+  {% if w.styl == 'rp' %}<span>{% for i in range(5) %}<u style="text-decoration:none">{{ ((w.skrot ~ ' ') * 4)|upper }}</u>{% endfor %}</span>{% endif %}
+  <b class="{{ 'xl' if w.skrot|length > 7 else ('l' if w.skrot|length > 3 else '') }}">{{ w.skrot }}</b>
+</div>
+{% endmacro %}

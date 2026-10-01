@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Generator Agencji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light dark;
+  --bg:#f4f3ef;--surface:#ffffff;--sunken:#ebe9e3;--line:#dedbd3;--text:#17171a;--mute:#6a6861;--faint:#99968e;
+  --ink:#17171a;--on-ink:#ffffff;
+  --ok:#1f7a4d;--ok-bg:#e2f2e9;--wait:#9a5b00;--wait-bg:#fdf0d5;--run:#2a4fd6;--run-bg:#e4eafd;--err:#b3261e;--err-bg:#fbe5e3;
+  --sans:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"Geist Mono",ui-monospace,Menlo,monospace;
+  --r:10px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0f0f11;--surface:#18181b;--sunken:#121214;--line:#2a2a2f;--text:#ecebe7;--mute:#9c9a93;--faint:#6d6b66;
+  --ink:#ecebe7;--on-ink:#111113;
+  --ok:#6fd3a0;--ok-bg:#15291f;--wait:#f0b95a;--wait-bg:#2c2210;--run:#8fa8ff;--run-bg:#171f3d;--err:#ff8f86;--err-bg:#331614;
+}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,figure,ul{margin:0}
+ul{padding:0;list-style:none}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--run);outline-offset:2px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
+
+.app{display:grid;grid-template-columns:320px minmax(0,1fr);min-height:100%}
+aside{border-right:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.logo{padding:22px 20px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo b{font-weight:700;font-size:16px;letter-spacing:-.01em}
+.logo span{display:block;color:var(--mute);font-size:12.5px}
+.list{overflow:auto;flex:1;padding:10px}
+.cl{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;padding:10px;border-radius:var(--r);text-decoration:none;border:1px solid transparent}
+.cl:hover{background:var(--sunken)}
+.cl.on{background:var(--sunken);border-color:var(--line)}
+.cl .av{width:40px;height:40px;border-radius:50%;background:var(--sunken);overflow:hidden;display:grid;place-items:center;font-weight:600;color:var(--mute);border:1px solid var(--line)}
+.cl .av img{width:100%;height:100%;object-fit:cover;display:block}
+.cl b{display:block;font-weight:600;font-size:14.5px;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl small{color:var(--mute);font-size:12.5px}
+.dots{display:flex;gap:3px;margin-top:6px}
+.dots i{width:16px;height:3px;border-radius:2px;background:var(--line)}
+.dots i.gotowe{background:var(--ok)}.dots i.decyzja{background:var(--wait)}.dots i.w_toku,.dots i.w_kolejce{background:var(--run)}.dots i.blad{background:var(--err)}
+.empty{padding:28px 18px;color:var(--mute);font-size:14px}
+.agent{border-top:1px solid var(--line);padding:14px 18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px}
+.agent .r{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.agent b{font-weight:600;display:flex;gap:8px;align-items:center}
+.agent p{color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.agent .lk{background:none;border:0;padding:0;color:var(--mute);font-size:12.5px;text-decoration:underline;cursor:pointer;text-align:left}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--faint);display:inline-block;flex:none}
+.dot.on{background:var(--run);animation:pu 1.4s ease-in-out infinite}
+@keyframes pu{50%{opacity:.35}}
+@media(prefers-reduced-motion:reduce){.dot.on{animation:none}}
+.feed{display:flex;flex-direction:column;max-height:340px;overflow:auto}
+.feed div{display:grid;grid-template-columns:70px 14px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:baseline}
+.feed div:last-child{border:0}
+.feed time{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.feed i{width:7px;height:7px;border-radius:50%;background:var(--faint);align-self:center}
+.feed .start i,.feed .koniec i{background:var(--ok)}.feed .blad i{background:var(--err)}.feed .uwaga i{background:var(--wait)}.feed .notatka i{background:var(--run)}
+.feed .notatka span{color:var(--mute)}
+.feed .teraz{font-weight:600}
+.drop{border:1px dashed var(--faint);border-radius:var(--r);padding:18px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;color:var(--mute);font-size:14px}
+.drop.nad{border-color:var(--run);background:var(--run-bg);color:var(--text)}
+.cele{display:flex;flex-direction:column;gap:12px}
+.cel{display:grid;grid-template-columns:1.2fr 1.6fr .6fr;gap:10px}
+@media(max-width:800px){.cel{grid-template-columns:1fr}}
+.cel input,.cele select{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:9px 11px;color:var(--text);width:100%}
+dialog label{display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--mute)}
+dialog input[type=text],dialog input[type=url]{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:10px 12px;color:var(--text)}
+dialog label.ck{flex-direction:row;align-items:center;gap:10px;color:var(--text);font-size:14px}
+dialog.duzy{width:min(860px,calc(100vw - 32px));max-height:92vh;overflow:auto}
+dialog h3{font-size:14px;font-weight:600;margin-top:10px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+dialog .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 14px}
+dialog textarea.p{width:100%;min-height:96px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:10px;font:13.5px/1.45 var(--sans);resize:vertical}
+dialog .pk{border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.stat div{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--bg)}
+.stat b{display:block;font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.stat span{color:var(--mute);font-size:12.5px}
+.link{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.link code{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.koszt{color:var(--mute);font-size:13px;margin-top:8px}
+
+main{padding:28px clamp(18px,3.5vw,48px) 80px;min-width:0;display:flex;flex-direction:column;gap:22px;max-width:1240px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:500;font-size:14px;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--faint)}
+.btn.pri{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.btn.pri:hover{opacity:.88}
+.btn[disabled]{opacity:.5;cursor:default}
+.btn.sm{padding:6px 10px;font-size:13px}
+.chip{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:99px;font-size:12.5px;font-weight:500;background:var(--sunken);color:var(--mute);white-space:nowrap}
+.chip.gotowe,.chip.odczytane,.chip.potwierdzone{background:var(--ok-bg);color:var(--ok)}
+.chip.decyzja,.chip.zgadniete{background:var(--wait-bg);color:var(--wait)}
+.chip.w_toku,.chip.w_kolejce{background:var(--run-bg);color:var(--run)}
+.chip.blad{background:var(--err-bg);color:var(--err)}
+.chip.odczytane{background:var(--sunken);color:var(--mute)}
+
+.banner{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:16px 18px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.banner.wait{border-color:color-mix(in srgb,var(--wait) 40%,var(--line));background:var(--wait-bg)}
+.banner.run{border-color:color-mix(in srgb,var(--run) 40%,var(--line));background:var(--run-bg)}
+.banner.err{border-color:color-mix(in srgb,var(--err) 40%,var(--line));background:var(--err-bg)}
+.banner p{max-width:70ch}
+.banner b{font-weight:600}
+code{font-family:var(--mono);font-size:13px;background:var(--sunken);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
+.cmd{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.head{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-start}
+.head h1{font-size:clamp(24px,3vw,34px);font-weight:700;letter-spacing:-.025em;line-height:1.1}
+.head p{color:var(--mute);margin-top:6px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:8px 14px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--mute)}
+.seg button.on{background:var(--ink);color:var(--on-ink)}
+
+.steps{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.st{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:8px;text-decoration:none;min-width:0}
+.st span{font-size:12px;color:var(--faint);font-family:var(--mono)}
+.st b{font-weight:600;font-size:14.5px}
+.st.decyzja{border-color:var(--wait)}
+.st.blad{border-color:var(--err)}
+@media(max-width:1300px){.steps{grid-template-columns:repeat(4,1fr)}}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);scroll-margin-top:20px}
+.card>header{display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.card>header h2{font-size:17px;font-weight:600;letter-spacing:-.01em;display:flex;gap:10px;align-items:center}
+.card>header h2 span{font-family:var(--mono);font-size:12px;color:var(--faint);font-weight:400}
+.card .body{padding:20px;display:flex;flex-direction:column;gap:18px}
+.card .acts{display:flex;gap:8px;flex-wrap:wrap}
+.note{color:var(--mute);font-size:14px;max-width:75ch}
+
+.dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:0 32px;margin:0}
+.dl div{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);min-width:0}
+.dl dt{color:var(--mute);font-size:13.5px}
+.dl dd{margin:0;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.dl input{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:6px 8px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:13.5px;display:flex;gap:8px;align-items:center}
+.tag i{width:7px;height:7px;border-radius:50%;background:var(--faint);font-style:normal}
+.tag.premium i{background:var(--err)}.tag.srednia i{background:var(--wait)}.tag.wejsciowa i{background:var(--ok)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--mute);font-size:12.5px}
+.legend span{display:flex;gap:6px;align-items:center}
+.legend i{width:7px;height:7px;border-radius:50%}
+
+.dirs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.dir{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;background:var(--bg)}
+.dir.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.dir .pv{aspect-ratio:16/10;display:grid;place-items:center;padding:12% 14%;position:relative}
+.dir .pv img{width:100%;max-height:100%}
+.dir .pv .sy{position:absolute;right:12px;bottom:12px;width:44px;height:44px;border-radius:50%;overflow:hidden;border:1px solid rgba(128,128,128,.4)}
+.dir .sw{display:flex;height:10px}
+.dir .sw i{flex:1}
+.dir .tx{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.dir .tx b{font-weight:600;font-size:16px}
+.dir .tx p{color:var(--mute);font-size:13.5px}
+.dir .tx .btn{margin-top:auto;align-self:flex-start}
+
+.ofs{display:flex;flex-direction:column;gap:10px}
+.of{border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;grid-template-columns:1fr auto;gap:8px 20px;align-items:start;background:var(--bg)}
+.of.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.of h3{font-size:16px;font-weight:600;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.of p{color:var(--mute);font-size:14px;max-width:80ch}
+.of .pr{text-align:right;font-weight:600;white-space:nowrap}
+.of .pr small{display:block;color:var(--mute);font-weight:400;font-size:12.5px}
+.of .btn{grid-column:2;justify-self:end}
+.of .why{grid-column:1;display:flex;flex-direction:column;gap:6px}
+@media(max-width:700px){.of{grid-template-columns:1fr}.of .pr{text-align:left}.of .btn{grid-column:1;justify-self:start}}
+
+.pvw{display:grid;grid-template-columns:minmax(0,280px) 1fr;gap:20px;align-items:start}
+.pvw .th{border:1px solid var(--line);border-radius:8px;overflow:hidden;display:block;background:#0a0a0b;max-height:320px}
+.pvw .th img{width:100%;display:block}
+.card iframe{display:block;width:100%;height:min(62vh,640px);border:1px solid var(--line);border-radius:8px;background:#0a0a0b}
+@media(max-width:800px){.pvw{grid-template-columns:1fr}}
+.miss{display:flex;flex-direction:column;gap:6px}
+.miss li{display:flex;gap:10px;align-items:baseline;font-size:14px}
+.miss li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--wait);flex:none;translate:0 -1px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.fields label{display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--mute)}
+.fields input{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:9px 11px;color:var(--text)}
+.log{font-family:var(--mono);font-size:12.5px;color:var(--mute);display:flex;flex-direction:column;gap:4px;max-height:260px;overflow:auto}
+.log span{color:var(--faint);margin-right:10px}
+details.card>summary{padding:16px 20px;cursor:pointer;font-weight:600;font-size:15px;list-style:none}
+details.card>summary::-webkit-details-marker{display:none}
+details.card[open]>summary{border-bottom:1px solid var(--line)}
+
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--text);padding:0;width:min(560px,calc(100vw - 32px))}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog form{padding:24px;display:flex;flex-direction:column;gap:16px}
+dialog h2{font-size:20px;font-weight:700;letter-spacing:-.02em}
+dialog textarea{width:100%;min-height:170px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:12px;font-family:var(--mono);font-size:13px;resize:vertical}
+dialog .row{display:flex;justify-content:flex-end;gap:8px}
+.toast{position:fixed;left:50%;bottom:24px;translate:-50% 0;background:var(--ink);color:var(--on-ink);padding:10px 16px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50;max-width:calc(100vw - 32px)}
+.toast.on{opacity:1}
+.welcome{max-width:720px;display:flex;flex-direction:column;gap:18px;padding-top:6vh}
+.welcome h1{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.03em;line-height:1.05}
+.welcome ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px;color:var(--mute)}
+.welcome ol b{color:var(--text);font-weight:600}
+.spin{width:12px;height:12px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite;display:inline-block}
+@keyframes sp{to{rotate:360deg}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}
+@media(max-width:860px){
+  .app{grid-template-columns:1fr}
+  aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+  .list{max-height:260px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="logo">
+      <div><b>Generator Agencji</b><span id="ile">wczytuję</span></div>
+      <button class="btn pri sm" id="dodaj-btn">Dodaj</button>
+    </div>
+    <nav class="list" id="lista"></nav>
+    <div class="agent" id="agent"></div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" id="dlg-form">
+    <h2>Dodaj klientów</h2>
+    <p class="note">Wklej linki do profili na Instagramie, po jednym w linii. Jeśli firma nie ma Instagrama, wpisz jej nazwę i miasto.</p>
+    <textarea id="linki" placeholder="https://www.instagram.com/nazwa_firmy/&#10;https://www.instagram.com/inna_firma/" autofocus></textarea>
+    <label id="nisza-pole" hidden>Nisza<select id="nisza"></select></label>
+    <label class="ck"><input type="checkbox" id="uruchom" checked>Uruchom zwiad od razu (Claude pracuje w tle, około 5-10 minut na klienta)</label>
+    <div class="row">
+      <button class="btn" value="anuluj" type="button" id="dlg-x">Anuluj</button>
+      <button class="btn pri" type="submit">Dodaj do kolejki</button>
+    </div>
+  </form>
+</dialog>
+<dialog id="dlg-a" class="duzy">
+  <form method="dialog" id="dlg-a-form">
+    <h2>Ustawienia agencji</h2>
+    <p class="note">Te dane trafiają do pokazu i oferty każdego klienta.</p>
+    <div class="g2">
+      <label>Podpis nadawcy<input type="text" name="nadawca" placeholder="Imię Nazwisko, nazwa agencji"></label>
+      <label>Link do kalendarza rozmów<input type="url" name="kalendarz" placeholder="https://cal.com/..."></label>
+      <label>Link do wiadomości (DM albo mailto:)<input type="text" name="wiadomosc" placeholder="https://ig.me/m/... albo mailto:..."></label>
+    </div>
+    <label class="ck"><input type="checkbox" name="chrome">Claude może używać mojej przeglądarki Chrome do pobrania zdjęć z Instagrama</label>
+
+    <h3>Serwer do publikacji pokazów <span id="h-stan" class="chip"></span></h3>
+    <p class="note">Dostęp przez SSH z kluczem. Nie wiesz, co wpisać? W Claude Code napisz: <code>podłącz serwer</code>, a Claude zrobi to z Tobą.</p>
+    <div class="g2">
+      <label>Host<input type="text" name="h_host" placeholder="s1.hosting.pl"></label>
+      <label>Port<input type="text" name="h_port" placeholder="22"></label>
+      <label>Użytkownik<input type="text" name="h_user"></label>
+      <label>Katalog na serwerze<input type="text" name="h_sciezka" placeholder="/home/uzytkownik/domains/twojadomena.pl/public_html/pokaz"></label>
+      <label>Adres www tego katalogu<input type="url" name="h_adres" placeholder="https://twojadomena.pl/pokaz"></label>
+      <label>Klucz SSH (opcjonalnie)<input type="text" name="h_klucz" placeholder="~/.ssh/id_ed25519"></label>
+    </div>
+    <div class="g2">
+      <label>Telegram: token bota<input type="text" name="t_token" placeholder="123456:ABC..."></label>
+      <label>Telegram: chat id<input type="text" name="t_chat" placeholder="1780154292"></label>
+    </div>
+    <div class="acts"><button class="btn sm" type="button" data-akcja="hosting-test">Sprawdź połączenie</button><button class="btn sm" type="button" data-akcja="hosting-instaluj">Zainstaluj na serwerze</button><span class="note" id="h-wynik"></span></div>
+
+    <h3>Pakiety i ceny agencji (oferta po rozmowie)</h3>
+    <p class="note">Ceny netto w złotych. Punkty pakietu wpisuj po jednym w linii. Puste pole = wartość z pakietu niszy.</p>
+    <div id="pakiety-form"></div>
+    <div class="row">
+      <button class="btn" type="button" id="dlg-a-x">Anuluj</button>
+      <button class="btn pri" type="submit">Zapisz</button>
+    </div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const ETAPY = [["zwiad","Zwiad"],["branding","Branding"],["instagram","Instagram"],["usluga","Usługa"],["landing","Landing"],["pokaz","Pokaz"],["oferta","Oferta"],["wdrozenie","Wdrożenie"]];
+const STANY = {czeka:"czeka",w_kolejce:"w kolejce do Claude",w_toku:"w toku",decyzja:"Twoja decyzja",gotowe:"gotowe",blad:"błąd"};
+const POLA = [["nazwa","Nazwa"],["nazwa_krotka","Nazwa krótka"],["miasto","Miasto"],["adres","Adres"],["kod","Kod pocztowy"],["telefon","Telefon"],["email","E-mail"],["ig_handle","Instagram"],["obserwujacy","Obserwujący"],["posty","Posty"],["ocena_google","Ocena Google"],["liczba_opinii","Liczba opinii"]];
+const S = {klienci:[], kolejka:{dla_claude:[],dla_czlowieka:[]}, agent:{pracuje:false,kolejka:[]}, agencja:{}, slug:"", det:null, edycja:false, odcisk:""};
+const usd = v => (Math.round((v||0)*100)/100).toFixed(2).replace(".",",")+" USD";
+const czas = s => s<60 ? s+" s" : Math.floor(s/60)+" min "+String(s%60).padStart(2,"0")+" s";
+const $ = s => document.querySelector(s);
+const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const em = t => esc(t).replace(/\*(.+?)\*/g, "$1");
+
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),3200);}
+async function api(url, dane){
+  const r = await fetch(url, dane ? {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(dane)} : undefined);
+  const j = await r.json().catch(()=>({blad:"Serwer zwrócił nieczytelną odpowiedź."}));
+  if(!r.ok) throw new Error(j.blad || "Coś poszło nie tak.");
+  return j;
+}
+
+function lista(){
+  $("#ile").textContent = S.klienci.length ? S.klienci.length + (S.klienci.length===1?" klient":" klientów") : "brak klientów";
+  $("#lista").innerHTML = S.klienci.length ? S.klienci.map(k=>`
+    <a class="cl${k.slug===S.slug?" on":""}" href="#/${esc(k.slug)}">
+      <span class="av">${k.awatar?`<img src="${esc(k.awatar)}" alt="">`:esc(k.nazwa.slice(0,1).toUpperCase())}</span>
+      <span style="min-width:0"><b>${esc(k.nazwa)}</b><small>${esc(k.miasto||"miasto nieznane")}</small>
+        <span class="dots">${ETAPY.map(e=>`<i class="${esc(k.etapy[e[0]]||"czeka")}" title="${e[1]}: ${STANY[k.etapy[e[0]]]||"czeka"}"></i>`).join("")}</span></span>
+      ${k.pracuje||k.agent?`<span class="chip w_toku"><i class="spin"></i></span>`:k.blad?`<span class="chip blad">błąd</span>`:k.decyzja?`<span class="chip decyzja">decyzja</span>`:""}
+    </a>`).join("") : `<p class="empty">Nie ma jeszcze klientów. Dodaj pierwszy link do Instagrama.</p>`;
+}
+
+function pasekAgenta(){
+  const a=S.agent, n=S.klienci.find(k=>k.slug===a.slug);
+  $("#agent").innerHTML = a.pracuje
+    ? `<div class="r"><b><i class="dot on"></i>Claude pracuje</b><span class="mono">${czas(a.trwa_s)}</span></div><p title="${esc(a.ostatnie)}">${esc(n?n.nazwa:a.slug)}: ${esc(a.ostatnie)}</p>${a.kolejka.length?`<p>W kolejce: ${a.kolejka.length}</p>`:""}<div class="r"><a class="lk" href="#/${esc(a.slug)}">Pokaż na żywo</a><button class="lk" data-akcja="agent-stop">Zatrzymaj</button></div>`
+    : `<div class="r"><b><i class="dot"></i>Claude czeka</b><button class="lk" data-akcja="ustawienia">Ustawienia agencji</button></div>${a.dostepny===false?`<p>Nie znaleziono programu claude.</p>`:""}`;
+}
+
+function banerGlobalny(){
+  const c = S.kolejka.dla_claude.filter(x=>!(S.agent.pracuje&&S.agent.slug===x.slug)&&!S.agent.kolejka.some(q=>q.slug===x.slug));
+  if(!c.length) return "";
+  return `<div class="banner wait"><p><b>${c.length===1?"1 klient czeka":c.length+" klientów czeka"} na zwiad.</b> ${esc(c.map(x=>x.nazwa).join(", "))}. Claude zrobi to w tle, postęp zobaczysz w panelu.</p>
+    <button class="btn pri sm" data-akcja="agent-wszyscy">Uruchom Claude</button></div>`;
+}
+
+function kAgent(d){
+  const z=d.agent||[]; if(!z.length) return "";
+  const trwa=S.agent.pracuje&&S.agent.slug===d.klient.slug, wkolejce=S.agent.kolejka.some(q=>q.slug===d.klient.slug);
+  const lista=[...z].reverse();
+  const wiersze=lista.map((x,i)=>`<div class="${esc(x.rodzaj)}${trwa&&i===0?" teraz":""}"><time>${esc(x.kiedy.slice(11))}</time><i></i><span>${esc(x.tekst)}</span></div>`).join("");
+  if(!trwa&&!wkolejce) return `<details class="card" id="nazywo"><summary>Praca Claude (${z.length} kroków)</summary><div class="body"><div class="feed">${wiersze}</div></div></details>`;
+  return `<section class="card" id="nazywo"><header><h2>${trwa?`<i class="dot on"></i>Claude pracuje na żywo`:"Praca Claude"}</h2><span class="mono">${trwa?czas(S.agent.trwa_s):wkolejce?"czeka w kolejce":z.length+" kroków"}</span></header>
+    <div class="body"><div class="feed">${lista.map((x,i)=>`<div class="${esc(x.rodzaj)}${trwa&&i===0?" teraz":""}"><time>${esc(x.kiedy.slice(11))}</time><i></i><span>${esc(x.tekst)}</span></div>`).join("")}</div></div></section>`;
+}
+
+function powitanie(){
+  return banerGlobalny() + `<div class="welcome">
+    <p class="mono">System do pozyskiwania klientów agencji</p>
+    <h1>Link do Instagrama na wejściu. Branding, redesign profilu i landing na wyjściu.</h1>
+    <ol>
+      <li><b>Dodaj klientów.</b> Wklej linki do profili. Można kilkanaście naraz.</li>
+      <li><b>Claude robi zwiad w tle.</b> Rusza sam po dodaniu linków. Czyta profil, mapuje usługi i przygotowuje trzy kierunki marki. Postęp widać na żywo.</li>
+      <li><b>Wybierz kierunek.</b> Panel sam generuje pliki logo i paczkę grafik na Instagram.</li>
+      <li><b>Wybierz ofertę wejściową.</b> Panel buduje landing pod jedną usługę z niskim progiem ceny.</li>
+      <li><b>Dwie warstwy ofert powstają same.</b> Pokaz prywatny do wysłania na zimno i oferta współpracy na czas po rozmowie.</li>
+      <li><b>Przejdź do wdrożenia.</b> Po podpisaniu klienta potwierdzasz dane, ceny, formularz i piksel.</li>
+    </ol>
+    <div><button class="btn pri" data-akcja="dodaj">Dodaj klientów</button></div>
+  </div>`;
+}
+
+function naglowek(d){
+  const k=d.klient, s=d.skrot, dn=k.dane;
+  let b="";
+  if(s.pracuje) b=`<div class="banner run"><p><b><i class="spin"></i> Silnik pracuje.</b> Pliki pojawią się tutaj po zakończeniu. Eksport grafik trwa około dwóch minut.</p></div>`;
+  else if(s.blad){const w=[...k.dziennik].reverse().find(x=>x.co.startsWith(s.blad+": blad"));b=`<div class="banner err"><p><b>Błąd w etapie: ${esc(ETAPY.find(e=>e[0]===s.blad)[1])}.</b> ${esc(w?w.co.replace(/^.*?blad - /,""):"Szczegóły w dzienniku.")}</p>${s.blad==="zwiad"||(s.blad==="branding"&&!k.branding.wybrany)?`<button class="btn sm" data-akcja="agent">Uruchom Claude ponownie</button>`:["branding","instagram","landing","pokaz","oferta"].includes(s.blad)?`<button class="btn sm" data-akcja="przebuduj" data-etap="${s.blad}">Spróbuj ponownie</button>`:""}</div>`;}
+  else if(S.agent.pracuje&&S.agent.slug===k.slug) b=`<div class="banner run"><p><b><i class="spin"></i> Claude robi zwiad.</b> ${esc(S.agent.ostatnie)}</p><a class="btn sm" href="#nazywo" data-skok="nazywo">Pokaż kroki</a></div>`;
+  else if(S.agent.kolejka.some(q=>q.slug===k.slug)) b=`<div class="banner run"><p><b>Klient czeka w kolejce Claude.</b> Ruszy, gdy skończy się praca nad poprzednim klientem.</p></div>`;
+  else if(k.etapy.zwiad==="w_kolejce"||(k.etapy.zwiad==="gotowe"&&!(k.branding.kierunki||[]).length)) b=`<div class="banner wait"><p><b>Zwiad jeszcze nie ruszył.</b> Claude odczyta profil, zmapuje usługi i zaproponuje trzy kierunki marki. Trwa to około 5-10 minut.</p><button class="btn pri sm" data-akcja="agent">Uruchom zwiad</button></div>`;
+  else if(k.etapy.zwiad==="w_toku") b=`<div class="banner wait"><p><b>Zwiad został przerwany.</b> Panel był restartowany albo Claude zakończył pracę w połowie.</p><button class="btn pri sm" data-akcja="agent">Uruchom ponownie</button></div>`;
+  else if(s.decyzja){const t={branding:["Wybierz kierunek marki.","Po wyborze powstaną pliki logo i paczka grafik na Instagram.","#branding"],usluga:["Wybierz ofertę wejściową.","Landing skupia się na jednej usłudze z niskim progiem ceny.","#oferta"],wdrozenie:["Uzupełnij dane do wdrożenia.","Landing pójdzie pod kampanię dopiero z potwierdzonymi danymi.","#wdrozenie"]}[s.decyzja]||["Potrzebna decyzja.","","#"];b=`<div class="banner wait"><p><b>${t[0]}</b> ${t[1]}</p><a class="btn sm" href="${t[2]}" data-skok="${t[2].slice(1)}">Przejdź</a></div>`;}
+  return `${b}
+  <div class="head">
+    <div><h1>${esc(dn.nazwa||k.slug)}</h1>
+      <p>${[dn.miasto, dn.ig_handle?`<a href="${esc(k.zrodlo.instagram)}" target="_blank" rel="noopener">@${esc(dn.ig_handle)}</a>`:"", "nisza: "+esc(k.nisza)].filter(Boolean).join(" · ")}</p>
+      ${d.koszty&&(d.koszty.razem_usd||d.koszty.razem_min)?`<p class="koszt">Koszt tego klienta: <b>${usd(d.koszty.razem_usd)}</b> (Claude ${usd(d.koszty.claude_usd||0)}, fal.ai ${usd(d.koszty.fal_usd||0)} szacunkowo) · czas pracy ${d.koszty.razem_min} min</p>`:""}</div>
+    <div class="seg" role="group" aria-label="Tryb pracy">
+      <button class="${k.tryb!=="wdrozenie"?"on":""}" data-akcja="tryb" data-tryb="probka">Próbka</button>
+      <button class="${k.tryb==="wdrozenie"?"on":""}" data-akcja="tryb" data-tryb="wdrozenie">Wdrożenie</button>
+    </div>
+  </div>
+  <div class="steps">${ETAPY.map((e,i)=>{const st=k.etapy[e[0]]||"czeka";return `<a class="st ${st}" href="#${e[0]}" data-skok="${e[0]==="usluga"?"oferta":e[0]==="oferta"?"oferta2":e[0]}"><span>0${i+1}</span><b>${e[1]}</b><span class="chip ${st}">${STANY[st]}</span></a>`}).join("")}</div>`;
+}
+
+function kZwiad(d){
+  const k=d.klient, dn=k.dane, p=k.pewnosc||{};
+  const pola = POLA.map(([id,n])=>{
+    const w = dn[id];
+    if(!S.edycja && (w===null||w===undefined||w==="")) return `<div><dt>${n}</dt><dd style="color:var(--faint);font-weight:400">brak</dd><span></span></div>`;
+    return `<div><dt>${n}</dt><dd>${S.edycja?`<input name="${id}" value="${esc(w??"")}" aria-label="${n}">`:esc(w)}</dd>${p[id]&&!S.edycja?`<span class="chip ${p[id]}">${{odczytane:"odczytane",zgadniete:"do potwierdzenia",potwierdzone:"potwierdzone"}[p[id]]||esc(p[id])}</span>`:"<span></span>"}</div>`;
+  }).join("");
+  const u = k.uslugi||[];
+  return `<section class="card" id="zwiad"><header><h2><span>01</span>Zwiad</h2>
+    <div class="acts">${S.edycja?`<button class="btn sm" data-akcja="edycja-anuluj">Anuluj</button><button class="btn pri sm" data-akcja="edycja-zapisz">Zapisz dane</button>`:`<button class="btn sm" data-akcja="edycja">Popraw dane</button>`}</div></header>
+    <div class="body">
+      <form id="f-dane"><dl class="dl">${pola}</dl></form>
+      ${u.length?`<div><p class="mono" style="margin-bottom:10px">Usługi klienta (${u.length})</p><div class="tags">${u.map(x=>`<span class="tag ${esc(x.typ)}" title="${esc([x.zrodlo,x.uwagi].filter(Boolean).join(". "))}"><i></i>${esc(x.nazwa)}${x.cena?` <small style="color:var(--mute)">${esc(x.cena)}</small>`:""}</span>`).join("")}</div>
+      <div class="legend" style="margin-top:12px"><span><i style="background:var(--err)"></i>premium</span><span><i style="background:var(--wait)"></i>średnia półka</span><span><i style="background:var(--ok)"></i>wejściowa</span></div></div>`:`<p class="note">Usługi pojawią się po zwiadzie.</p>`}
+      ${k.diagnoza&&k.diagnoza.logo?`<div><p class="mono" style="margin-bottom:8px">Ocena obecnego znaku</p><p class="note">${esc(k.diagnoza.logo)}</p></div>`:""}
+      <div class="drop" id="drop"><span><b style="color:var(--text)">Zdjęcia realizacji: ${d.pliki.zdjecia}.</b> ${d.pliki.zdjecia?"Możesz dorzucić kolejne.":"Bez zdjęć grafiki będą typograficzne, a landing nie powstanie."} Przeciągnij pliki tutaj albo wybierz z dysku.</span>
+        <label class="btn sm">Wybierz pliki<input type="file" id="pliki" accept="image/jpeg,image/png,image/webp" multiple hidden></label></div>
+    </div></section>`;
+}
+
+function kBranding(d){
+  const k=d.klient, kr=k.branding.kierunki||[], st=k.etapy.branding;
+  if(!kr.length) return `<section class="card" id="branding"><header><h2><span>02</span>Branding</h2><span class="chip ${st}">${STANY[st]}</span></header><div class="body"><p class="note">Trzy kierunki marki przygotuje Claude Code po zwiadzie.</p></div></section>`;
+  return `<section class="card" id="branding"><header><h2><span>02</span>Branding</h2>
+    <div class="acts">${d.pliki.kierunki?`<a class="btn sm" href="/k/${k.slug}/branding/kierunki.html" target="_blank">Porównanie kierunków</a>`:""}${d.pliki.ksiega?`<a class="btn sm" href="/k/${k.slug}/branding/ksiega.html" target="_blank">Księga znaku</a>`:""}</div></header>
+    <div class="body"><div class="dirs">${kr.map(x=>{const on=k.branding.wybrany===x.id, f=`/k/${k.slug}/branding/kierunek-${x.id}`;return `
+      <article class="dir${on?" on":""}">
+        <div class="pv" style="background:${esc(x.tokeny.ink)}"><img src="${f}/logo.svg?${esc(k.zmieniono)}" alt="Logo, kierunek ${esc(x.nazwa)}"><span class="sy"><img src="${f}/sygnet.svg?${esc(k.zmieniono)}" alt=""></span></div>
+        <div class="sw">${["ink","carbon","graphite","bone","accent"].map(t=>`<i style="background:${esc(x.tokeny[t])}"></i>`).join("")}</div>
+        <div class="tx"><p class="mono">Kierunek ${esc(x.id.toUpperCase())}${x.archetyp?" / "+esc(x.archetyp):""}</p><b>${esc(x.nazwa)}</b><p>${esc(x.opis||"")}</p>${x.uzasadnienie?`<p>${esc(x.uzasadnienie)}</p>`:""}
+        ${on?`<span class="chip gotowe">wybrany</span>`:`<button class="btn ${k.branding.wybrany?"":"pri"} sm" data-akcja="kierunek" data-id="${esc(x.id)}" ${d.skrot.pracuje?"disabled":""}>${k.branding.wybrany?"Zmień na ten kierunek":"Wybierz ten kierunek"}</button>`}</div>
+      </article>`}).join("")}</div>
+      ${k.branding.wybrany?`<p class="note">Zmiana kierunku przebudowuje pliki logo, grafiki na Instagram i landing w nowym stylu.</p>`:""}
+    </div></section>`;
+}
+
+function kInstagram(d){
+  const k=d.klient, st=k.etapy.instagram, p=d.pliki;
+  return `<section class="card" id="instagram"><header><h2><span>03</span>Redesign Instagrama</h2>
+    <div class="acts">${p.propozycja?`<a class="btn pri sm" href="/k/${k.slug}/instagram/propozycja.html" target="_blank">Otwórz propozycję</a>`:""}${p.zip?`<a class="btn sm" href="/k/${k.slug}/instagram/${k.slug}-instagram.zip">Pobierz paczkę ZIP</a>`:""}${p.propozycja?`<button class="btn sm" data-akcja="przebuduj" data-etap="instagram" ${d.skrot.pracuje?"disabled":""}>Przebuduj</button>`:""}</div></header>
+    <div class="body">${p.propozycja?`<div class="pvw">${p.podglad_ig?`<a class="th" href="/k/${k.slug}/instagram/propozycja.html" target="_blank"><img src="/k/${k.slug}/instagram/paczka/01-podglad-przed-i-po/feed-przed-i-po.png?${esc(k.zmieniono)}" alt="Podgląd profilu przed i po"></a>`:""}
+      <div style="display:flex;flex-direction:column;gap:10px"><p><b>${p.grafiki} plików PNG</b> w paczce: okładki rolek, posty, karuzela, okładki wyróżnionych relacji i przezroczyste nakładki.</p><p class="note">Strona propozycji pokazuje profil przed i po, diagnozę oraz szablony. Nadaje się do wysłania klientowi.</p></div></div>`
+      :`<p class="note">${st==="w_toku"?"Trwa eksport grafik.":"Powstanie automatycznie po wyborze kierunku marki."}</p>`}</div></section>`;
+}
+
+function kOferta(d){
+  const k=d.klient, st=k.etapy.usluga, kan=d.kandydaci||[];
+  const mozna = !!k.branding.wybrany;
+  return `<section class="card" id="oferta"><header><h2><span>04</span>Usługa na landing <span>oferta wejściowa</span></h2><span class="chip ${st}">${STANY[st]}</span></header>
+    <div class="body"><p class="note">Landing sprzedaje jedną usługę z niskim progiem ceny. Usługi premium klient sprzedaje już przy pierwszej wizycie.</p>
+    ${kan.length?`<div class="ofs">${kan.map(o=>{const on=k.landing.oferta_id===o.id;return `
+      <article class="of${on?" on":""}">
+        <h3>${esc(o.nazwa)} ${o.rekomendowana&&!k.landing.oferta_id?`<span class="chip decyzja">rekomendacja</span>`:""}${on?`<span class="chip gotowe">wybrana</span>`:""}${o.pasuje?"":`<span class="chip">do potwierdzenia</span>`}</h3>
+        <div class="pr">${esc(o.cena_tekst)}<small>${esc(o.czas)}</small></div>
+        <div class="why"><p>${esc(o.krotko)}</p><p>${esc(o.dopasowanie)}</p><p>${esc(o.dlaczego)}</p></div>
+        ${on?"":`<button class="btn ${k.landing.oferta_id?"":"pri"} sm" data-akcja="oferta" data-id="${esc(o.id)}" ${mozna&&!d.skrot.pracuje?"":"disabled"}>${k.landing.oferta_id?"Zmień na tę ofertę":"Buduj landing"}</button>`}
+      </article>`}).join("")}</div>${mozna?"":`<p class="note">Najpierw wybierz kierunek marki.</p>`}`:`<p class="note">Propozycje ofert pojawią się po zwiadzie.</p>`}</div></section>`;
+}
+
+function kLanding(d){
+  const k=d.klient, st=k.etapy.landing, f=k.landing.film||{};
+  const tryb={klatki:"film przewijany, "+(f.klatki||0)+" klatek",kadry:"kadry AI przenikające się przy przewijaniu",zdjecia:"zdjęcia klienta w tle scen"}[f.tryb]||"";
+  return `<section class="card" id="landing"><header><h2><span>05</span>Landing</h2>
+    <div class="acts">${d.pliki.landing?`<a class="btn pri sm" href="/k/${k.slug}/landing/strona/index.html" target="_blank">Otwórz landing</a><button class="btn sm" data-akcja="przebuduj" data-etap="landing" ${d.skrot.pracuje?"disabled":""}>Przebuduj</button>`:""}</div></header>
+    <div class="body">${d.pliki.landing&&st!=="w_toku"?`<iframe src="/k/${k.slug}/landing/strona/index.html?${esc(k.zmieniono)}" title="Podgląd landingu" loading="lazy"></iframe>
+      <p class="note">Obraz: ${tryb}. ${k.tryb==="wdrozenie"&&k.landing.formularz_endpoint?"Formularz wysyła zapytania na podany adres odbioru.":"Formularz pokazuje studiu, jak trafia do niego zapytanie, i niczego nie wysyła."}</p>
+      ${d.pliki.oferta_leada_dostepna?`<div class="banner"><p><b>Oferta osobista dla leada</b> (moduł opcjonalny). Po wysłaniu formularza klient końcowy dostaje link do strony z zakresem na rysunku, pakietami i ceną pod swoje auto. ${(k.oferta_leada||{}).wlaczona?"Włączona.":"Wyłączona."}</p>
+        <div class="acts">${(k.oferta_leada||{}).wlaczona?`${d.pliki.oferta_leada?`<a class="btn sm" href="/k/${k.slug}/oferta-leada/strona/index.html" target="_blank">Otwórz przykład</a>`:""}<button class="btn sm" data-akcja="oferta-leada" data-wlacz="0" ${d.skrot.pracuje?"disabled":""}>Wyłącz</button>`:`<button class="btn sm" data-akcja="oferta-leada" data-wlacz="1" ${d.skrot.pracuje?"disabled":""}>Włącz i zbuduj</button>`}</div></div>`:""}
+      ${f.tryb==="zdjecia"?`<div class="banner"><p><b>Film AI.</b> Sześć kadrów i pięć przejść wideo z fal.ai, koszt około 2 USD. ${k.landing.film_zamowiony?"Zamówiony, zrobi go Claude Code.":"Zamów dopiero dla klientów, którym chcesz wysłać próbkę."}</p>
+        ${k.landing.film_zamowiony?`<div class="cmd"><code>/generator-agencji</code><button class="btn sm" data-kopiuj="/generator-agencji">Kopiuj</button><button class="btn sm" data-akcja="film" data-zamow="0">Anuluj</button></div>`:`<button class="btn sm" data-akcja="film" data-zamow="1">Zamów film</button>`}</div>`:""}`
+      :`<p class="note">${st==="w_toku"?"Trwa budowanie strony.":"Powstanie po wyborze oferty wejściowej."}</p>`}</div></section>`;
+}
+
+function kWdrozenie(d){
+  const k=d.klient, l=k.landing;
+  if(k.tryb!=="wdrozenie") return `<section class="card" id="wdrozenie"><header><h2><span>08</span>Wdrożenie</h2><span class="chip">tryb próbki</span></header><div class="body"><p class="note">Gdy klient podpisze umowę, przełącz tryb na Wdrożenie. System pokaże, co trzeba potwierdzić przed kampanią, i włączy prawdziwy formularz oraz piksel.</p></div></section>`;
+  return `<section class="card" id="wdrozenie"><header><h2><span>08</span>Wdrożenie</h2><span class="chip ${d.braki.length?"decyzja":"gotowe"}">${d.braki.length?d.braki.length+" do uzupełnienia":"gotowe do publikacji"}</span></header>
+    <div class="body">${d.braki.length?`<ul class="miss">${d.braki.map(b=>`<li>${esc(b)}</li>`).join("")}</ul>`:`<p class="note">Wszystkie dane potwierdzone. Folder do publikacji: <code>${esc(d.folder)}/landing/strona</code></p>`}
+      <form class="fields" id="f-wdr">
+        <label>Adres odbioru formularza (webhook)<input name="formularz_endpoint" value="${esc(l.formularz_endpoint||"")}" placeholder="https://..."></label>
+        <label>Identyfikator piksela Meta<input name="piksel_meta" value="${esc(l.piksel_meta||"")}" placeholder="np. 1234567890"></label>
+      </form>
+      <div class="acts"><button class="btn pri sm" data-akcja="wdr-zapisz">Zapisz i przebuduj landing</button><button class="btn sm" data-akcja="potwierdz">Potwierdzam dane ze zwiadu</button></div>
+      <p class="note">Ceny pakietów wpisuje Claude Code na podstawie cennika klienta. Poproś w terminalu: "wpisz cennik klienta ${esc(k.slug)}".</p>
+    </div></section>`;
+}
+
+function kPokaz(d){
+  const k=d.klient, st=k.etapy.pokaz, b=d.braki_pokazu||[];
+  return `<section class="card" id="pokaz"><header><h2><span>06</span>Pokaz prywatny <span>warstwa 1, przed rozmową</span></h2>
+    <div class="acts">${d.pliki.pokaz?`<a class="btn pri sm" href="/k/${k.slug}/pokaz/index.html" target="_blank">Otwórz pokaz</a><button class="btn sm" data-akcja="przebuduj" data-etap="pokaz" ${d.skrot.pracuje?"disabled":""}>Przebuduj</button>`:`<span class="chip ${st}">${STANY[st]}</span>`}</div></header>
+    <div class="body">${d.pliki.pokaz&&st!=="w_toku"?`<iframe src="/k/${k.slug}/pokaz/index.html?${esc(k.zmieniono)}" title="Podgląd pokazu" loading="lazy"></iframe>
+      <p class="note">Jedna strona dla jednego klienta: animacja znaku, suwak Instagrama dziś i po zmianie, landing na żywo z kartą zapytania, przełącznik akcentu, kalkulator i zaproszenie na rozmowę. Wysyłasz link na zimno.</p>
+      ${b.length?`<ul class="miss">${b.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+      ${publikacja(d)}
+      <div class="acts"><button class="btn sm" data-akcja="ustawienia">Ustawienia agencji</button>
+      ${d.pliki.wizualizacje?"":(k.pokaz.wizualizacje_zamowione?`<button class="btn sm" data-akcja="wizualizacje" data-zamow="0">Anuluj wizualizacje znaku</button>`:`<button class="btn sm" data-akcja="wizualizacje" data-zamow="1">Zamów wizualizacje znaku</button>`)}</div>
+      ${k.pokaz.wizualizacje_zamowione&&!d.pliki.wizualizacje?`<p class="note">Wizualizacje zamówione. Wygeneruje je Claude Code w terminalu: <code>/generator-agencji</code></p>`:""}
+      <p class="note">Wideo powitalne (opcjonalne): pionowy plik około 1 minuty zapisany jako <code>pokaz/wideo/powitanie.mp4</code> pokaże się na początku pokazu${d.pliki.wideo_powitalne?". Plik jest na miejscu":""}.</p>`
+      :`<p class="note">${st==="w_toku"?"Trwa składanie pokazu.":"Powstanie automatycznie zaraz po landingu."}</p>`}</div></section>`;
+}
+
+function publikacja(d){
+  const k=d.klient, p=d.publikacja||{}, a=d.aktywnosc, gotowy=(d.agencja||{}).hosting_gotowy;
+  if(!p.adres) return `<div class="banner"><p><b>Pokaz jest tylko na tym komputerze.</b> ${gotowy?"Wyślij go na serwer, a dostaniesz link do wysłania prospektowi i podgląd, co z nim zrobił.":"Najpierw podłącz serwer w ustawieniach agencji."}</p><button class="btn pri sm" data-akcja="publikuj" ${gotowy&&!d.skrot.pracuje?"":"disabled"}>Wyślij pokaz na serwer</button></div>`;
+  const stara=!p.aktualna;
+  let st=`<div class="link"><span class="mono">Link dla prospekta</span><code>${esc(p.adres)}</code><button class="btn sm" data-kopiuj="${esc(p.adres)}">Kopiuj</button><a class="btn sm" href="${esc(p.adres)}" target="_blank" rel="noopener">Otwórz</a><span class="note">wysłano ${esc(p.kiedy)}</span>${stara?`<button class="btn pri sm" data-akcja="publikuj" ${d.skrot.pracuje?"disabled":""}>Wyślij nowszą wersję</button>`:""}</div>`;
+  if(!a) return st;
+  if(a.blad) return st+`<p class="note">Nie udało się odczytać aktywności: ${esc(a.blad)}</p>`;
+  const ost={otwarcie:"otworzył pokaz","scena-znak":"ogląda znak","scena-instagram":"ogląda Instagram","scena-strona":"ogląda stronę","scena-system":"ogląda system","scena-liczby":"liczy","scena-rozmowa":"doszedł do końca","landing-wejscie":"wszedł na stronę","landing-zapytanie":"wypełnił formularz","cta-kalendarz":"kliknął termin rozmowy","cta-wiadomosc":"kliknął wiadomość","cta-pasek":"kliknął umów rozmowę",akceptacja:"zaakceptował ofertę"};
+  st+=`<div class="stat"><div><b>${a.sesje}</b><span>wizyt</span></div><div><b>${a.koniec}</b><span>doszło do końca</span></div><div><b>${a.landing}</b><span>weszło na stronę</span></div><div><b>${a.zapytania}</b><span>formularzy</span></div><div><b>${a.klikniecia}</b><span>kliknięć w rozmowę</span></div><div><b>${a.akceptacje}</b><span>akceptacji oferty</span></div></div>`;
+  st+=`<p class="note">${a.ostatnio?`Ostatnio: ${esc(a.ostatnio)}, ${esc(ost[a.ostatnie_co]||a.ostatnie_co)}. Powiadomienia o kluczowych momentach idą na Telegram.`:"Nikt jeszcze nie otworzył pokazu. Powiadomienie na Telegram przyjdzie przy pierwszym otwarciu."}</p>`;
+  return st;
+}
+
+function kOferta2(d){
+  const k=d.klient, st=k.etapy.oferta, o=k.oferta||{}, b=d.braki_oferty||[];
+  const cele=[0,1,2].map(i=>(o.cele||[])[i]||{cytat:"",odp:"",gdzie:""});
+  return `<section class="card" id="oferta2"><header><h2><span>07</span>Oferta współpracy <span>warstwa 2, po rozmowie</span></h2>
+    <div class="acts">${d.pliki.oferta?`<a class="btn pri sm" href="/k/${k.slug}/pokaz/oferta/index.html" target="_blank">Otwórz ofertę</a>`:`<span class="chip ${st}">${STANY[st]}</span>`}</div></header>
+    <div class="body">${d.pliki.oferta&&st!=="w_toku"?`<iframe src="/k/${k.slug}/pokaz/oferta/index.html?${esc(k.zmieniono)}" title="Podgląd oferty" loading="lazy"></iframe>
+      <p class="note">Cele klienta, mapa 90 dni, trzy pakiety z dodatkami, miesiąc treści, podglądy narzędzi, próg zwrotu, zasady i akceptacja. Wybór pakietu przelicza całą stronę.</p>
+      <ul class="miss">${b.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+      <form class="cele" id="f-oferta">
+        <p class="mono">Po rozmowie sprzedażowej</p>
+        <div class="fields">
+          <label>Data rozmowy<input name="rozmowa" value="${esc(o.rozmowa||"")}" placeholder="np. 6 października 2026"></label>
+          <label>Oferta ważna do<input name="wazna_do" value="${esc(o.wazna_do||"")}" placeholder="np. 20 października 2026"></label>
+          <label>Polecany pakiet<select name="polecany">${(d.pakiety||[]).map(p=>`<option value="${esc(p.id)}" ${(o.polecany||"zapytania")===p.id?"selected":""}>${esc(p.nazwa)} (${p.cena} zł / mc)</option>`).join("")}</select></label>
+        </div>
+        <p class="mono">Co powiedział klient (jego słowa), nasza odpowiedź, kiedy</p>
+        ${cele.map((c,i)=>`<div class="cel"><input name="cytat${i}" value="${esc(c.cytat)}" placeholder="Cytat klienta" aria-label="Cytat ${i+1}"><input name="odp${i}" value="${esc(c.odp)}" placeholder="Nasza odpowiedź" aria-label="Odpowiedź ${i+1}"><input name="gdzie${i}" value="${esc(c.gdzie)}" placeholder="np. Dni 1-14" aria-label="Termin ${i+1}"></div>`).join("")}
+        <div class="acts"><button class="btn pri sm" data-akcja="oferta-zapisz" type="button">Zapisz i przebuduj ofertę</button></div>
+      </form>`
+      :`<p class="note">${st==="w_toku"?"Trwa składanie oferty.":"Powstanie automatycznie razem z pokazem. Po rozmowie uzupełnisz cele klienta i daty."}</p>`}</div></section>`;
+}
+
+function kDziennik(d){
+  const dz=[...(d.klient.dziennik||[])].reverse();
+  return `<details class="card"><summary>Dziennik (${dz.length})</summary><div class="body"><div class="log">${dz.map(x=>`<div><span>${esc(x.kiedy)}</span>${esc(x.co)}</div>`).join("")}</div><p class="note">Folder klienta: <code>${esc(d.folder)}</code></p></div></details>`;
+}
+
+function widok(){
+  const m=$("#main");
+  if(!S.slug||!S.det){m.innerHTML=powitanie();return;}
+  const y=scrollY;
+  const fy=(document.querySelector(".feed")||{}).scrollTop||0;
+  const zywo=S.agent.pracuje&&S.agent.slug===S.slug||S.agent.kolejka.some(q=>q.slug===S.slug);
+  const otwarte=[...document.querySelectorAll("details.card[open]")].map(d=>d.id||d.querySelector("summary").textContent.slice(0,8));
+  m.innerHTML = naglowek(S.det)+(zywo?kAgent(S.det):"")+kZwiad(S.det)+kBranding(S.det)+kInstagram(S.det)+kOferta(S.det)+kLanding(S.det)+kPokaz(S.det)+kOferta2(S.det)+kWdrozenie(S.det)+(zywo?"":kAgent(S.det))+kDziennik(S.det);
+  document.querySelectorAll("details.card").forEach(d=>{ if(otwarte.includes(d.id||d.querySelector("summary").textContent.slice(0,8))) d.open=true; });
+  scrollTo(0,y); const fd=document.querySelector(".feed"); if(fd) fd.scrollTop=fy;
+}
+
+async function odswiez(wymus){
+  try{
+    const st = await api("/api/stan");
+    S.klienci=st.klienci; S.kolejka=st.kolejka; S.agent=st.agent; S.agencja=st.agencja; S.nisze=st.nisze||[];
+    if(S.nisze.length){ const sel=$("#nisza"); if(sel.options.length!==S.nisze.length){ sel.innerHTML=S.nisze.map(n=>`<option value="${esc(n.id)}">${esc(n.nazwa)}${n.klient?" ("+esc(n.klient)+")":""}</option>`).join(""); } $("#nisza-pole").hidden=S.nisze.length<2; }
+    lista(); pasekAgenta();
+    if(S.slug){
+      if(!S.klienci.some(k=>k.slug===S.slug)){S.slug="";S.det=null;S.odcisk="";widok();return;}
+      const d = await api("/api/klient/"+encodeURIComponent(S.slug));
+      const o = JSON.stringify(d)+JSON.stringify(st.kolejka)+JSON.stringify([st.agent.pracuje,st.agent.slug,st.agent.ostatnie,st.agent.kolejka,Math.floor(st.agent.trwa_s/15)]);
+      const f=document.getElementById("f-oferta"), brudny=f&&f.dataset.brudny;
+      const pisze = brudny || (document.activeElement && ["INPUT","TEXTAREA","SELECT"].includes(document.activeElement.tagName));
+      if(wymus || (o!==S.odcisk && !S.edycja && !pisze)){S.det=d;S.odcisk=o;widok();}
+    } else {
+      const o=JSON.stringify(st.kolejka)+S.klienci.length+JSON.stringify([st.agent.pracuje,st.agent.kolejka]);
+      if(wymus||o!==S.odcisk){S.odcisk=o;widok();}
+    }
+  }catch(e){$("#ile").textContent="brak połączenia z panelem";}
+}
+
+function trasa(){
+  const h=decodeURIComponent(location.hash.replace(/^#\/?/,""));
+  const jest=S.klienci.some(k=>k.slug===h);
+  if(h && !h.includes("/") && (jest || !S.klienci.length)){ if(h!==S.slug){S.slug=h;S.det=null;S.edycja=false;S.odcisk="";} odswiez(true); }
+  else if(!h){S.slug="";S.det=null;S.odcisk="";odswiez(true);}
+}
+
+async function akcja(b){
+  const a=b.dataset.akcja, base="/api/klient/"+encodeURIComponent(S.slug)+"/";
+  try{
+    if(a==="dodaj"){$("#dlg").showModal();return;}
+    if(a==="ustawienia"){await otworzUstawienia();return;}
+    if(a==="hosting-test"||a==="hosting-instaluj"){
+      const w=$("#h-wynik"); w.textContent="Zapisuję i sprawdzam...";
+      try{ await zapiszAgencje(); const r=await api("/api/hosting",{akcja:a==="hosting-instaluj"?"instaluj":"test"});
+        w.textContent=a==="hosting-instaluj"?("Zainstalowano. Adres: "+r.adres+(r.telegram?", Telegram działa.":", bez Telegrama.")):("Połączenie: "+(r.polaczenie?"OK":"brak")+", PHP: "+(r.php?"jest":"brak")+", rsync: "+(r.rsync?"jest":"brak"));
+        const g=await api("/api/agencja"); S.agencja=g; $("#h-stan").textContent=g.hosting_gotowy?"podłączony":"nie zainstalowany"; $("#h-stan").className="chip "+(g.hosting_gotowy?"gotowe":"decyzja");
+      }catch(err){w.textContent="Nie wyszło: "+err.message;}
+      return;
+    }
+    if(a==="publikuj"){S.det=await api(base+"publikuj",{});toast("Wysyłam pokaz na serwer.");}
+    if(a==="agent-wszyscy"){S.agent=await api("/api/agent",{});toast("Claude ruszył. Postęp zobaczysz przy kliencie.");S.odcisk="";await odswiez(true);return;}
+    if(a==="agent-stop"){S.agent=await api("/api/agent",{stop:true});toast("Zatrzymano.");S.odcisk="";await odswiez(true);return;}
+    if(a==="agent"){S.agent=await api("/api/agent",{slug:S.slug});toast("Claude ruszył. Kroki pojawią się poniżej.");S.odcisk="";await odswiez(true);return;}
+    if(a==="oferta-zapisz"){
+      const f=Object.fromEntries(new FormData($("#f-oferta")).entries());
+      const cele=[0,1,2].map(i=>({cytat:f["cytat"+i],odp:f["odp"+i],gdzie:f["gdzie"+i]}));
+      delete $("#f-oferta").dataset.brudny;
+      S.det=await api(base+"oferta-dane",{rozmowa:f.rozmowa,wazna_do:f.wazna_do,polecany:f.polecany,cele});toast("Zapisano. Przebudowuję ofertę.");
+    }
+    else if(a==="oferta-leada"){S.det=await api(base+"oferta-leada",{wlacz:b.dataset.wlacz==="1"});toast(b.dataset.wlacz==="1"?"Buduję ofertę dla leada i przebudowuję landing.":"Wyłączono. Przebudowuję landing.");}
+    else if(a==="wizualizacje"){S.det=await api(base+"wizualizacje",{zamow:b.dataset.zamow==="1"});}
+    else if(a==="edycja"){S.edycja=true;widok();return;}
+    if(a==="edycja-anuluj"){S.edycja=false;widok();return;}
+    if(a==="edycja-zapisz"){
+      const dane=Object.fromEntries(new FormData($("#f-dane")).entries());
+      S.edycja=false; S.det=await api(base+"dane",{dane,przebuduj:!!S.det.pliki.landing}); toast("Zapisano. Zmienione pola oznaczone jako potwierdzone.");
+    }
+    else if(a==="kierunek"){S.det=await api(base+"kierunek",{id:b.dataset.id});toast("Kierunek wybrany. Generuję logo i grafiki.");}
+    else if(a==="oferta"){S.det=await api(base+"oferta",{id:b.dataset.id});toast("Buduję landing.");}
+    else if(a==="przebuduj"){S.det=await api(base+"przebuduj",{etap:b.dataset.etap});toast("Przebudowa uruchomiona.");}
+    else if(a==="tryb"){S.det=await api(base+"dane",{tryb:b.dataset.tryb,przebuduj:!!S.det.pliki.landing});toast(b.dataset.tryb==="wdrozenie"?"Tryb wdrożenia. Sprawdź listę braków.":"Tryb próbki.");}
+    else if(a==="film"){S.det=await api(base+"film",{zamow:b.dataset.zamow==="1"});}
+    else if(a==="wdr-zapisz"){const l=Object.fromEntries(new FormData($("#f-wdr")).entries());S.det=await api(base+"dane",{landing:l,przebuduj:true});toast("Zapisano. Przebudowuję landing.");}
+    else if(a==="potwierdz"){const p=Object.entries(S.det.klient.pewnosc||{}).filter(x=>x[1]!=="potwierdzone").map(x=>x[0]);S.det=await api(base+"dane",{potwierdz:p,przebuduj:true});toast("Dane oznaczone jako potwierdzone.");}
+    S.odcisk=""; await odswiez(true);
+  }catch(e){toast(e.message);}
+}
+
+document.addEventListener("click",e=>{
+  const k=e.target.closest("[data-kopiuj]");
+  if(k){navigator.clipboard.writeText(k.dataset.kopiuj).then(()=>toast("Skopiowano. Wklej w terminalu Claude Code."));return;}
+  const s=e.target.closest("[data-skok]");
+  if(s){e.preventDefault();const el=document.getElementById(s.dataset.skok);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});return;}
+  const b=e.target.closest("[data-akcja]");
+  if(b&&!b.disabled){e.preventDefault();akcja(b);}
+});
+$("#dodaj-btn").addEventListener("click",()=>$("#dlg").showModal());
+$("#dlg-a-x").addEventListener("click",()=>$("#dlg-a").close());
+async function otworzUstawienia(){
+  const g=await api("/api/agencja"); S.agencja=g;
+  const f=$("#dlg-a-form"), h=g.hosting||{}, t=g.telegram||{};
+  f.nadawca.value=g.nadawca||""; f.kalendarz.value=g.kalendarz||""; f.wiadomosc.value=g.wiadomosc||""; f.chrome.checked=g.chrome!==false;
+  f.h_host.value=h.host||""; f.h_port.value=h.port||""; f.h_user.value=h.user||""; f.h_sciezka.value=h.sciezka||""; f.h_adres.value=h.adres||""; f.h_klucz.value=h.klucz||"";
+  f.t_token.value=t.token||""; f.t_chat.value=t.chat_id||""; $("#h-wynik").textContent="";
+  $("#h-stan").textContent=g.hosting_gotowy?"podłączony":"nie zainstalowany"; $("#h-stan").className="chip "+(g.hosting_gotowy?"gotowe":"decyzja");
+  const o=g.oferta_efektywna||{pakiety:[],dodatki:[]};
+  $("#pakiety-form").innerHTML=o.pakiety.map((p,i)=>`<div class="pk"><p class="mono">Pakiet 0${i+1}</p><div class="g2">
+    <label>Nazwa<input type="text" name="p${i}_nazwa" value="${esc(p.nazwa)}"></label><label>Miesięcznie (zł)<input type="text" name="p${i}_cena" value="${p.cena}"></label>
+    <label>Wdrożenie, raz (zł)<input type="text" name="p${i}_wdrozenie" value="${p.wdrozenie}"></label><label>Publikacji w miesiącu<input type="text" name="p${i}_posty" value="${p.posty}"></label></div>
+    <label>Dla kogo<input type="text" name="p${i}_dla" value="${esc(p.dla)}"></label>
+    <label>Co zawiera (jeden punkt w linii)<textarea class="p" name="p${i}_punkty">${esc(p.punkty.join("\n"))}</textarea></label>
+    <label>Wynik jednym zdaniem<input type="text" name="p${i}_wynik" value="${esc(p.wynik)}"></label></div>`).join("")+
+    `<div class="pk"><p class="mono">Dodatki</p>${o.dodatki.map((x,i)=>`<div class="g2"><label>Nazwa<input type="text" name="d${i}_nazwa" value="${esc(x.nazwa)}"></label><label>Opis<input type="text" name="d${i}_opis" value="${esc(x.opis)}"></label><label>Cena (zł)<input type="text" name="d${i}_cena" value="${x.cena}"></label><label class="ck" style="align-self:end"><input type="checkbox" name="d${i}_mc" ${x.mc?"checked":""}>miesięcznie</label></div>`).join("")}</div>`;
+  f.dataset.np=o.pakiety.length; f.dataset.nd=o.dodatki.length; f.dataset.ids=JSON.stringify({p:o.pakiety.map(x=>[x.id,x.poziom]),d:o.dodatki.map(x=>x.id)});
+  $("#dlg-a").showModal();
+}
+async function zapiszAgencje(){
+  const f=$("#dlg-a-form"), ids=JSON.parse(f.dataset.ids||'{"p":[],"d":[]}');
+  const n=v=>parseInt(String(v).replace(/\s/g,""),10)||0;
+  const pakiety=ids.p.map(([id,poziom],i)=>({id,poziom,nazwa:f[`p${i}_nazwa`].value.trim(),cena:n(f[`p${i}_cena`].value),wdrozenie:n(f[`p${i}_wdrozenie`].value),posty:n(f[`p${i}_posty`].value),dla:f[`p${i}_dla`].value.trim(),punkty:f[`p${i}_punkty`].value.split("\n").map(x=>x.trim()).filter(Boolean),wynik:f[`p${i}_wynik`].value.trim()}));
+  const dodatki=ids.d.map((id,i)=>({id,nazwa:f[`d${i}_nazwa`].value.trim(),opis:f[`d${i}_opis`].value.trim(),cena:n(f[`d${i}_cena`].value),mc:f[`d${i}_mc`].checked}));
+  const dane={nadawca:f.nadawca.value.trim(),kalendarz:f.kalendarz.value.trim(),wiadomosc:f.wiadomosc.value.trim(),chrome:f.chrome.checked,
+    hosting:{host:f.h_host.value.trim(),port:parseInt(f.h_port.value,10)||22,user:f.h_user.value.trim(),sciezka:f.h_sciezka.value.trim(),adres:f.h_adres.value.trim(),klucz:f.h_klucz.value.trim()},
+    telegram:{token:f.t_token.value.trim(),chat_id:f.t_chat.value.trim()},
+    oferta:{pakiety,dodatki}};
+  S.agencja=await api("/api/agencja",dane);
+}
+$("#dlg-a-form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  try{ await zapiszAgencje(); $("#dlg-a").close(); toast("Zapisano. Przebuduj pokaz albo ofertę, żeby zobaczyć zmiany."); S.odcisk=""; await odswiez(true);
+  }catch(err){toast(err.message);}
+});
+document.addEventListener("input",e=>{const f=e.target.closest("#f-oferta"); if(f) f.dataset.brudny="1";});
+async function wgraj(pliki){
+  let ok=0;
+  for(const p of pliki){
+    try{ const r=await fetch("/api/klient/"+encodeURIComponent(S.slug)+"/zdjecia",{method:"POST",headers:{"X-Nazwa":encodeURIComponent(p.name),"Content-Type":"application/octet-stream"},body:p});
+      if(!r.ok) throw new Error((await r.json()).blad); ok++; }catch(err){toast(p.name+": "+err.message);}
+  }
+  if(ok){toast("Wgrano zdjęć: "+ok+"."); S.odcisk=""; await odswiez(true);}
+}
+document.addEventListener("change",e=>{ if(e.target.id==="pliki"&&e.target.files.length) wgraj([...e.target.files]); });
+document.addEventListener("dragover",e=>{const d=e.target.closest&&e.target.closest("#drop"); if(d){e.preventDefault();d.classList.add("nad");}});
+document.addEventListener("dragleave",e=>{const d=e.target.closest&&e.target.closest("#drop"); if(d)d.classList.remove("nad");});
+document.addEventListener("drop",e=>{const d=e.target.closest&&e.target.closest("#drop"); if(d){e.preventDefault();d.classList.remove("nad");wgraj([...e.dataTransfer.files]);}});
+$("#dlg-x").addEventListener("click",()=>$("#dlg").close());
+$("#dlg-form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  try{
+    const r=await api("/api/dodaj",{linki:$("#linki").value,uruchom:$("#uruchom").checked,nisza:$("#nisza").value||undefined});
+    const nowe=r.dodano.filter(x=>x.nowy).length;
+    $("#linki").value="";$("#dlg").close();
+    toast(nowe?("Dodano: "+nowe+". "+($("#uruchom").checked?"Claude zaczyna zwiad.":"Zwiad uruchomisz przyciskiem przy kliencie.")):"Ci klienci są już na liście.");
+    await odswiez(true);
+    if(r.dodano.length===1) location.hash="#/"+r.dodano[0].slug;
+  }catch(err){toast(err.message);}
+});
+addEventListener("hashchange",e=>{ if(/^#\/[^/]*$/.test(location.hash)||location.hash===""||location.hash==="#") trasa(); });
+(async()=>{await odswiez(true);trasa();setInterval(()=>odswiez(false),3000);})();
+</script>
+</body>
+</html>
