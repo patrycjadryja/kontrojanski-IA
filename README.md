@@ -75,6 +75,10 @@ docs/        specyfikacja i schemat niszy
 
 Zwiad jednego klienta to kilka minut pracy Claude Code (liczone w limicie Twojego planu). Film do landingu ok. 2 USD i wizualizacje znaku ok. 1 USD na fal.ai, oba tylko na zamówienie. Panel pokazuje koszt per klient.
 
+## Jak to powstało
+
+Proces budowy krok po kroku, z promptami i wnioskami, dla osób, które chcą zbudować własny system: `docs/JAK-TO-POWSTALO.md`.
+
 ## Rozwijanie
 
 Pull requesty mile widziane. Zasady: polskie nazwy w kodzie i tekstach, bez półpauz (tylko "-"), formy neutralne płciowo, teksty do klienta bez obietnic liczbowych. Teksty branżowe trzymaj w pakiecie niszy, nie w kodzie.
