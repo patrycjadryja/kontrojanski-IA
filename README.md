@@ -15,7 +15,7 @@ Pierwsza nisza: studia detailingu. Własną branżę dodajesz rozmową z Claude 
 ## Instalacja
 
 ```
-git clone <adres repozytorium> generator-agencji
+git clone https://github.com/patrycjadryja/kontrojanski-IA.git generator-agencji
 cd generator-agencji
 bash instaluj.sh
 ./panel.sh
