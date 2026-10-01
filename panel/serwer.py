@@ -1,4 +1,4 @@
-"""Panel Generatora Agencji: lokalny serwer do przegladania klientow i podejmowania decyzji.
+"""Panel Konia Trojańskiego IA: lokalny serwer do przegladania klientow i podejmowania decyzji.
 Kroki powtarzalne (pliki logo, grafiki, landing) panel uruchamia sam. Kroki wymagajace oceny robi Claude Code."""
 import json
 import mimetypes
@@ -214,7 +214,7 @@ def braki_oferty(k):
 
 
 class Obsluga(BaseHTTPRequestHandler):
-    server_version = "GeneratorAgencji/1"
+    server_version = "KonTrojanskiIA/1"
 
     def log_message(self, *a):
         pass
@@ -458,7 +458,7 @@ class Obsluga(BaseHTTPRequestHandler):
 
 def start(port=8900):
     srv = ThreadingHTTPServer(("127.0.0.1", port), Obsluga)
-    print("Panel Generatora Agencji: http://localhost:%d" % port)
+    print("Panel Konia Trojańskiego IA: http://localhost:%d" % port)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

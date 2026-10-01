@@ -16,7 +16,7 @@ WYMAGANE = ("host", "user", "sciezka", "adres")
 
 def _get(url, limit=15):
     """GET z przegladarkowym User-Agent: Cloudflare i podobne zapory blokuja domyslny naglowek Pythona."""
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Macintosh) GeneratorAgencji/1", "Accept": "*/*"})
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Macintosh) KonTrojanskiIA/1", "Accept": "*/*"})
     return urllib.request.urlopen(req, timeout=limit)
 
 

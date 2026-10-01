@@ -4,7 +4,7 @@ import sys
 
 from . import branding, film, instagram, landing, rdzen, zwiad
 
-POMOC = """Generator Agencji - polecenia:
+POMOC = """Koń Trojański IA - polecenia:
 
   dodaj <link|nazwa> [...]        dodaje klientow do kolejki
   lista                           klienci i stany etapow

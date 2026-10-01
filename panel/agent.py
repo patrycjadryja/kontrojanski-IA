@@ -23,7 +23,7 @@ CHROME = ["mcp__claude-in-chrome"]
 
 ZADANIA = {
     "zwiad": (
-        "Jestes agentem Generatora Agencji i pracujesz bez nadzoru, w tle. Katalog roboczy to folder systemu.\n"
+        "Jestes agentem Konia Trojańskiego IA i pracujesz bez nadzoru, w tle. Katalog roboczy to folder systemu.\n"
         "Przeczytaj plik {skill} i wykonaj dla klienta `{slug}` po kolei sekcje: 'Zwiad' oraz 'Trzy kierunki brandingu'.\n"
         "Zasady pracy w tle:\n"
         "- Pracuj wylacznie na kliencie `{slug}`. Nie dotykaj innych klientow ani plikow silnika.\n"

@@ -1,9 +1,9 @@
 ---
 name: nowa-nisza
-description: Tworzy nowy pakiet niszowy dla Generatora Agencji (nisze/<id>/nisza.json) rozmową z użytkownikiem. Używaj, gdy padnie "nowa nisza", "dodaj niszę", "chcę robić to dla fryzjerów / klinik / studiów tatuażu / restauracji", "przerób generator pod moją branżę".
+description: Tworzy nowy pakiet niszowy dla Konia Trojańskiego IA (nisze/<id>/nisza.json) rozmową z użytkownikiem. Używaj, gdy padnie "nowa nisza", "dodaj niszę", "chcę robić to dla fryzjerów / klinik / studiów tatuażu / restauracji", "przerób generator pod moją branżę".
 ---
 
-# Nowa nisza dla Generatora Agencji
+# Nowa nisza dla Konia Trojańskiego IA
 
 Folder systemu: katalog, w którym jest `panel.sh` (zwykle `~/generator-agencji`). Wzorzec: `nisze/detailing/nisza.json`. Schemat z objaśnieniami: `docs/nisza-schemat.md`. Sprawdzenie: `.venv/bin/python -m silnik nisza-sprawdz <id>`.
 

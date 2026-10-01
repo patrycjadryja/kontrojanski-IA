@@ -1,9 +1,9 @@
 ---
 name: generator-agencji
-description: Generator Agencji - system, który z linku do Instagrama studia robi branding (3 kierunki), redesign Instagrama i landing pod jedną ofertę wejściową. Używaj, gdy padnie "/generator-agencji", "nowy klient", "przerób kolejkę", "zrób zwiad", "kierunki brandingu dla", "film do landingu", "wpisz cennik klienta" albo link do Instagrama studia z prośbą o próbkę.
+description: Koń Trojański IA - system, który z linku do Instagrama studia robi branding (3 kierunki), redesign Instagrama i landing pod jedną ofertę wejściową. Używaj, gdy padnie "/generator-agencji", "nowy klient", "przerób kolejkę", "zrób zwiad", "kierunki brandingu dla", "film do landingu", "wpisz cennik klienta" albo link do Instagrama studia z prośbą o próbkę.
 ---
 
-# Generator Agencji
+# Koń Trojański IA
 
 Folder systemu: `~/generator-agencji`. Panel: `http://localhost:8900` (start: `~/generator-agencji/panel.sh`).
 Silnik: `cd ~/generator-agencji && .venv/bin/python -m silnik <polecenie>` (lista poleceń: `pomoc`).

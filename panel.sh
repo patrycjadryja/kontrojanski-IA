@@ -1,5 +1,5 @@
 #!/bin/bash
-# Uruchamia panel Generatora Agencji i otwiera go w przegladarce.
+# Uruchamia panel Konia Trojańskiego IA i otwiera go w przegladarce.
 cd "$(dirname "$0")"
 PORT="${1:-8900}"
 if curl -s -o /dev/null "http://localhost:$PORT/api/stan"; then

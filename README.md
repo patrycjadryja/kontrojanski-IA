@@ -1,4 +1,6 @@
-# Generator Agencji
+# Koń Trojański IA
+
+Generator próbek dla agencji marketingowej. Nazwa bierze się z metody: zamiast oferty wysyłasz prospektowi gotową próbkę jego nowej marki, a ta otwiera rozmowę od środka.
 
 Z linku do Instagrama firmy powstają trzy rzeczy w jednym stylu: branding (3 kierunki do wyboru), redesign Instagrama i landing pod jedną ofertę wejściową. Na końcu dwie warstwy ofert: pokaz prywatny do wysłania na zimno i oferta współpracy po rozmowie. Wszystko z panelu w przeglądarce, zwiad robi Claude Code w tle.
 

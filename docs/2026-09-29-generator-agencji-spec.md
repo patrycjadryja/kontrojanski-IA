@@ -1,4 +1,4 @@
-# Generator Agencji - specyfikacja (2026-09-29)
+# Koń Trojański IA - specyfikacja (2026-09-29)
 
 ## Cel
 

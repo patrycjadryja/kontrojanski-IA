@@ -1,4 +1,4 @@
-# Generator Agencji - instrukcja dla Claude Code
+# Koń Trojański IA - instrukcja dla Claude Code
 
 Ten plik jest dla Claude Code osoby, która dostała paczkę. Przeczytaj go w całości, zanim cokolwiek uruchomisz. Potem przeczytaj `README.md`, `docs/2026-09-29-generator-agencji-spec.md` i `docs/oferta-leada.md`.
 

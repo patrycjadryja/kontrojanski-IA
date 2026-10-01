@@ -1,8 +1,8 @@
 #!/bin/bash
-# Instalacja Generatora Agencji na Macu lub Linuksie. Uruchom: bash instaluj.sh
+# Instalacja Konia Trojańskiego IA na Macu lub Linuksie. Uruchom: bash instaluj.sh
 set -e
 cd "$(dirname "$0")"
-echo "Generator Agencji: instalacja"
+echo "Koń Trojański IA: instalacja"
 command -v python3 >/dev/null || { echo "Brak python3. Zainstaluj Pythona 3.9 lub nowszego i uruchom ponownie."; exit 1; }
 if [ ! -d "/Applications/Google Chrome.app" ] && ! command -v google-chrome >/dev/null && ! command -v chromium >/dev/null; then
   echo "Uwaga: nie znaleziono Google Chrome. Jest potrzebny do eksportu grafik. Zainstaluj go przed pierwszym klientem."
