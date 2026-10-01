@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ t.title }}</title>
+<meta name="description" content="{{ t.opis_meta }}">
+{% if probka %}<meta name="robots" content="noindex">{% endif %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="{{ fonty_url }}" rel="stylesheet">
+<link rel="preload" as="image" href="{{ film.pierwszy }}">
+<style>
+/* Wygenerowane przez Generator Agencji. Styl: kierunek "{{ kier.nazwa }}". Oferta: {{ oferta.nazwa }}. Nie edytuj recznie, zmiany wprowadzaj w klient.json. */
+:root{ {{ css }};--soft:color-mix(in srgb,var(--bone) 82%,var(--ink));--line2:color-mix(in srgb,var(--graphite) 55%,var(--bone));--danger:#ff8a70;--ease:cubic-bezier(.16,1,.3,1);--pad:clamp(20px,5vw,72px);--edge:max(var(--pad),calc((100vw - 1320px)/2 + var(--pad))) }
+{{ css_akcentow }}
+{% include "landing/_styl.css" %}
+.brand svg{height:19px;width:auto;display:block;color:var(--bone);overflow:visible}
+.brand svg .lg-sweep{display:none}
+</style>
+<script>
+(function(){var ok={{ akcenty_id|tojson }},a=new URLSearchParams(location.search).get('akcent');if(a&&ok.indexOf(a)>0)document.documentElement.setAttribute('data-accent',a);})();
+</script>
+{% if piksel %}
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','{{ piksel }}');fbq('track','PageView');
+</script>
+{% endif %}
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="{{ d.nazwa }}">
+      {{ logo_nav }}{% if dopisek %}<span>{{ dopisek }}</span>{% endif %}
+    </a>
+    <nav>
+      {% for m in t.menu %}<a class="l" href="{{ m[1] }}">{{ m[0] }}</a>{% endfor %}
+      <a class="btn small" href="#rezerwacja">{{ t.nav_cta }}</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<div class="film" id="film" style="height:{{ t.sceny|length * 120 }}vh">
+  <div class="stage">
+    <canvas id="cv" aria-hidden="true"{% if film.tryb != "klatki" %} class="still"{% endif %}></canvas>
+    <div class="beats">
+      {% for s in t.sceny %}
+      <div class="beat{% if loop.first %} hero{% elif loop.last and film.tryb != 'zdjecia' %} right{% endif %}" data-b="{{ loop.index0 }}">
+        {% if loop.first %}<p class="mono eyebrow">{{ t.eyebrow }}</p><h1>{{ s.naglowek|akcent }}</h1>{% else %}<h2>{{ s.naglowek|akcent }}</h2>{% endif %}
+        <p>{{ s.tekst }}</p>
+        {% if s.podpis %}<div class="sub">{{ s.podpis }}</div>{% endif %}
+        {% if s.cta %}<div class="cta"><a class="btn" href="#rezerwacja">{{ s.cta[0] }}</a>{% if s.cta|length > 1 %}<a class="btn ghost" href="#pakiety">{{ s.cta[1] }}</a>{% endif %}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="rail" aria-hidden="true">{% for s in t.sceny %}<i></i>{% endfor %}</div>
+    <div class="loader" id="loader"></div>
+  </div>
+</div>
+
+{% if realizacje %}
+<section class="s" id="realizacje" style="padding-bottom:clamp(60px,8vw,110px)">
+  <div class="wrap">
+    <div class="shead reveal">
+      <p class="mono">{{ t.realizacje.etykieta }}</p>
+      <h2>{{ t.realizacje.naglowek|akcent }}</h2>
+      <p class="lead">{{ t.realizacje.lead }}</p>
+    </div>
+  </div>
+  <div class="works reveal" tabindex="0" aria-label="Galeria realizacji">
+    {% for r in realizacje %}
+    <article class="work"><img src="{{ r.img }}" alt="{{ r.auto or 'Realizacja studia' }}" loading="lazy"><div class="ov"><div class="wm">{{ znak }}</div><div>{% if r.usluga %}<div class="ttl">{{ r.usluga|akcent }}</div>{% endif %}{% if r.auto %}<div class="sub">{{ r.auto }}</div>{% endif %}</div></div></article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="s" id="pakiety"{% if realizacje %} style="padding-top:0"{% endif %}>
+  <div class="wrap">
+    <div class="shead reveal">
+      <p class="mono">{{ t.pakiety.etykieta }}</p>
+      <h2>{{ t.pakiety.naglowek|akcent }}</h2>
+      <p class="lead">{{ t.pakiety.lead }}</p>
+    </div>
+    <div class="packs">
+      {% for p in t.pakiety.lista %}
+      <article class="pack{% if p.wyrozniony %} top{% endif %} reveal" style="--i:{{ loop.index }}">
+        <div><h3>{{ p.nazwa }}</h3><span class="tag">{{ p.etykieta }}</span></div>
+        <ul>{% for x in p.punkty %}<li>{{ x }}</li>{% endfor %}</ul>
+        <div class="price"><small>{{ p.przed_cena or "od" }}</small><b>{{ p.cena }}</b></div>
+      </article>
+      {% endfor %}
+    </div>
+    <p class="note reveal">{{ t.pakiety.uwaga }}</p>
+  </div>
+</section>
+
+<section class="s proc" id="proces">
+  <div class="wrap">
+    <div class="shead reveal">
+      <p class="mono">{{ t.proces.etykieta }}</p>
+      <h2>{{ t.proces.naglowek|akcent }}</h2>
+      <p class="lead">{{ t.proces.lead }}</p>
+    </div>
+    <div class="steps">
+      {% for kr in t.proces.kroki %}
+      <article class="step{% if loop.first %} a{% elif loop.last %} wide-c{% endif %} reveal" style="--i:{{ loop.index0 }}">
+        {% if kr.img %}<img src="{{ kr.img }}" alt="" loading="lazy">{% endif %}
+        <div><time class="chip">{{ kr.czas }}</time><h3>{{ kr.tytul }}</h3><p>{{ kr.tekst }}</p></div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="s proof{% if not ocena %} bez-ocen{% endif %}" id="opinie">
+  <div class="wrap">
+    {% if ocena %}
+    <div class="score reveal" aria-hidden="true">{{ ocena }}</div>
+    <div class="reveal" style="--i:1">
+      <h2>{{ t.dowod.naglowek|akcent }}</h2>
+      <p class="lead">{{ t.dowod.lead }}</p>
+      <a class="btn ghost" href="{{ link_opinie }}" target="_blank" rel="noopener">Czytaj opinie</a>
+    </div>
+    {% else %}
+    <div class="reveal">
+      <h2>{{ t.dowod.naglowek_bez_ocen|akcent }}</h2>
+      <p class="lead">{{ t.dowod.lead_bez_ocen }}</p>
+      {% if k.zrodlo.instagram %}<a class="btn ghost" href="{{ k.zrodlo.instagram }}" target="_blank" rel="noopener">Zobacz Instagram</a>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="s formsec" id="rezerwacja">
+  <div class="wrap fgrid">
+    <div class="side">
+      <div class="shead reveal"><p class="mono">{{ t.formularz.etykieta }}</p><h2>{{ t.formularz.naglowek|akcent }}</h2></div>
+      <p class="lead reveal" style="--i:1">{{ t.formularz.lead }}</p>
+      <div class="filters reveal" style="--i:2">
+        {% for kz in t.formularz.korzysci %}<div><b>{{ kz[0] }}</b>{{ kz[1] }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <div class="card reveal" style="--i:1">
+      <form id="qf" novalidate>
+        <div class="prog"><span class="mono" id="stepno"></span><span class="mono" id="stepname"></span></div>
+        <div class="bar"><i id="barfill"></i></div>
+
+        {% for kr in t.formularz.kroki %}
+        <div class="fs{% if loop.first %} on{% endif %}" data-name="{{ kr.nazwa }}">
+          <h3>{{ kr.pytanie }}</h3>
+          <p class="hint">{{ kr.podpowiedz }}</p>
+          {% for p in kr.pola %}
+            {% if p.typ == "tekst" %}
+            <label class="f" for="f-{{ p.id }}">{{ p.etykieta }}</label>
+            <input type="text" id="f-{{ p.id }}" name="{{ p.id }}" placeholder="{{ p.przyklad or '' }}" autocomplete="off">
+            {% elif p.typ == "lista" %}
+            <label class="f" for="f-{{ p.id }}">{{ p.etykieta }}</label>
+            <select id="f-{{ p.id }}" name="{{ p.id }}"><option value="">Wybierz</option>{% for o in p.opcje %}<option value="{{ loop.index0 }}">{{ o[0] }}</option>{% endfor %}</select>
+            {% elif p.typ == "wybor" %}
+            <div class="opts{% if p.opcje|length == 4 and not p.opcje[0][2] is defined %} two{% endif %}">
+              {% for o in p.opcje %}<label class="opt"><input type="radio" name="{{ p.id }}" value="{{ loop.index0 }}"><span>{{ o[0] }}{% if o|length > 2 %} <em>{{ o[2] }}</em>{% endif %}</span></label>{% endfor %}
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="fs" data-name="Kontakt">
+          <h3>Gdzie mamy oddzwonić?</h3>
+          <p class="hint">Dzwonimy w godzinach pracy studia. Bez newsletterów.</p>
+          <label class="f" for="f-imie">Imię</label>
+          <input type="text" id="f-imie" name="imie" autocomplete="given-name">
+          <label class="f" for="f-tel">Telefon</label>
+          <input type="tel" id="f-tel" name="telefon" inputmode="tel" autocomplete="tel" placeholder="np. 600 100 200">
+          <label class="consent"><input type="checkbox" id="ok"><span>Zgadzam się na kontakt telefoniczny w sprawie rezerwacji.</span></label>
+        </div>
+
+        <div class="err" id="err" role="alert"></div>
+        <div class="fnav">
+          <button type="button" class="back" id="back" hidden>Wstecz</button>
+          <button type="submit" class="btn" id="next">Dalej</button>
+        </div>
+      </form>
+
+      <div class="result" id="result" hidden tabindex="-1">
+        <h3 id="rtitle"></h3>
+        <p id="rtext"></p>
+        {% if demo %}
+        <div class="studio">
+          <div class="mono">PODGLĄD DLA STUDIA / wersja demonstracyjna</div>
+          <dl id="rdl"></dl>
+        </div>
+        <p class="note">{{ "To prototyp. Dane nie zostały nigdzie wysłane." if probka else "Formularz nie ma jeszcze adresu odbioru. Dane nie zostały nigdzie wysłane." }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s faq" id="pytania">
+  <div class="wrap">
+    <div class="shead reveal"><p class="mono">Pytania</p><h2>{{ "Najczęstsze *pytania*"|akcent }}</h2></div>
+    {% for q in t.faq %}<details class="reveal"><summary>{{ q[0] }}</summary><p>{{ q[1] }}</p></details>{% endfor %}
+  </div>
+</section>
+
+<section class="s close">
+  <div class="wrap">
+    <h2 class="reveal">{{ t.zamkniecie.naglowek }}</h2>
+    <div class="reveal" style="--i:1">
+      {% if d.telefon %}<a class="tel" href="{{ d.telefon|tel_link }}">{{ d.telefon }}</a>{% endif %}
+      <div class="sub">{{ [d.miasto, d.adres]|select|join(" / ") }}</div>
+      <a class="btn" href="#rezerwacja">{{ t.zamkniecie.cta }}</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="#top">{{ logo_stopka }}{% if dopisek %}<span>{{ dopisek }}</span>{% endif %}</a>
+      <p style="margin-top:20px;max-width:34ch">{{ t.stopka_opis }}</p>
+    </div>
+    <div>
+      <p>{{ d.adres }}{% if d.adres %}<br>{% endif %}{{ [d.kod, d.miasto]|select|join(" ") }}</p>
+    </div>
+    <div>
+      <p>{% if d.telefon %}<a href="{{ d.telefon|tel_link }}">{{ d.telefon }}</a><br>{% endif %}{% if d.ig_handle %}<a href="https://www.instagram.com/{{ d.ig_handle }}/" target="_blank" rel="noopener">@{{ d.ig_handle }}</a>{% endif %}</p>
+    </div>
+    <p class="fine">{% if probka %}Projekt koncepcyjny strony. {% endif %}{% if film.ai %}Film z autem jest wizualizacją wygenerowaną komputerowo. {% endif %}{% if realizacje %}Zdjęcia realizacji pochodzą z profilu studia.{% endif %}</p>
+  </div>
+</footer>
+
+<script type="application/json" id="cfg">{{ cfg_json|safe }}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+const CFG = JSON.parse(document.getElementById('cfg').textContent);
+
+// FILM PRZEWIJANY: klatki wideo albo kadry przenikajace sie miedzy scenami
+(() => {
+  const F = CFG.film, KLATKI = F.tryb === 'klatki';
+  const FRAMES = F.pliki.length, BEATS = CFG.sceny, HOLD = 0.17;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  const beats = [...document.querySelectorAll('.beat')];
+  const rail = [...document.querySelectorAll('.rail i')];
+  const loader = document.getElementById('loader');
+  const imgs = new Array(FRAMES);
+  let loaded = 0, target = 0, current = 0, drawn = -1;
+
+  function size() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    const r = cv.getBoundingClientRect();
+    cv.width = Math.round(r.width * dpr);
+    cv.height = Math.round(r.height * dpr);
+    drawn = -1;
+  }
+
+  function nearest(i) {
+    if (imgs[i] && imgs[i].ok) return imgs[i];
+    for (let d = 1; d < FRAMES; d++) {
+      const a = imgs[i - d], b = imgs[i + d];
+      if (a && a.ok) return a;
+      if (b && b.ok) return b;
+    }
+    return null;
+  }
+
+  function put(im, alpha, zoom) {
+    if (!im) return;
+    const cw = cv.width, ch = cv.height, s = Math.max(cw / im.naturalWidth, ch / im.naturalHeight) * zoom;
+    const w = im.naturalWidth * s, h = im.naturalHeight * s;
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(im, (cw - w) / 2, (ch - h) / 2, w, h);
+    ctx.globalAlpha = 1;
+  }
+
+  function draw(v) {
+    if (KLATKI) { put(nearest(Math.round(v)), 1, 1); drawn = Math.round(v); return; }
+    const i = Math.min(FRAMES - 1, Math.floor(v)), a = v - i;
+    put(nearest(i), 1, 1.06 + 0.06 * a);
+    if (a > 0 && i + 1 < FRAMES) put(nearest(i + 1), a, 1 + 0.06 * a);
+    drawn = v;
+  }
+
+  function load(i) {
+    const im = new Image();
+    im.decoding = 'async';
+    im.onload = () => {
+      im.ok = true; loaded++;
+      loader.style.width = (loaded / FRAMES * 100) + '%';
+      if (loaded === FRAMES) loader.style.opacity = 0;
+      if (i === 0 || Math.abs(i - Math.round(current)) < 3) drawn = -1;
+    };
+    im.src = F.pliki[i];
+    imgs[i] = im;
+  }
+  const order = [], seen = new Set();
+  const push = i => { if (!seen.has(i) && i >= 0 && i < FRAMES) { seen.add(i); order.push(i); } };
+  for (let b = 0; b < BEATS; b++) push(Math.round(b * (FRAMES - 1) / (BEATS - 1)));
+  for (let i = 0; i < FRAMES; i += 4) push(i);
+  for (let i = 0; i < FRAMES; i++) push(i);
+  order.forEach(load);
+
+  function map(p) {
+    const seg = 1 / (BEATS - 1);
+    const k = Math.min(BEATS - 2, Math.floor(p / seg));
+    const t = (p - k * seg) / seg;
+    const e = Math.min(1, Math.max(0, (t - HOLD) / (1 - 2 * HOLD)));
+    const s = e * e * (3 - 2 * e);
+    return { f: (k + s) * seg, k, t };
+  }
+
+  function setBeats(m) {
+    const active = m.t < 0.5 ? m.k : m.k + 1;
+    const local = m.t < 0.5 ? m.t : 1 - m.t;
+    const vis = Math.min(1, Math.max(0, 1 - (local - HOLD * 0.7) / 0.12));
+    beats.forEach((b, i) => {
+      const o = i === active ? vis : 0;
+      b.style.opacity = o;
+      b.style.transform = reduce ? 'none' : 'translateY(' + ((1 - o) * 22) + 'px)';
+      b.classList.toggle('on', o > 0.6);
+    });
+    rail.forEach((r, i) => r.classList.toggle('on', i === active));
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.create({
+    trigger: '#film', start: 'top top', end: 'bottom bottom',
+    onUpdate: self => {
+      const m = map(self.progress);
+      target = reduce ? Math.round(m.f * (BEATS - 1)) / (BEATS - 1) * (FRAMES - 1) : m.f * (FRAMES - 1);
+      setBeats(m);
+    }
+  });
+  ScrollTrigger.create({
+    start: 80, onUpdate: self => document.getElementById('nav').classList.toggle('solid', self.scroll() > 80)
+  });
+
+  gsap.ticker.add(() => {
+    current += (target - current) * (reduce ? 1 : 0.14);
+    const v = KLATKI ? Math.round(current) : Math.round(current * 200) / 200;
+    if (v !== drawn) draw(v);
+  });
+
+  addEventListener('resize', () => { size(); ScrollTrigger.refresh(); });
+  size();
+  setBeats(map(0));
+
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: 0.18 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+
+// FORMULARZ: kroki i punktacja z konfiguracji oferty
+(() => {
+  const form = document.getElementById('qf');
+  const steps = [...form.querySelectorAll('.fs')];
+  const err = document.getElementById('err'), back = document.getElementById('back'), next = document.getElementById('next');
+  const K = CFG.kroki;
+  let s = 0, wysylka = false;
+
+  const val = n => (new FormData(form).get(n) || '').toString().trim();
+  const esc = t => t.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function show() {
+    steps.forEach((el, i) => el.classList.toggle('on', i === s));
+    document.getElementById('stepno').textContent = (s + 1) + ' / ' + steps.length;
+    document.getElementById('stepname').textContent = steps[s].dataset.name;
+    document.getElementById('barfill').style.width = ((s + 1) / steps.length * 100) + '%';
+    back.hidden = s === 0;
+    next.textContent = s === steps.length - 1 ? 'Wyślij' : 'Dalej';
+    err.textContent = '';
+  }
+
+  function check() {
+    if (s < K.length) {
+      for (const p of K[s].pola) {
+        const v = val(p.id);
+        if (p.typ === 'tekst' ? v.length < (p.min || 2) : v === '') return p.blad;
+      }
+      return '';
+    }
+    if (val('imie').length < 2) return 'Wpisz imię.';
+    if (val('telefon').replace(/\D/g, '').length < 9) return 'Wpisz numer telefonu, minimum 9 cyfr.';
+    if (!document.getElementById('ok').checked) return 'Zaznacz zgodę na kontakt telefoniczny.';
+    return '';
+  }
+
+  function zbierz() {
+    let punkty = 0;
+    const wiersze = [], dane = {};
+    K.forEach(k => k.pola.forEach(p => {
+      const v = val(p.id);
+      if (p.typ === 'tekst') { wiersze.push([p.etykieta, esc(v)]); dane[p.id] = v; return; }
+      const o = p.opcje[+v];
+      punkty += o[1] || 0;
+      wiersze.push([p.etykieta, esc(o[0])]);
+      dane[p.id] = o[0];
+    }));
+    return { punkty, wiersze, dane };
+  }
+
+  async function finish() {
+    const z = zbierz();
+    const priorytet = z.punkty >= CFG.prog;
+    const imie = val('imie');
+    const payload = Object.assign({ imie, telefon: val('telefon'), punkty: z.punkty, ocena: priorytet ? 'PRIORYTET' : 'STANDARD',
+      oferta: CFG.oferta, studio: CFG.studio, strona: location.href, kiedy: new Date().toISOString() }, z.dane);
+    if (CFG.endpoint) {
+      if (wysylka) return;
+      wysylka = true; next.disabled = true; next.textContent = 'Wysyłam';
+      try {
+        const r = await fetch(CFG.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!r.ok) throw new Error(r.status);
+      } catch (e) {
+        wysylka = false; next.disabled = false; next.textContent = 'Wyślij';
+        err.textContent = 'Nie udało się wysłać formularza. Spróbuj ponownie albo zadzwoń: ' + CFG.telefon + '.';
+        return;
+      }
+    }
+    if (window.fbq) fbq('track', 'Lead', { content_name: CFG.oferta });
+    document.getElementById('rtitle').textContent = 'Dziękujemy, ' + imie + '. ' + (priorytet ? 'Oddzwonimy jeszcze dziś.' : 'Oddzwonimy w ciągu 24 godzin.');
+    document.getElementById('rtext').textContent = 'Przygotujemy termin i dokładną cenę dla: ' + (z.dane.auto || 'Twojego auta') + '.';
+    const dl = document.getElementById('rdl');
+    if (dl) {
+      const rows = [['Ocena', '<span class="grade ' + (priorytet ? '' : 'warm') + '">' + (priorytet ? 'PRIORYTET' : 'STANDARD') + '</span>']]
+        .concat(z.wiersze, [['Działanie', esc(priorytet ? CFG.dzialania.priorytet : CFG.dzialania.standard)]]);
+      dl.innerHTML = rows.map(r => '<dt>' + r[0] + '</dt><dd>' + r[1] + '</dd>').join('');
+    }
+    form.hidden = true;
+    const res = document.getElementById('result');
+    res.hidden = false; res.focus();
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const m = check();
+    if (m) { err.textContent = m; return; }
+    if (s < steps.length - 1) { s++; show(); const f = steps[s].querySelector('input,select'); if (f) f.focus({ preventScroll: true }); }
+    else finish();
+  });
+  back.addEventListener('click', () => { if (s > 0) { s--; show(); } });
+  form.addEventListener('change', e => {
+    if (e.target.type === 'radio' && !check()) setTimeout(() => form.requestSubmit(), 260);
+  });
+  show();
+})();
+</script>
+{% include "oferta-leada/_hak.html" ignore missing %}
+</body>
+</html>

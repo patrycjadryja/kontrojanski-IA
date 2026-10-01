@@ -1,0 +1,42 @@
+{# Dokladka do landingu: po wyslaniu formularza pokazuje link do oferty osobistej. Wlaczana flaga klient.json -> oferta_leada.wlaczona (ustawia ja silnik.oferta_leada). #}
+{% set ol = k.get("oferta_leada") or {} %}
+{% if ol.get("wlaczona") and oferta.id in (ol.get("dla_ofert_wejsciowych") or []) %}
+<style>
+.ol{margin-top:30px;border-top:1px solid var(--graphite);padding-top:26px}
+.ol h4{margin:10px 0 18px;font:var(--display-weight) clamp(18px,1.6vw,24px)/1.05 var(--display);font-stretch:var(--display-stretch);text-transform:var(--display-case);letter-spacing:var(--display-tracking)}
+.ol h4 em{font-style:normal;color:var(--accent)}
+.ol-sms{margin-top:22px;max-width:420px}
+.ol-sms p{margin:10px 0 0;background:var(--carbon);border:1px solid var(--line2);border-radius:18px 18px 18px 4px;padding:14px 16px;color:var(--bone);font-size:15px;line-height:1.45}
+</style>
+<script>
+(() => {
+  const STUDIO = {{ (d.nazwa_krotka or d.nazwa)|tojson }}, PROBKA = {{ probka|tojson }};
+{% raw %}
+  const res = document.getElementById('result'), form = document.getElementById('qf');
+  if (!res || !form || typeof CFG === 'undefined') return;
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function pokaz() {
+    const f = new FormData(form), o = { imie: (f.get('imie') || '').toString().trim(), kiedy: new Date().toISOString() };
+    CFG.kroki.forEach(k => k.pola.forEach(p => {
+      const v = (f.get(p.id) || '').toString().trim();
+      o[p.id] = p.typ === 'tekst' ? v : ((p.opcje[+v] || [])[0] || '');
+    }));
+    if (!o.auto) return;
+    const dane = {};
+    ['imie', 'auto', 'rocznik', 'zakres', 'plany', 'termin', 'kiedy'].forEach(n => { if (o[n]) dane[n] = o[n]; });   // bez telefonu: adres trafia do historii przegladarki
+    const bajty = new TextEncoder().encode(JSON.stringify(dane));
+    const b64 = btoa(String.fromCharCode.apply(null, bajty)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const blok = document.createElement('div');
+    blok.className = 'ol';
+    blok.innerHTML = '<p class="mono">Twoja oferta</p><h4>Zakres i cena dla <em>' + esc(o.auto) + '</em> są gotowe</h4>' +
+      '<a class="btn" target="_blank" rel="noopener" href="../../oferta-leada/strona/index.html#o=' + b64 + '">Zobacz ofertę</a>' +
+      (PROBKA ? '<div class="ol-sms"><span class="mono">Ten sam link wysyłamy SMS-em zaraz po formularzu</span><p>' + esc(STUDIO) + ': ' + esc(o.imie) + ', oferta dla ' + esc(o.auto) + ' jest gotowa. Zobacz zakres i cenę: [link do oferty]</p></div>' : '');
+    const po = document.getElementById('rtext');
+    po.parentNode.insertBefore(blok, po.nextSibling);
+    if (window.fbq) blok.querySelector('a').addEventListener('click', () => fbq('trackCustom', 'OfertaOtwarta'));
+  }
+  new MutationObserver(() => { if (!res.hidden && !res.querySelector('.ol')) pokaz(); }).observe(res, { attributes: true, attributeFilter: ['hidden'] });
+{% endraw %}
+})();
+</script>
+{% endif %}

@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Oferta osobista - {{ d.nazwa }}</title>
+<meta name="description" content="Oferta przygotowana na podstawie odpowiedzi z formularza. Zakres ochrony, cena i termin dla Twojego auta.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="{{ fonty_url }}" rel="stylesheet">
+<style>
+/* Wygenerowane przez Generator Agencji (oferta leada). Styl: kierunek "{{ kier.nazwa }}". Nie edytuj recznie, zmiany wprowadzaj w klient.json -> oferta_leada. */
+:root{ {{ css }};--soft:color-mix(in srgb,var(--bone) 82%,var(--ink));--line2:color-mix(in srgb,var(--graphite) 55%,var(--bone));--danger:#ff8a70;--ease:cubic-bezier(.16,1,.3,1);--pad:clamp(20px,5vw,72px);--edge:max(var(--pad),calc((100vw - 1320px)/2 + var(--pad)));--zone:var(--accent);--kreska:rgba(255,255,255,.3);--obrys:rgba(255,255,255,.42) }
+[hidden]{display:none!important}
+{% include "landing/_styl.css" %}
+
+{% include "oferta-leada/_styl.css" %}
+</style>
+</head>
+<body>
+
+<header class="nav solid" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="{{ d.nazwa }}">
+      <img src="img/logo/{{ logo_plik }}" alt="{{ d.nazwa }}">{% if dopisek %}<span>{{ dopisek }}</span>{% endif %}
+    </a>
+    <nav>
+      <a class="l" href="#zakres">Zakres</a>
+      <a class="l" href="#wizualizacja" data-wiz>Wizualizacja</a>
+      <a class="l" href="#pytania">Pytania</a>
+      {% if d.telefon %}<a class="tel-nav" href="{{ d.telefon|tel_link }}">{{ d.telefon }}</a>{% endif %}
+      <a class="btn small" href="#termin">Wybierz dzień</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  {% if tlo %}<img class="bg" src="{{ tlo }}" alt="">{% endif %}
+  <div class="wrap">
+    <span class="chip">Oferta osobista</span>
+    <h1 id="h-tytul"></h1>
+    <p class="lead" id="h-lead"></p>
+    <div class="sub" id="h-meta"></div>
+    <div class="przyklad-info" id="h-przyklad" hidden>Przykładowe zapytanie. Po wysłaniu formularza na stronie w tym miejscu są dane osoby, która go wypełniła.</div>
+    <div class="powody" id="h-powody"></div>
+  </div>
+</section>
+
+<section class="s konf" id="zakres">
+  <div class="wrap">
+    <div class="shead reveal"><p class="mono">Zakres i cena</p><h2>{{ "Zaznacz, co *chronimy*"|akcent }}</h2></div>
+    <div class="kgrid">
+
+      <div class="rys reveal">
+        <div class="pasek-auta">
+          <div><span class="mono">Nadwozie</span><div class="chips" id="nadwozia" role="group" aria-label="Typ nadwozia"></div></div>
+          <div><span class="mono">Kolor lakieru</span><div class="barwy" id="kolory" role="group" aria-label="Kolor lakieru"></div></div>
+        </div>
+        <figure class="widok" style="margin:14px 0 0">
+          <figcaption>Widok z boku</figcaption>
+          <svg id="svg-bok" viewBox="0 0 1000 360" role="img" aria-label="Rysunek auta z boku z zaznaczonymi strefami ochrony"></svg>
+        </figure>
+        <figure class="widok" style="margin:0">
+          <figcaption>Widok z góry</figcaption>
+          <svg id="svg-gora" viewBox="0 0 1000 300" role="img" aria-label="Rysunek auta z góry z zaznaczonymi strefami ochrony"></svg>
+        </figure>
+        <div class="tip" id="tip" role="status"></div>
+        <div class="legenda"><span><i></i>Folia w zakresie</span><span><i class="pusty"></i>Kliknij, żeby dodać</span></div>
+        <p class="note">{{ c.teksty.uwaga_rysunek }}</p>
+      </div>
+
+      <div class="wybor">
+        <div class="blok reveal">
+          <span class="mono">Pakiety</span>
+          <div id="pakiety"></div>
+        </div>
+
+        <div class="podp reveal" id="podp" hidden></div>
+
+        <div class="blok reveal">
+          <details class="dop" id="dop-strefy">
+            <summary>Dopasuj strefy ręcznie</summary>
+            <div class="lista" id="strefy"></div>
+          </details>
+        </div>
+
+        <div class="blok reveal">
+          <span class="mono">Dodatki</span>
+          <div class="lista" id="dodatki" style="margin-top:0"></div>
+        </div>
+
+        <div class="suma reveal" id="suma" aria-live="polite">
+          <span class="mono">Twoja oferta</span>
+          <h3 id="s-nazwa"></h3>
+          <ul id="s-lista"></ul>
+          <div class="razem"><span class="mono">Razem, orientacyjnie</span><b id="s-razem"></b></div>
+          <p class="oszcz" id="s-oszcz" hidden></p>
+          <a class="btn" href="#termin" id="s-cta">Wybierz dzień</a>
+          <p class="fine">{{ c.teksty.uwaga_cena }} <span id="s-wazna"></span></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="s wiz" id="wizualizacja" hidden>
+  <div class="wrap">
+    <div class="shead reveal"><p class="mono">Wizualizacja</p><h2>{{ c.wizualizacja.naglowek|akcent }}</h2></div>
+    <div class="wgrid">
+      <div class="wpanel reveal">
+        <p class="lead" id="w-lead">{{ c.wizualizacja.lead }}</p>
+        <label class="drop" id="w-drop" hidden>
+          <input type="file" id="w-plik" accept="image/jpeg,image/png,image/webp">
+          <b id="w-drop-t">Wybierz zdjęcie auta</b>
+          <span>JPG albo PNG, najlepiej całe auto w kadrze</span>
+        </label>
+        <div class="opts" id="w-efekty" role="radiogroup" aria-label="Efekt wizualizacji"></div>
+        <button class="btn" type="button" id="w-start" hidden disabled>Pokaż wizualizację</button>
+        <div class="wstan" id="w-stan" role="status"></div>
+        <p class="note" style="margin-top:0">{{ c.wizualizacja.zgoda }}</p>
+      </div>
+      <div class="reveal" style="--i:1">
+        <div class="por-obraz" id="w-obraz">
+          <div class="pusto" id="w-pusto">Tu pojawi się Twoje auto</div>
+          <img class="przed" id="w-przed" alt="Zdjęcie auta przed wizualizacją" hidden>
+          <img class="po" id="w-po" alt="Wizualizacja auta w studiu" hidden>
+          <div class="kreska" id="w-kreska" hidden></div>
+          <span class="et l" id="w-et-l" hidden>Zdjęcie</span>
+          <span class="et r" id="w-et-r" hidden>Wizualizacja</span>
+          <input type="range" min="0" max="100" value="50" id="w-suwak" aria-label="Porównaj zdjęcie i wizualizację" hidden>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s por">
+  <div class="wrap">
+    <div class="shead reveal"><p class="mono">Porównanie</p><h2>{{ c.porownanie.naglowek|akcent }}</h2></div>
+    <p class="lead reveal" style="margin-top:20px;--i:1">{{ c.porownanie.lead }}</p>
+    <div class="tabela reveal" style="--i:2">
+      <table>
+        <thead><tr>{% for kol in c.porownanie.kolumny %}<th scope="col">{{ kol }}</th>{% endfor %}</tr></thead>
+        <tbody>
+          {% for w in c.porownanie.wiersze %}<tr><th scope="row">{{ w[0] }}</th><td>{{ w[1] }}</td><td>{{ w[2] }}</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="s faq" id="pytania" style="padding-top:0">
+  <div class="wrap">
+    <div class="shead reveal"><p class="mono">Pytania</p><h2>{{ "Zanim *zdecydujesz*"|akcent }}</h2></div>
+    {% for q in c.faq %}<details class="reveal"><summary>{{ q[0] }}</summary><p>{{ q[1] }}</p></details>{% endfor %}
+  </div>
+</section>
+
+<section class="s formsec termin" id="termin">
+  <div class="wrap fgrid">
+    <div class="side">
+      <div class="shead reveal"><p class="mono">Termin</p><h2>{{ c.termin.naglowek|akcent }}</h2></div>
+      <p class="lead reveal" style="--i:1">{{ c.termin.lead }}</p>
+      <div class="filters reveal" style="--i:2">
+        <div><b>Bez przedpłaty</b>Termin rezerwujemy po rozmowie telefonicznej.</div>
+        <div><b>Cena potwierdzona przed pracą</b>Oglądamy auto i podajemy ostateczną kwotę, zanim zaczniemy.</div>
+      </div>
+    </div>
+    <div class="card reveal" style="--i:1">
+      <form id="tf" novalidate>
+        <div class="wybrane" id="t-wybrane"></div>
+        <h3 style="margin-top:26px">Dzień</h3>
+        <div class="dni" id="t-dni" role="radiogroup" aria-label="Dzień"></div>
+        <h3>Pora przyjazdu</h3>
+        <div class="opts" id="t-pory" role="radiogroup" aria-label="Pora przyjazdu"></div>
+        <div class="err" id="t-err" role="alert"></div>
+        <div class="fnav" style="margin-top:8px"><span></span><button type="submit" class="btn">Poproszę o ten termin</button></div>
+      </form>
+      <div class="result" id="t-wynik" hidden tabindex="-1">
+        <h3 id="t-tytul"></h3>
+        <p id="t-tekst"></p>
+        {% if probka %}<p class="note">To prototyp. Prośba nie została nigdzie wysłana.</p>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s close">
+  <div class="wrap">
+    <h2 class="reveal">Wolisz porozmawiać?</h2>
+    <div class="reveal" style="--i:1">
+      {% if d.telefon %}<a class="tel" href="{{ d.telefon|tel_link }}" data-zd="telefon">{{ d.telefon }}</a>{% endif %}
+      <div class="sub">{{ [d.miasto, d.adres]|select|join(" / ") }}</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="#top"><img src="img/logo/{{ logo_plik }}" alt="{{ d.nazwa }}">{% if dopisek %}<span>{{ dopisek }}</span>{% endif %}</a>
+    </div>
+    <div><p>{{ d.adres }}{% if d.adres %}<br>{% endif %}{{ [d.kod, d.miasto]|select|join(" ") }}</p></div>
+    <div><p>{% if d.telefon %}<a href="{{ d.telefon|tel_link }}">{{ d.telefon }}</a><br>{% endif %}{% if d.ig_handle %}<a href="https://www.instagram.com/{{ d.ig_handle }}/" target="_blank" rel="noopener">@{{ d.ig_handle }}</a>{% endif %}</p></div>
+    <p class="fine">{% if probka %}Projekt koncepcyjny oferty. Ceny orientacyjne, do potwierdzenia przez studio. {% endif %}Rysunek auta jest poglądowy. Wizualizacja ze zdjęcia jest generowana komputerowo.{% if tlo %} Zdjęcie w nagłówku pochodzi z profilu studia.{% endif %}</p>
+  </div>
+</footer>
+
+{% if probka %}
+<aside class="spod" id="spod" data-zwiniety="true" aria-label="Podgląd dla studia">
+  <button type="button" id="spod-btn" aria-expanded="false"><span>Podgląd dla studia / demo</span><i id="spod-znak">rozwiń</i></button>
+  <p class="ost" id="spod-ost"></p>
+  <div class="tresc">
+    <dl id="spod-dane"></dl>
+    <ol id="spod-log"></ol>
+  </div>
+</aside>
+{% endif %}
+
+<div class="pasek" id="pasek">
+  <div><small id="p-nazwa"></small><b id="p-razem"></b></div>
+  <a class="btn small" href="#termin">Wybierz dzień</a>
+</div>
+
+<script type="application/json" id="cfg">{{ cfg_json|safe }}</script>
+<script>
+{% raw %}
+const CFG = JSON.parse(document.getElementById('cfg').textContent);
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const zl = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' zł';
+const akcent = t => esc(t).replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+// DANE LEADA: z kotwicy adresu (#o=...), a bez niej przyklad z konfiguracji
+const LEAD = (() => {
+  const m = location.hash.match(/o=([A-Za-z0-9_\-]+)/);
+  if (m) {
+    try {
+      const b = m[1].replace(/-/g, '+').replace(/_/g, '/');
+      const bin = atob(b + '==='.slice((b.length + 3) % 4));
+      const o = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))));
+      const out = { przyklad: false };
+      for (const p of ['imie', 'auto', 'rocznik', 'zakres', 'plany', 'termin', 'kiedy']) if (typeof o[p] === 'string') out[p] = o[p].slice(0, 60);
+      if (out.auto) return out;
+    } catch (e) { /* uszkodzony link: pokazujemy przyklad */ }
+  }
+  return Object.assign({ przyklad: true }, CFG.przyklad);
+})();
+const ID_OFERTY = (() => { let h = 0; for (const c of JSON.stringify([LEAD.imie, LEAD.auto, LEAD.kiedy])) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h.toString(36).slice(0, 6); })();
+
+// ZDARZENIA: podglad dla studia + zapis na serwerze, jesli jest dostepny
+const Z = (() => {
+  const log = $('#spod-log');
+  let online = location.protocol.startsWith('http');
+  return (co, opis) => {
+    if (log) {
+      const li = document.createElement('li');
+      li.className = 'nowe';
+      li.innerHTML = '<time>' + new Date().toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' }) + '</time><span>' + esc(opis) + '</span>';
+      log.prepend(li);
+      while (log.children.length > 12) log.lastChild.remove();
+      const ost = $('#spod-ost');
+      ost.textContent = opis; ost.classList.remove('nowe'); void ost.offsetWidth; ost.classList.add('nowe');
+    }
+    if (online && CFG.zdarzenia) {
+      fetch(CFG.zdarzenia, { method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
+        body: JSON.stringify({ slug: CFG.slug, oferta: ID_OFERTY, co, opis }) }).then(r => { if (!r.ok) online = false; }).catch(() => { online = false; });
+    }
+  };
+})();
+
+// STAN
+const zgadnij = auto => {
+  const t = ' ' + auto.toLowerCase().replace(/[^a-z0-9ąćęłńóśźż.\- ]/g, ' ').replace(/\s+/g, ' ') + ' ';
+  for (const typ of ['kombi', 'coupe', 'suv', 'hatchback']) for (const s of CFG.modele[typ] || []) if (t.includes(' ' + s + ' ')) return typ;
+  return 'sedan';
+};
+const pakietZFormularza = CFG.pakiety.find(p => p.zakres_formularza && p.zakres_formularza === LEAD.zakres);
+const Q = new URLSearchParams(location.search);
+const S = {
+  nadwozie: CFG.nadwozia.some(n => n.id === Q.get('nadwozie')) ? Q.get('nadwozie') : zgadnij(LEAD.auto),
+  kolor: CFG.kolory.some(k => k.id === Q.get('kolor')) ? Q.get('kolor') : CFG.kolory[1].id,
+  strefy: new Set((CFG.pakiety.find(p => p.id === Q.get('pakiet')) || pakietZFormularza || CFG.pakiety.find(p => p.id === CFG.domyslny_pakiet)).strefy),
+  dodatki: new Set(),
+  podglad: null, dzien: null, pora: null
+};
+const strefa = id => CFG.strefy.find(s => s.id === id);
+const mnoznik = () => CFG.nadwozia.find(n => n.id === S.nadwozie).mnoznik;
+const cena = n => Math.round(n * mnoznik() / 10) * 10;
+const wCenie = s => (s.w || []).length && s.w.every(x => S.strefy.has(x));
+const sumaStref = zbior => [...zbior].map(strefa).reduce((a, s) => a + ((s.w || []).length && s.w.every(x => zbior.has(x)) ? 0 : cena(s.cena)), 0);
+const rowne = (a, b) => a.size === b.length && b.every(x => a.has(x));
+const pakietWybrany = () => CFG.pakiety.find(p => rowne(S.strefy, p.strefy)) || null;
+
+function wycena() {
+  const p = pakietWybrany(), osobno = sumaStref(S.strefy);
+  const folia = p ? cena(p.cena) : osobno;
+  const dod = CFG.dodatki.filter(d => S.dodatki.has(d.id)).map(d => ({ d, kwota: d.staly ? d.cena : cena(d.cena) }));
+  const razem = folia + dod.reduce((a, x) => a + x.kwota, 0);
+  const czas = p ? p.czas : (osobno === 0 ? '' : osobno < 2400 ? '1 dzień' : osobno < 9000 ? '2-3 dni' : '5-7 dni');
+  // podpowiedz: pakiet, ktory obejmuje wybor i nie kosztuje wiecej niz strefy osobno
+  let lepszy = null;
+  if (!p && S.strefy.size) {
+    lepszy = CFG.pakiety.filter(k => [...S.strefy].every(x => k.strefy.includes(x) || wCenie(strefa(x))) && cena(k.cena) <= osobno * 1.12)
+      .sort((a, b) => a.cena - b.cena)[0] || null;
+  }
+  return { p, folia, osobno, dod, razem, czas, lepszy, oszcz: p ? osobno - folia : 0 };
+}
+
+// RYSUNEK: parametryczna sylwetka wg typu nadwozia (poglad, nie konkretny model)
+const TYPY = {
+  sedan:     { x0: 50, x1: 950, fx: 218, rx: 770, r: 60, R: 72, gy: 322, by: 292, belt: 184, hf: [66, 214], cw: [338, 178], wt: [456, 106], re: [664, 104], rb: [816, 172], de: [930, 182], drzwi: 2, okna: 2, w: 112 },
+  kombi:     { x0: 50, x1: 950, fx: 218, rx: 770, r: 60, R: 72, gy: 322, by: 292, belt: 184, hf: [66, 214], cw: [338, 178], wt: [446, 104], re: [806, 108], rb: [914, 180], de: [932, 192], drzwi: 2, okna: 3, w: 112 },
+  hatchback: { x0: 84, x1: 904, fx: 246, rx: 744, r: 58, R: 70, gy: 322, by: 292, belt: 182, hf: [100, 212], cw: [356, 176], wt: [462, 102], re: [668, 102], rb: [838, 178], de: [876, 192], drzwi: 2, okna: 2, w: 108 },
+  suv:       { x0: 54, x1: 946, fx: 222, rx: 768, r: 68, R: 82, gy: 322, by: 278, belt: 166, hf: [68, 190], cw: [324, 158], wt: [426, 76], re: [794, 80], rb: [902, 160], de: [926, 172], drzwi: 2, okna: 3, w: 122 },
+  coupe:     { x0: 50, x1: 950, fx: 224, rx: 774, r: 62, R: 74, gy: 322, by: 294, belt: 192, hf: [64, 224], cw: [376, 188], wt: [490, 122], re: [612, 118], rb: [832, 182], de: [928, 192], drzwi: 1, okna: 2, w: 114, xb: 648 }
+};
+const pp = a => a.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+const zPoly = (id, a) => '<polygon class="z" data-z="' + id + '" points="' + pp(a) + '"/>';
+const zPath = (id, d, kl, sw) => '<path class="z ' + (kl || '') + '" data-z="' + id + '" d="' + d + '"' + (sw ? ' stroke-width="' + sw + '"' : '') + '/>';
+
+function wymiary(P) {
+  const wy = P.gy - P.r, dx = Math.sqrt(P.R * P.R - (P.by - wy) ** 2);
+  const xdfT = P.cw[0] + 8, xdfB = P.fx + P.R + 30;
+  const xdrT = P.drzwi === 1 ? P.xb : P.rx - 14, xdrB = P.drzwi === 1 ? P.xb : P.rx - P.R - 12;
+  const xb = P.drzwi === 1 ? P.xb : Math.round((xdfT + xdrT) / 2 + 12);
+  const sill = P.by - 16;
+  // tylna krawedz drzwi biegnie lukiem wokol nadkola
+  let luk = [[xdrT, P.belt], [xdrB, sill]];
+  if (P.drzwi === 2) {
+    const ar = Math.max(P.R + 10, wy - P.belt + 3), kat = (x, y) => Math.atan2(y - wy, x - P.rx);
+    const a0 = kat(P.rx - Math.sqrt(ar * ar - (wy - P.belt) ** 2), P.belt);
+    let a1 = kat(P.rx - Math.sqrt(ar * ar - (sill - wy) ** 2), sill);
+    if (a1 > 0) a1 -= 2 * Math.PI;
+    luk = Array.from({ length: 9 }, (_, i) => { const a = a0 + (a1 - a0) * i / 8; return [P.rx + ar * Math.cos(a), wy + ar * Math.sin(a)]; });
+  }
+  return Object.assign({}, P, { wy, dx, xdfT, xdfB, xdrT: P.drzwi === 2 ? luk[0][0] : xdrT, xdrB: P.drzwi === 2 ? luk[8][0] : xdrB, xb, luk, bt: P.hf[1] + 34, btR: P.de[1] + 50, sill });
+}
+
+function rysBok(P, barwa) {
+  const { x0, x1, fx, rx, r, R, by, belt, hf, cw, wt, re, rb, de, wy, dx, xdfT, xdfB, xdrT, xdrB, xb, bt, btR, sill, gy, luk } = P;
+  const lukD = luk.map(p => 'L' + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const body = 'M' + (x0 + 30) + ' ' + by + ' C' + (x0 + 8) + ' ' + by + ' ' + x0 + ' ' + (by - 18) + ' ' + x0 + ' ' + (by - 46) +
+    ' C' + x0 + ' ' + (hf[1] + 22) + ' ' + (x0 + 2) + ' ' + (hf[1] + 6) + ' ' + hf[0] + ' ' + hf[1] +
+    ' C' + (hf[0] + 100) + ' ' + (hf[1] - 24) + ' ' + (cw[0] - 100) + ' ' + (cw[1] + 2) + ' ' + cw[0] + ' ' + cw[1] +
+    ' L' + wt[0] + ' ' + wt[1] +
+    ' C' + (wt[0] + 46) + ' ' + (wt[1] - 10) + ' ' + (re[0] - 70) + ' ' + (re[1] - 6) + ' ' + re[0] + ' ' + re[1] +
+    ' C' + (re[0] + 44) + ' ' + (re[1] + 4) + ' ' + (rb[0] - 40) + ' ' + (rb[1] - 26) + ' ' + rb[0] + ' ' + rb[1] +
+    ' L' + de[0] + ' ' + de[1] +
+    ' C' + x1 + ' ' + (de[1] + 4) + ' ' + x1 + ' ' + (de[1] + 26) + ' ' + x1 + ' ' + (de[1] + 50) +
+    ' C' + x1 + ' ' + (by - 16) + ' ' + (x1 - 8) + ' ' + by + ' ' + (x1 - 30) + ' ' + by +
+    ' L' + (rx + dx) + ' ' + by + ' A' + R + ' ' + R + ' 0 1 0 ' + (rx - dx) + ' ' + by +
+    ' L' + (fx + dx) + ' ' + by + ' A' + R + ' ' + R + ' 0 1 0 ' + (fx - dx) + ' ' + by + ' Z';
+  const gOff = P.okna === 3 ? 40 : 58;
+  const szklo = [[cw[0] + 42, belt], [wt[0] + 20, wt[1] + 14], [re[0] - 8, re[1] + 14], [rb[0] - gOff, belt]];
+  const slupki = [xb].concat(P.okna === 3 ? [xdrT] : []);
+  const kolo = x => '<circle cx="' + x + '" cy="' + wy + '" r="' + r + '" fill="#0a0a0b"/><circle cx="' + x + '" cy="' + wy + '" r="' + (r * .66) + '" fill="#1b1c1f" stroke="#77797e" stroke-width="1.5"/>' +
+    [0, 72, 144, 216, 288].map(k => '<line x1="' + x + '" y1="' + wy + '" x2="' + (x + Math.cos(k * Math.PI / 180) * r * .62).toFixed(1) + '" y2="' + (wy + Math.sin(k * Math.PI / 180) * r * .62).toFixed(1) + '" stroke="#77797e" stroke-width="5" stroke-linecap="round"/>').join('') +
+    '<circle cx="' + x + '" cy="' + wy + '" r="' + (r * .16) + '" fill="#0a0a0b" stroke="#77797e"/>';
+  const lampaP = [[x0 - 10, hf[1] + 6], [x0 + 84, hf[1] - 2], [x0 + 72, hf[1] + 24], [x0 - 10, hf[1] + 32]];
+  const lampaT = [[x1 + 10, de[1] + 8], [x1 - 74, de[1] + 6], [x1 - 62, de[1] + 30], [x1 + 10, de[1] + 36]];
+  const lx = cw[0] + 36, ly = belt - 8;
+  const lusterko = 'M' + (lx - 20) + ' ' + (ly + 9) + ' Q' + (lx - 23) + ' ' + (ly - 11) + ' ' + lx + ' ' + (ly - 11) + ' Q' + (lx + 19) + ' ' + (ly - 11) + ' ' + (lx + 17) + ' ' + (ly + 9) + ' Z';
+  const kl = [[xb - 64, belt + 20]].concat(P.drzwi === 2 ? [[xdrT - 96, belt + 20]] : []);
+  const drzwiD = 'M' + xdfT + ' ' + belt + ' L' + xb + ' ' + belt + ' L' + xb + ' ' + sill + ' L' + xdfB + ' ' + sill + ' Z' +
+    (P.drzwi === 2 ? ' M' + xb + ' ' + belt + ' ' + lukD + ' L' + xb + ' ' + sill + ' Z' : '');
+  const dach = 'M' + wt[0] + ' ' + wt[1] + ' C' + (wt[0] + 46) + ' ' + (wt[1] - 10) + ' ' + (re[0] - 70) + ' ' + (re[1] - 6) + ' ' + re[0] + ' ' + re[1];
+
+  return '<defs><clipPath id="cb"><path d="' + body + '"/></clipPath><clipPath id="cg"><polygon points="' + pp(szklo) + '"/></clipPath>' +
+    '<linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".34"/></linearGradient></defs>' +
+    '<ellipse cx="500" cy="' + (gy + 4) + '" rx="450" ry="9" fill="#000" opacity=".45"/>' +
+    '<line x1="20" y1="' + gy + '" x2="980" y2="' + gy + '" class="linia" style="opacity:.5"/>' +
+    '<path d="' + body + '" fill="' + barwa + '"/><path d="' + body + '" fill="url(#gb)"/>' +
+    '<g clip-path="url(#cb)">' +
+      zPoly('zderzak-przod', [[x0 - 20, bt], [fx - R - 8, bt], [fx - dx - 2, by + 10], [x0 - 20, by + 10]]) +
+      zPoly('blotniki-przod', [[x0 - 20, hf[1] + 14], [x0 + 96, hf[1] + 8], [cw[0] + 8, cw[1] + 16], [xdfT, belt], [xdfB, sill], [xdfB, by + 10], [fx - dx - 2, by + 10], [fx - R - 8, bt], [x0 - 20, bt]]) +
+      zPoly('maska', [[x0 - 20, -10], [cw[0] + 6, -10], [cw[0] + 8, cw[1] + 16], [x0 + 96, hf[1] + 8], [x0 - 20, hf[1] + 14]]) +
+      zPoly('pas-przedni', [[x0 - 20, -10], [x0 + 124, -10], [x0 + 124, bt], [x0 - 20, bt]]) +
+      zPath('drzwi', drzwiD) +
+      zPoly('progi', [[fx + dx, sill], [rx - dx, sill], [rx - dx, by + 10], [fx + dx, by + 10]]) +
+      zPoly('blotniki-tyl', [[xdrT, -10], [x1 + 20, -10], [x1 + 20, btR], [rx + R + 8, btR], [rx + dx + 2, by + 10], [xdrB, by + 10]].concat(luk.slice().reverse())) +
+      zPoly('klapa', [[rb[0], -10], [x1 + 20, -10], [x1 + 20, de[1] + 24], [rb[0] + 8, rb[1] + 24]]) +
+      zPoly('zderzak-tyl', [[x1 + 20, btR], [rx + R + 8, btR], [rx + dx + 2, by + 10], [x1 + 20, by + 10]]) +
+      zPath('dach', dach, 'zs', 18) +
+      zPath('slupki', 'M' + (cw[0] + 4) + ' ' + (cw[1] + 2) + ' L' + (wt[0] + 2) + ' ' + (wt[1] + 4) + ' L' + (wt[0] + 76) + ' ' + (wt[1] - 2), 'zs', 20) +
+    '</g>' +
+    '<g class="linia">' +
+      '<path d="M' + xdfT + ' ' + belt + ' L' + xdfB + ' ' + sill + '"/><path d="M' + xb + ' ' + belt + ' L' + xb + ' ' + sill + '"/>' +
+      (P.drzwi === 2 ? '<path d="M' + lukD.slice(1) + '"/>' : '') +
+      '<path d="M' + (fx + dx + 4) + ' ' + sill + ' L' + (rx - dx - 4) + ' ' + sill + '"/>' +
+      '<path d="M' + (x0 + 1) + ' ' + bt + ' L' + (fx - R - 8) + ' ' + bt + ' L' + (fx - dx - 2) + ' ' + by + '"/>' +
+      '<path d="M' + (x1 - 1) + ' ' + btR + ' L' + (rx + R + 8) + ' ' + btR + ' L' + (rx + dx + 2) + ' ' + by + '"/>' +
+      '<path d="M' + (cw[0] + 8) + ' ' + (cw[1] + 16) + ' L' + (x0 + 96) + ' ' + (hf[1] + 8) + '"/>' +
+      '<path d="M' + (cw[0] + 30) + ' ' + belt + ' L' + (rb[0] - 20) + ' ' + belt + '"/>' +
+    '</g>' +
+    '<polygon class="szklo" points="' + pp(szklo) + '"/>' +
+    '<g clip-path="url(#cg)">' + slupki.map(x => '<rect x="' + (x - 7) + '" y="0" width="14" height="' + belt + '" fill="' + barwa + '"/><rect x="' + (x - 7) + '" y="0" width="14" height="' + belt + '" fill="#000" opacity=".25"/>').join('') + '</g>' +
+    '<g clip-path="url(#cb)"><polygon points="' + pp(lampaP) + '" fill="#e9edf2" opacity=".85"/><polygon points="' + pp(lampaT) + '" fill="#a31a1a" opacity=".9"/></g>' +
+    '<path d="' + body + '" class="obrys"/>' +
+    kolo(fx) + kolo(rx) +
+    '<path d="' + lusterko + '" fill="' + barwa + '" stroke="var(--obrys)" stroke-width="1.2"/><path d="' + lusterko + '" fill="#000" opacity=".3"/>' +
+    kl.map(k => '<rect x="' + k[0] + '" y="' + k[1] + '" width="46" height="9" rx="4" fill="#000" opacity=".45" stroke="var(--kreska)"/>').join('') +
+    '<g clip-path="url(#cb)">' + zPoly('reflektory', lampaP) + zPath('prog-bagaznika', 'M' + (x1 - 60) + ' ' + btR + ' L' + (x1 + 4) + ' ' + btR, 'zs', 12) + '</g>' +
+    zPath('lusterka', lusterko) +
+    zPath('klamki', kl.map(k => 'M' + (k[0] - 9) + ' ' + (k[1] - 9) + ' h64 v27 h-64 Z').join(' ')) +
+    zPath('krawedzie', 'M' + (xb - 4) + ' ' + (belt + 4) + ' L' + (xb - 4) + ' ' + (sill - 2) + (P.drzwi === 2 ? ' M' + luk.slice(1, 8).map(p => (p[0] - 5).toFixed(1) + ' ' + p[1].toFixed(1)).join(' L') : ''), 'zs', 8);
+}
+
+function rysGora(P, barwa) {
+  const { x0, x1, cw, wt, re, w, xdfT, xdrT, xb } = P, cy = 150;
+  const rb = Math.min(P.rb[0], x1 - 104);
+  const Y = (s, v) => cy + s * v;   // s = -1 gorna krawedz rysunku, s = 1 dolna
+  const body = 'M' + (x0 + 64) + ' ' + (cy - w) + ' C' + (x0 + 18) + ' ' + (cy - w) + ' ' + x0 + ' ' + (cy - w * .62) + ' ' + x0 + ' ' + cy +
+    ' C' + x0 + ' ' + (cy + w * .62) + ' ' + (x0 + 18) + ' ' + (cy + w) + ' ' + (x0 + 64) + ' ' + (cy + w) +
+    ' L' + (x1 - 56) + ' ' + (cy + w) + ' C' + (x1 - 12) + ' ' + (cy + w) + ' ' + x1 + ' ' + (cy + w * .7) + ' ' + x1 + ' ' + cy +
+    ' C' + x1 + ' ' + (cy - w * .7) + ' ' + (x1 - 12) + ' ' + (cy - w) + ' ' + (x1 - 56) + ' ' + (cy - w) + ' Z';
+  const zdP = 'M' + (x0 - 20) + ' ' + (cy - w - 20) + ' L' + (x0 + 78) + ' ' + (cy - w - 20) + ' L' + (x0 + 78) + ' ' + (cy - w) + ' Q' + (x0 + 8) + ' ' + cy + ' ' + (x0 + 78) + ' ' + (cy + w) + ' L' + (x0 + 78) + ' ' + (cy + w + 20) + ' L' + (x0 - 20) + ' ' + (cy + w + 20) + ' Z';
+  const zdT = 'M' + (x1 + 20) + ' ' + (cy - w - 20) + ' L' + (x1 - 70) + ' ' + (cy - w - 20) + ' L' + (x1 - 70) + ' ' + (cy - w) + ' Q' + (x1 - 6) + ' ' + cy + ' ' + (x1 - 70) + ' ' + (cy + w) + ' L' + (x1 - 70) + ' ' + (cy + w + 20) + ' L' + (x1 + 20) + ' ' + (cy + w + 20) + ' Z';
+  const maska = 'M' + (x0 + 70) + ' ' + (cy - (w - 36)) + ' L' + cw[0] + ' ' + (cy - (w - 26)) + ' Q' + (cw[0] - 16) + ' ' + cy + ' ' + cw[0] + ' ' + (cy + (w - 26)) + ' L' + (x0 + 70) + ' ' + (cy + (w - 36)) + ' Q' + (x0 + 22) + ' ' + cy + ' ' + (x0 + 70) + ' ' + (cy - (w - 36)) + ' Z';
+  const pas = 'M' + (x0 + 78) + ' ' + (cy - w - 20) + ' L' + (x0 + 164) + ' ' + (cy - w - 20) + ' L' + (x0 + 164) + ' ' + (cy + w + 20) + ' L' + (x0 + 78) + ' ' + (cy + w + 20) + ' L' + (x0 + 78) + ' ' + (cy + w) + ' Q' + (x0 + 8) + ' ' + cy + ' ' + (x0 + 78) + ' ' + (cy - w) + ' Z';
+  const szybaP = 'M' + (cw[0] + 4) + ' ' + (cy - (w - 28)) + ' L' + (wt[0] + 6) + ' ' + (cy - (w - 40)) + ' L' + (wt[0] + 6) + ' ' + (cy + (w - 40)) + ' L' + (cw[0] + 4) + ' ' + (cy + (w - 28)) + ' Q' + (cw[0] - 12) + ' ' + cy + ' ' + (cw[0] + 4) + ' ' + (cy - (w - 28)) + ' Z';
+  const szybaT = 'M' + (re[0] + 4) + ' ' + (cy - (w - 40)) + ' L' + rb + ' ' + (cy - (w - 30)) + ' Q' + (rb + 14) + ' ' + cy + ' ' + rb + ' ' + (cy + (w - 30)) + ' L' + (re[0] + 4) + ' ' + (cy + (w - 40)) + ' Z';
+  const dach = 'M' + (wt[0] + 10) + ' ' + (cy - (w - 40)) + ' L' + re[0] + ' ' + (cy - (w - 40)) + ' L' + re[0] + ' ' + (cy + (w - 40)) + ' L' + (wt[0] + 10) + ' ' + (cy + (w - 40)) + ' Z';
+  const klapa = 'M' + (rb + 8) + ' ' + (cy - (w - 30)) + ' L' + (x1 - 88) + ' ' + (cy - (w - 38)) + ' Q' + (x1 - 74) + ' ' + cy + ' ' + (x1 - 88) + ' ' + (cy + (w - 38)) + ' L' + (rb + 8) + ' ' + (cy + (w - 30)) + ' Q' + (rb + 22) + ' ' + cy + ' ' + (rb + 8) + ' ' + (cy - (w - 30)) + ' Z';
+  const prog = 'M' + (x1 - 86) + ' ' + (cy - (w - 44)) + ' L' + (x1 - 66) + ' ' + (cy - (w - 44)) + ' Q' + (x1 - 40) + ' ' + cy + ' ' + (x1 - 66) + ' ' + (cy + (w - 44)) + ' L' + (x1 - 86) + ' ' + (cy + (w - 44)) + ' Q' + (x1 - 72) + ' ' + cy + ' ' + (x1 - 86) + ' ' + (cy - (w - 44)) + ' Z';
+  const obie = f => f(-1) + f(1);
+  const blotP = s => [[x0 + 78, Y(s, w + 20)], [xdfT, Y(s, w + 20)], [xdfT, Y(s, w - 24)], [cw[0], Y(s, w - 26)], [x0 + 70, Y(s, w - 36)], [x0 + 78, Y(s, w)]];
+  const drzwi = s => [[xdfT, Y(s, w + 20)], [xdrT, Y(s, w + 20)], [xdrT, Y(s, w - 20)], [xdfT, Y(s, w - 20)]];
+  const blotT = s => [[xdrT, Y(s, w + 20)], [x1 - 70, Y(s, w + 20)], [x1 - 70, Y(s, w)], [x1 - 84, Y(s, w - 36)], [rb, Y(s, w - 28)], [xdrT, Y(s, w - 20)]];
+  const bok = s => [[cw[0] + 26, Y(s, w - 26)], [wt[0] + 10, Y(s, w - 38)], [re[0], Y(s, w - 38)], [rb - 12, Y(s, w - 28)], [rb - 22, Y(s, w - 19)], [cw[0] + 30, Y(s, w - 18)]];
+  const lampaP = s => [[x0 + 16, Y(s, w - 30)], [x0 + 58, Y(s, w - 3)], [x0 + 96, Y(s, w - 6)], [x0 + 70, Y(s, w - 36)]];
+  const lampaT = s => [[x1 - 12, Y(s, w - 34)], [x1 - 50, Y(s, w - 3)], [x1 - 84, Y(s, w - 6)], [x1 - 64, Y(s, w - 36)]];
+  const lust = s => 'M' + (cw[0] + 18) + ' ' + Y(s, w - 4) + ' L' + (cw[0] + 26) + ' ' + Y(s, w + 20) + ' L' + (cw[0] + 54) + ' ' + Y(s, w + 22) + ' L' + (cw[0] + 52) + ' ' + Y(s, w - 4) + ' Z';
+  const klX = [xb - 58].concat(P.drzwi === 2 ? [xdrT - 78] : []);
+  const klRect = (s, x, pad) => { const y0 = s < 0 ? cy - w + 3 - pad : cy + w - 11 - pad; return 'M' + (x - pad) + ' ' + y0 + ' h' + (40 + 2 * pad) + ' v' + (8 + 2 * pad) + ' h-' + (40 + 2 * pad) + ' Z'; };
+  const ciecia = [xdfT, xb].concat(P.drzwi === 2 ? [xdrT] : []);
+
+  return '<defs><clipPath id="ct"><path d="' + body + '"/></clipPath>' +
+    '<linearGradient id="gt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".3"/><stop offset=".3" stop-color="#fff" stop-opacity=".1"/><stop offset=".5" stop-color="#fff" stop-opacity=".16"/><stop offset=".7" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient></defs>' +
+    obie(s => '<path d="' + lust(s) + '" fill="' + barwa + '" stroke="var(--obrys)" stroke-width="1.2"/><path d="' + lust(s) + '" fill="#000" opacity=".3"/>') +
+    '<path d="' + body + '" fill="' + barwa + '"/><path d="' + body + '" fill="url(#gt)"/>' +
+    '<g clip-path="url(#ct)">' +
+      zPath('zderzak-przod', zdP) + zPath('maska', maska) + obie(s => zPoly('blotniki-przod', blotP(s))) + zPath('pas-przedni', pas) +
+      obie(s => zPoly('drzwi', drzwi(s))) + obie(s => zPoly('blotniki-tyl', blotT(s))) +
+      zPath('dach', dach) + zPath('klapa', klapa) + zPath('zderzak-tyl', zdT) +
+    '</g>' +
+    '<g class="linia" clip-path="url(#ct)">' +
+      '<path d="M' + (x0 + 78) + ' ' + (cy - w) + ' Q' + (x0 + 8) + ' ' + cy + ' ' + (x0 + 78) + ' ' + (cy + w) + '"/>' +
+      '<path d="M' + (x1 - 70) + ' ' + (cy - w) + ' Q' + (x1 - 6) + ' ' + cy + ' ' + (x1 - 70) + ' ' + (cy + w) + '"/>' +
+      '<path d="' + maska + '"/><path d="' + dach + '"/><path d="' + klapa + '"/>' +
+      obie(s => ciecia.map(x => '<path d="M' + x + ' ' + Y(s, w + 2) + ' L' + x + ' ' + Y(s, w - 20) + '"/>').join('')) +
+      obie(s => '<path d="M' + xdfT + ' ' + Y(s, w - 20) + ' L' + xdrT + ' ' + Y(s, w - 20) + '"/>') +
+    '</g>' +
+    '<path class="szklo" d="' + szybaP + '"/><path class="szklo" d="' + szybaT + '"/>' +
+    obie(s => '<polygon class="szklo" points="' + pp(bok(s)) + '"/>') +
+    '<g clip-path="url(#ct)">' + obie(s => '<polygon points="' + pp(lampaP(s)) + '" fill="#e9edf2" opacity=".85"/><polygon points="' + pp(lampaT(s)) + '" fill="#a31a1a" opacity=".9"/>') + '</g>' +
+    '<path d="' + body + '" class="obrys"/>' +
+    obie(s => klX.map(x => '<path d="' + klRect(s, x, 0) + '" fill="#000" opacity=".45"/>').join('')) +
+    '<g clip-path="url(#ct)">' + obie(s => zPoly('reflektory', lampaP(s))) + zPath('prog-bagaznika', prog) + '</g>' +
+    obie(s => zPath('lusterka', lust(s))) +
+    zPath('slupki', obie(s => 'M' + (cw[0] + 6) + ' ' + Y(s, w - 27) + ' L' + (wt[0] + 8) + ' ' + Y(s, w - 39) + ' ') + 'M' + (wt[0] + 12) + ' ' + (cy - (w - 39)) + ' L' + (wt[0] + 12) + ' ' + (cy + (w - 39)), 'zs', 11) +
+    zPath('klamki', obie(s => klX.map(x => klRect(s, x, 7)).join(' ') + ' ')) +
+    zPath('krawedzie', obie(s => [xb].concat(P.drzwi === 2 ? [xdrT] : []).map(x => 'M' + (x - 4) + ' ' + Y(s, w - 1) + ' L' + (x - 4) + ' ' + Y(s, w - 19) + ' ').join('')), 'zs', 8);
+}
+
+const HATCH = '<pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(28)"><rect width="9" height="9" style="fill:var(--zone)" opacity=".78"/><rect width="4" height="9" style="fill:var(--zone)"/></pattern>';
+const jasnosc = hex => { const n = parseInt(hex.slice(1), 16); return (.2126 * (n >> 16 & 255) + .7152 * (n >> 8 & 255) + .0722 * (n & 255)) / 255; };
+const odleglosc = (a, b) => { const x = parseInt(a.slice(1), 16), y = parseInt(b.slice(1), 16); return Math.hypot((x >> 16 & 255) - (y >> 16 & 255), (x >> 8 & 255) - (y >> 8 & 255), (x & 255) - (y & 255)); };
+
+function rysuj() {
+  const P = wymiary(TYPY[S.nadwozie]), barwa = CFG.kolory.find(k => k.id === S.kolor).hex;
+  const jasny = jasnosc(barwa) > .45, rys = $('.rys');
+  rys.style.setProperty('--kreska', jasny ? 'rgba(0,0,0,.42)' : 'rgba(255,255,255,.3)');
+  rys.style.setProperty('--obrys', jasny ? 'rgba(0,0,0,.35)' : 'rgba(255,255,255,.42)');
+  // folia w kolorze akcentu musi byc widoczna na lakierze: przy zblizonym kolorze auta zmieniamy ja na kontrastowa
+  rys.style.setProperty('--zone', odleglosc(barwa, CFG.akcent) < 120 ? (jasny ? '#0a0a0b' : '#ece8e1') : CFG.akcent);
+  $('#svg-bok').innerHTML = '<defs>' + HATCH + '</defs>' + rysBok(P, barwa);
+  $('#svg-gora').innerHTML = rysGora(P, barwa);
+  zaznacz();
+}
+
+function zaznacz() {
+  const pod = S.podglad ? new Set(CFG.pakiety.find(p => p.id === S.podglad).strefy) : null;
+  $$('.z').forEach(el => {
+    const id = el.dataset.z;
+    el.classList.toggle('on', S.strefy.has(id));
+    el.classList.toggle('pod', !!pod && pod.has(id) && !S.strefy.has(id));
+  });
+}
+
+// LISTY: pakiety, strefy, dodatki
+function listy() {
+  const kolejny = /^Tak/.test(LEAD.plany || '') ? CFG.kolejny_krok : '';
+  $('#pakiety').innerHTML = CFG.pakiety.map(p =>
+    '<label class="pk"><input type="radio" name="pakiet" value="' + p.id + '"><span><b>' + esc(p.nazwa) + '</b><small>' + esc(p.etykieta) + ' / ' + esc(p.czas) + '</small><span class="cena" data-cena-pakietu="' + p.id + '"></span>' +
+    (pakietZFormularza && p.id === pakietZFormularza.id ? '<span class="znak">Twój wybór z formularza</span>' : p.id === kolejny ? '<span class="znak">Twój plan na ten rok</span>' : '') + '</span></label>').join('');
+  $('#strefy').innerHTML = CFG.strefy.map(s =>
+    '<label class="poz" data-poz="' + s.id + '"><input type="checkbox" value="' + s.id + '"><span>' + esc(s.nazwa) + '<small>' + esc(s.opis) + '</small></span><span class="c" data-cena-strefy="' + s.id + '"></span></label>').join('');
+  const polecane = d => (d.polecane_dla_rocznika || []).includes(LEAD.rocznik);
+  $('#dodatki').innerHTML = CFG.dodatki.map((d, i) =>
+    '<label class="poz"' + (i === 0 ? ' style="border-top:0;padding-top:0"' : '') + '><input type="checkbox" value="' + d.id + '"><span>' + esc(d.nazwa) + (polecane(d) ? '<span class="pol">Polecane dla rocznika</span>' : '') + '<small>' + esc(d.opis) + '</small></span><span class="c" data-cena-dodatku="' + d.id + '"></span></label>').join('');
+  $('#nadwozia').innerHTML = CFG.nadwozia.map(n => '<button type="button" data-n="' + n.id + '">' + esc(n.nazwa) + '</button>').join('');
+  $('#kolory').innerHTML = CFG.kolory.map(k => '<button type="button" data-k="' + k.id + '" style="--c:' + k.hex + '" title="' + esc(k.nazwa) + '" aria-label="' + esc(k.nazwa) + '"></button>').join('');
+}
+
+function odswiez() {
+  const w = wycena();
+  $$('[data-cena-pakietu]').forEach(el => el.textContent = zl(cena(CFG.pakiety.find(p => p.id === el.dataset.cenaPakietu).cena)));
+  $$('[data-cena-strefy]').forEach(el => {
+    const s = strefa(el.dataset.cenaStrefy), gratis = S.strefy.has(s.id) && wCenie(s);
+    el.textContent = gratis ? 'w cenie' : zl(cena(s.cena));
+    el.closest('.poz').classList.toggle('w-cenie', gratis);
+  });
+  $$('[data-cena-dodatku]').forEach(el => { const d = CFG.dodatki.find(x => x.id === el.dataset.cenaDodatku); el.textContent = (d.od ? 'od ' : '') + zl(d.staly ? d.cena : cena(d.cena)); });
+  $$('#pakiety input').forEach(i => i.checked = !!w.p && i.value === w.p.id);
+  $$('#strefy input').forEach(i => i.checked = S.strefy.has(i.value));
+  $$('#dodatki input').forEach(i => i.checked = S.dodatki.has(i.value));
+  $$('#nadwozia button').forEach(b => b.setAttribute('aria-pressed', b.dataset.n === S.nadwozie));
+  $$('#kolory button').forEach(b => b.setAttribute('aria-pressed', b.dataset.k === S.kolor));
+
+  const nazwa = w.p ? 'Pakiet ' + w.p.nazwa : S.strefy.size ? 'Własny zakres' : 'Wybierz zakres';
+  $('#s-nazwa').textContent = nazwa;
+  const wiersze = [];
+  if (S.strefy.size) wiersze.push(['Folia PPF: ' + S.strefy.size + ' ' + (S.strefy.size === 1 ? 'strefa' : S.strefy.size < 5 ? 'strefy' : 'stref'), zl(w.folia)]);
+  w.dod.forEach(x => wiersze.push([x.d.nazwa, (x.d.od ? 'od ' : '') + zl(x.kwota)]));
+  if (w.czas) wiersze.push(['Czas w studiu', w.czas]);
+  $('#s-lista').innerHTML = wiersze.map(r => '<li><span>' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span></li>').join('');
+  $('#s-razem').textContent = zl(w.razem);
+  const o = $('#s-oszcz');
+  o.hidden = !(w.oszcz >= 100);
+  if (w.oszcz >= 100) o.textContent = 'W pakiecie taniej o ' + zl(w.oszcz) + ' niż strefy osobno';
+  $('#p-nazwa').textContent = nazwa;
+  $('#p-razem').textContent = zl(w.razem);
+
+  const podp = $('#podp');
+  const kolejny = /^Tak/.test(LEAD.plany || '') ? CFG.pakiety.find(p => p.id === CFG.kolejny_krok) : null;
+  if (w.lepszy) {
+    podp.hidden = false;
+    podp.innerHTML = '<span><b>Pakiet ' + esc(w.lepszy.nazwa) + '</b> obejmuje Twój wybór' + (w.lepszy.strefy.length > S.strefy.size ? ' i ' + (w.lepszy.strefy.length - S.strefy.size) + ' więcej' : '') +
+      ' za ' + zl(cena(w.lepszy.cena)) + '. Strefy osobno to ' + zl(w.osobno) + '.</span><button type="button" class="link" data-wez="' + w.lepszy.id + '">Wybierz pakiet ' + esc(w.lepszy.nazwa) + '</button>';
+  } else if (kolejny && w.p && w.p.cena < kolejny.cena) {
+    podp.hidden = false;
+    podp.innerHTML = '<span><b>Kolejny krok: ' + esc(kolejny.nazwa) + ', ' + zl(cena(kolejny.cena)) + '.</b> ' + esc(CFG.teksty.plany[LEAD.plany] || '') + '</span>' +
+      '<button type="button" class="link" data-pokaz="' + kolejny.id + '">' + (S.podglad === kolejny.id ? 'Ukryj na rysunku' : 'Pokaż na rysunku') + '</button>';
+  } else podp.hidden = true;
+
+  const tw = $('#t-wybrane');
+  tw.innerHTML = '<b>' + esc(nazwa) + '</b> dla ' + esc(LEAD.auto) + ', orientacyjnie ' + zl(w.razem) + (w.czas ? '. Czas w studiu: ' + esc(w.czas) + '.' : '.');
+  zaznacz();
+  return w;
+}
+
+let zapowiedz;
+function zmiana(opis) {
+  const w = odswiez();
+  clearTimeout(zapowiedz);   // seria klikniec = jedno zdarzenie
+  zapowiedz = setTimeout(() => Z('zakres', opis + ': ' + $('#s-nazwa').textContent + ', ' + zl(w.razem)), 700);
+}
+
+function przelacz(id) {
+  if (S.strefy.has(id)) S.strefy.delete(id); else S.strefy.add(id);
+  S.podglad = null;
+  zmiana('Zmiana zakresu');
+}
+
+// NAGLOWEK
+function naglowek() {
+  const T = CFG.teksty, pod = t => t.replace('{imie}', LEAD.imie || '').replace('{auto}', LEAD.auto).replace(/^,\s*/, '');
+  $('#h-tytul').innerHTML = akcent(pod(T.naglowek));
+  $('#h-lead').textContent = pod(T.lead);
+  const d = LEAD.kiedy ? new Date(LEAD.kiedy) : new Date();
+  const od = isNaN(d) ? new Date() : d, doKiedy = new Date(od.getTime() + CFG.waznosc_dni * 864e5);
+  const dd = x => x.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  $('#h-meta').innerHTML = [LEAD.rocznik ? 'Rocznik ' + esc(LEAD.rocznik) : '', 'Ważna do ' + dd(doKiedy)].filter(Boolean).map(x => '<span>' + x + '</span>').join('<span>/</span>');
+  $('#s-wazna').textContent = 'Oferta ważna do ' + dd(doKiedy) + '.';
+  $('#h-przyklad').hidden = !(LEAD.przyklad && CFG.probka);
+  const powody = [];
+  if (T.rocznik[LEAD.rocznik]) powody.push(['Rocznik ' + LEAD.rocznik, T.rocznik[LEAD.rocznik]]);
+  if (T.plany[LEAD.plany]) powody.push(['Twoje plany', T.plany[LEAD.plany]]);
+  $('#h-powody').innerHTML = powody.map(p => '<div><b>' + esc(p[0]) + '</b>' + esc(p[1]) + '</div>').join('');
+  document.title = 'Oferta dla ' + LEAD.auto + ' - ' + CFG.studio;
+  const dl = $('#spod-dane');
+  if (dl) dl.innerHTML = [['Osoba', LEAD.imie], ['Auto', LEAD.auto], ['Rocznik', LEAD.rocznik], ['Formularz', LEAD.zakres], ['Plany', LEAD.plany], ['Termin', LEAD.termin]]
+    .filter(r => r[1]).map(r => '<dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd>').join('');
+}
+
+// TERMIN
+function termin() {
+  const start = (CFG.termin.dni_naprzod || {})[LEAD.termin] || 3, dni = [], d = new Date();
+  d.setDate(d.getDate() + start);
+  while (dni.length < 8) { if (d.getDay() !== 0 && d.getDay() !== 6) dni.push(new Date(d)); d.setDate(d.getDate() + 1); }
+  const dzien = x => x.toLocaleDateString('pl-PL', { weekday: 'long' }), data = x => x.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long' }), krotko = x => x.toLocaleDateString('pl-PL', { day: 'numeric', month: 'short' });
+  $('#t-dni').innerHTML = dni.map(x => '<label class="opt"><input type="radio" name="dzien" value="' + esc(dzien(x) + ', ' + data(x)) + '"><span><em>' + esc(dzien(x)) + '</em><b>' + esc(krotko(x)) + '</b></span></label>').join('');
+  $('#t-pory').innerHTML = CFG.termin.pory.map(p => '<label class="opt"><input type="radio" name="pora" value="' + esc(p) + '"><span>' + esc(p) + '</span></label>').join('');
+  $('#tf').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = new FormData(e.target), dz = f.get('dzien'), po = f.get('pora');
+    if (!dz) return $('#t-err').textContent = 'Wybierz dzień.';
+    if (!po) return $('#t-err').textContent = 'Wybierz porę przyjazdu.';
+    const w = wycena();
+    Z('termin', 'Prośba o termin: ' + dz + ', ' + po.toLowerCase() + '. ' + $('#s-nazwa').textContent + ', ' + zl(w.razem));
+    $('#t-tytul').textContent = 'Dziękujemy' + (LEAD.imie ? ', ' + LEAD.imie : '') + '. Zadzwonimy, żeby potwierdzić termin.';
+    $('#t-tekst').textContent = dz + ', ' + po.toLowerCase() + '. ' + $('#s-nazwa').textContent + ' dla ' + LEAD.auto + ', orientacyjnie ' + zl(w.razem) + '.';
+    e.target.hidden = true;
+    const r = $('#t-wynik'); r.hidden = false; r.focus();
+  });
+  $('#tf').addEventListener('change', () => $('#t-err').textContent = '');
+}
+
+// WIZUALIZACJA ZE ZDJECIA: serwer z kluczem fal.ai = wgrywanie, bez serwera = przyklad
+async function wizualizacja() {
+  const W = CFG.wizualizacja, sek = $('#wizualizacja');
+  let aktywna = false;
+  if (location.protocol.startsWith('http')) {
+    try { const r = await fetch(W.stan, { cache: 'no-store' }); aktywna = r.ok && (await r.json()).aktywna === true; } catch (e) { /* strona statyczna */ }
+  }
+  const demo = W.demo && W.demo.przed ? W.demo : null;
+  if (!aktywna && !demo) { $$('[data-wiz]').forEach(a => a.hidden = true); return; }
+  sek.hidden = false;
+  const efekty = aktywna ? W.efekty : W.efekty.filter(e => demo.po[e.id]);
+  let efekt = efekty[0].id, zdjecie = demo && !aktywna ? demo.przed : null, gotowe = {};
+  $('#w-efekty').innerHTML = efekty.map((e, i) => '<label class="opt"><input type="radio" name="efekt" value="' + e.id + '"' + (i === 0 ? ' checked' : '') + '><span>' + esc(e.nazwa) + '</span></label>').join('');
+  const obraz = $('#w-obraz'), stan = $('#w-stan');
+  const pokaz = (przed, po) => {
+    $('#w-pusto').hidden = true;
+    const zd = $('#w-przed');
+    zd.onload = () => { obraz.style.aspectRatio = String(Math.max(.8, Math.min(1.78, zd.naturalWidth / zd.naturalHeight))); };
+    zd.src = przed; zd.hidden = false;
+    ['#w-po', '#w-kreska', '#w-et-l', '#w-et-r', '#w-suwak'].forEach(s => $(s).hidden = !po);
+    if (po) $('#w-po').src = po;
+  };
+  $('#w-suwak').addEventListener('input', e => obraz.style.setProperty('--p', e.target.value + '%'));
+
+  if (!aktywna) {
+    $('#w-lead').textContent = 'Przykład na aucie ze zdjęć studia' + (demo.auto ? ' (' + demo.auto + ')' : '') + '. W działającej wersji każda osoba wgrywa zdjęcie swojego auta i po kilkunastu sekundach widzi je w studiu.';
+    $('#w-et-l').textContent = 'Zdjęcie';
+    pokaz(demo.przed, demo.po[efekt]);
+    $('#w-efekty').addEventListener('change', e => { efekt = e.target.value; pokaz(demo.przed, demo.po[efekt]); Z('wizualizacja', 'Obejrzany przykład wizualizacji: ' + efekty.find(x => x.id === efekt).nazwa); });
+    return;
+  }
+
+  $('#w-drop').hidden = false; $('#w-start').hidden = false;
+  const zmniejsz = plik => new Promise((ok, zle) => {
+    const im = new Image(), url = URL.createObjectURL(plik);
+    im.onload = () => {
+      const s = Math.min(1, 1536 / Math.max(im.naturalWidth, im.naturalHeight));
+      const c = document.createElement('canvas');
+      c.width = Math.round(im.naturalWidth * s); c.height = Math.round(im.naturalHeight * s);
+      c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      ok(c.toDataURL('image/jpeg', .86));
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); zle(new Error('Nie udało się odczytać zdjęcia.')); };
+    im.src = url;
+  });
+  const wez = async plik => {
+    if (!plik) return;
+    stan.className = 'wstan';
+    if (!/^image\/(jpeg|png|webp)$/.test(plik.type)) { stan.className = 'wstan blad'; stan.textContent = 'Wybierz plik JPG, PNG albo WEBP.'; return; }
+    try { zdjecie = await zmniejsz(plik); } catch (e) { stan.className = 'wstan blad'; stan.textContent = e.message; return; }
+    gotowe = {};
+    pokaz(zdjecie, null);
+    $('#w-drop-t').textContent = 'Zmień zdjęcie';
+    $('#w-start').disabled = false;
+    stan.textContent = 'Zdjęcie gotowe. Wybierz efekt i kliknij przycisk.';
+  };
+  $('#w-plik').addEventListener('change', e => wez(e.target.files[0]));
+  const drop = $('#w-drop');
+  ['dragenter', 'dragover'].forEach(n => drop.addEventListener(n, e => { e.preventDefault(); drop.classList.add('nad'); }));
+  ['dragleave', 'drop'].forEach(n => drop.addEventListener(n, e => { e.preventDefault(); drop.classList.remove('nad'); }));
+  drop.addEventListener('drop', e => wez(e.dataTransfer.files[0]));
+  $('#w-efekty').addEventListener('change', e => { efekt = e.target.value; if (zdjecie) pokaz(zdjecie, gotowe[efekt] || null); });
+  $('#w-start').addEventListener('click', async () => {
+    if (!zdjecie) return;
+    if (gotowe[efekt]) return pokaz(zdjecie, gotowe[efekt]);
+    const btn = $('#w-start'), wybrany = efekt, t0 = Date.now();
+    btn.disabled = true; obraz.classList.add('czeka'); stan.className = 'wstan';
+    const licznik = setInterval(() => stan.textContent = 'Przygotowuję wizualizację, zwykle 10-15 sekund. Minęło: ' + Math.round((Date.now() - t0) / 1000) + ' s', 500);
+    try {
+      const r = await fetch(W.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: CFG.slug, efekt: wybrany, obraz: zdjecie }) });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.blad || 'Błąd serwera.');
+      await new Promise((ok, zle) => { const im = new Image(); im.onload = ok; im.onerror = () => zle(new Error('Nie udało się pobrać wizualizacji.')); im.src = j.url; });
+      gotowe[wybrany] = j.url;
+      if (efekt === wybrany) pokaz(zdjecie, j.url);
+      stan.textContent = 'Gotowe. Przesuń suwak, żeby porównać.';
+      Z('wizualizacja', 'Wygenerowana wizualizacja ze zdjęcia: ' + efekty.find(x => x.id === wybrany).nazwa);
+    } catch (e) {
+      stan.className = 'wstan blad';
+      stan.textContent = 'Nie udało się przygotować wizualizacji. ' + e.message;
+    } finally {
+      clearInterval(licznik); obraz.classList.remove('czeka'); btn.disabled = false;
+    }
+  });
+}
+
+// START
+listy();
+naglowek();
+rysuj();
+odswiez();
+termin();
+wizualizacja();
+Z('otwarcie', 'Oferta otwarta' + (LEAD.imie ? ': ' + LEAD.imie + ', ' + LEAD.auto : ''));
+
+$('#pakiety').addEventListener('change', e => {
+  S.strefy = new Set(CFG.pakiety.find(p => p.id === e.target.value).strefy);
+  S.podglad = null;
+  zmiana('Wybrany pakiet');
+});
+$('#strefy').addEventListener('change', e => przelacz(e.target.value));
+$('#dodatki').addEventListener('change', e => {
+  const d = CFG.dodatki.find(x => x.id === e.target.value);
+  if (e.target.checked) {
+    if (d.grupa) CFG.dodatki.filter(x => x.grupa === d.grupa).forEach(x => S.dodatki.delete(x.id));   // jedna powloka naraz
+    S.dodatki.add(d.id);
+  } else S.dodatki.delete(d.id);
+  zmiana('Zmiana dodatków');
+});
+$('#nadwozia').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.nadwozie = b.dataset.n; rysuj(); zmiana('Nadwozie ' + b.textContent); });
+$('#kolory').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.kolor = b.dataset.k; rysuj(); odswiez(); });
+$('#podp').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.wez) { S.strefy = new Set(CFG.pakiety.find(p => p.id === b.dataset.wez).strefy); S.podglad = null; zmiana('Wybrany pakiet'); }
+  if (b.dataset.pokaz) { S.podglad = S.podglad === b.dataset.pokaz ? null : b.dataset.pokaz; odswiez(); if (S.podglad) Z('podglad', 'Podgląd kolejnego kroku na rysunku'); }
+});
+
+// rysunek: klikniecie strefy, podpowiedz przy kursorze, podswietlenie tej samej strefy w obu widokach
+(() => {
+  const rys = $('.rys'), tip = $('#tip');
+  rys.addEventListener('click', e => { const z = e.target.closest('.z'); if (z) { przelacz(z.dataset.z); $('#dop-strefy').open = true; } });
+  rys.addEventListener('pointermove', e => {
+    const z = e.target.closest('.z');
+    $$('.z.hov').forEach(el => el.classList.remove('hov'));
+    if (!z || e.pointerType === 'touch') return tip.classList.remove('on');
+    const s = strefa(z.dataset.z), r = rys.getBoundingClientRect();
+    $$('.z[data-z="' + s.id + '"]').forEach(el => el.classList.add('hov'));
+    tip.innerHTML = '<b>' + esc(s.nazwa) + '</b><span>' + (S.strefy.has(s.id) ? 'w zakresie, kliknij, żeby usunąć' : 'dodaj: ' + zl(cena(s.cena))) + '</span>';
+    tip.style.left = Math.max(120, Math.min(r.width - 120, e.clientX - r.left)) + 'px';
+    tip.style.top = (e.clientY - r.top) + 'px';
+    tip.classList.add('on');
+  });
+  rys.addEventListener('pointerleave', () => { tip.classList.remove('on'); $$('.z.hov').forEach(el => el.classList.remove('hov')); });
+})();
+
+// podglad dla studia: zwijanie
+(() => {
+  const s = $('#spod'); if (!s) return;
+  const ustaw = z => { s.dataset.zwiniety = z; $('#spod-btn').setAttribute('aria-expanded', !z); $('#spod-znak').textContent = z ? 'rozwiń' : 'zwiń'; };
+  $('#spod-btn').addEventListener('click', () => ustaw(s.dataset.zwiniety !== 'true'));
+})();
+
+$$('[data-zd]').forEach(a => a.addEventListener('click', () => Z(a.dataset.zd, 'Kliknięty numer telefonu')));
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
+$$('.reveal').forEach(el => io.observe(el));
+{% endraw %}
+</script>
+</body>
+</html>

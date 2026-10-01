@@ -1,0 +1,2286 @@
+{
+  "id": "detailing",
+  "nazwa": "Studia detailingu",
+  "klient_koncowy": "właściciel auta",
+  "zasada_oferty": "Landing zawsze sprzedaje jedną ofertę wejściową: niski próg ceny, szybka decyzja, realny kontakt ze studiem. Usługi premium (ceramika, pełne PPF, zmiana koloru) sprzedaje studio przy odbiorze auta, nie reklama.",
+  "uslugi_slownik": [
+    {
+      "id": "ppf",
+      "nazwa": "Folia PPF",
+      "skrot": "PPF",
+      "typ": "premium",
+      "slowa": [
+        "ppf",
+        "folia ochronna",
+        "folia bezbarwna",
+        "full body",
+        "full front"
+      ],
+      "cena_rynek": "4 900 - 20 000 zł"
+    },
+    {
+      "id": "ceramika",
+      "nazwa": "Powłoka ceramiczna",
+      "skrot": "Ceramika",
+      "typ": "premium",
+      "slowa": [
+        "ceramik",
+        "powłok",
+        "powlok",
+        "coating",
+        "kwarc"
+      ],
+      "cena_rynek": "1 500 - 5 000 zł"
+    },
+    {
+      "id": "zmiana-koloru",
+      "nazwa": "Zmiana koloru",
+      "skrot": "Kolor",
+      "typ": "premium",
+      "slowa": [
+        "zmiana koloru",
+        "oklejanie",
+        "oklej",
+        "wrap",
+        "folia kolor"
+      ],
+      "cena_rynek": "6 000 - 15 000 zł"
+    },
+    {
+      "id": "korekta",
+      "nazwa": "Korekta lakieru",
+      "skrot": "Poler",
+      "typ": "srednia",
+      "slowa": [
+        "korekta",
+        "polerowanie",
+        "renowacja lakieru",
+        "50/50",
+        "hologram"
+      ],
+      "cena_rynek": "900 - 3 500 zł"
+    },
+    {
+      "id": "dechroming",
+      "nazwa": "Dechroming",
+      "skrot": "Chrom",
+      "typ": "srednia",
+      "slowa": [
+        "dechrom",
+        "chrome delete",
+        "czarne listwy"
+      ],
+      "cena_rynek": "600 - 2 000 zł"
+    },
+    {
+      "id": "przyciemnianie",
+      "nazwa": "Przyciemnianie szyb i lamp",
+      "skrot": "Smoke",
+      "typ": "srednia",
+      "slowa": [
+        "przyciemnianie",
+        "smoke",
+        "folie na szyby",
+        "tint"
+      ],
+      "cena_rynek": "400 - 1 500 zł"
+    },
+    {
+      "id": "skory",
+      "nazwa": "Renowacja skór",
+      "skrot": "Skóry",
+      "typ": "srednia",
+      "slowa": [
+        "skór",
+        "skor",
+        "tapicerk skórzan",
+        "renowacja foteli"
+      ],
+      "cena_rynek": "500 - 2 500 zł"
+    },
+    {
+      "id": "wygluszanie",
+      "nazwa": "Wygłuszanie",
+      "skrot": "Cisza",
+      "typ": "srednia",
+      "slowa": [
+        "wygłusz",
+        "wyglusz",
+        "maty"
+      ],
+      "cena_rynek": "1 500 - 6 000 zł"
+    },
+    {
+      "id": "zaciski",
+      "nazwa": "Malowanie zacisków",
+      "skrot": "Zaciski",
+      "typ": "srednia",
+      "slowa": [
+        "zacisk"
+      ],
+      "cena_rynek": "500 - 1 500 zł"
+    },
+    {
+      "id": "wnetrze",
+      "nazwa": "Detailing wnętrza",
+      "skrot": "Wnętrze",
+      "typ": "wejsciowa",
+      "slowa": [
+        "wnętrz",
+        "wnetrz",
+        "pranie",
+        "tapicerk",
+        "ozonowanie"
+      ],
+      "cena_rynek": "300 - 1 200 zł"
+    },
+    {
+      "id": "mycie",
+      "nazwa": "Mycie detailingowe",
+      "skrot": "Mycie",
+      "typ": "wejsciowa",
+      "slowa": [
+        "mycie",
+        "dekontaminacja",
+        "wosk",
+        "quick detailer",
+        "qd",
+        "pielęgnacja"
+      ],
+      "cena_rynek": "200 - 800 zł"
+    },
+    {
+      "id": "reflektory",
+      "nazwa": "Renowacja reflektorów",
+      "skrot": "Lampy",
+      "typ": "wejsciowa",
+      "slowa": [
+        "reflektor",
+        "lamp"
+      ],
+      "cena_rynek": "200 - 600 zł"
+    },
+    {
+      "id": "szyby",
+      "nazwa": "Powłoka na szyby",
+      "skrot": "Szyby",
+      "typ": "wejsciowa",
+      "slowa": [
+        "niewidzialna wycieraczka",
+        "powłoka na szyby",
+        "hydrofob"
+      ],
+      "cena_rynek": "150 - 400 zł"
+    }
+  ],
+  "oferty_wejsciowe": [
+    {
+      "id": "ppf-strefy",
+      "nazwa": "Folia PPF na strefy narażone",
+      "krotko": "Folia na reflektory, wnęki klamek, próg bagażnika i lusterka zamiast całego auta.",
+      "dla_uslug": [
+        "ppf",
+        "zmiana-koloru",
+        "przyciemnianie"
+      ],
+      "prowadzi_do": [
+        "ppf",
+        "ceramika",
+        "korekta"
+      ],
+      "dlaczego": "Klient wchodzi w PPF za kilkaset złotych zamiast kilkunastu tysięcy. Widzi jakość aplikacji na własnym aucie, a przy odbiorze studio naturalnie proponuje rozszerzenie na cały przód.",
+      "cena_od": 390,
+      "cena_tekst": "od 390 zł",
+      "czas": "1 dzień",
+      "tresc": {
+        "title": "Folia PPF na strefy narażone - {nazwa}, {miasto}",
+        "opis_meta": "Folia ochronna PPF na reflektory, wnęki klamek, próg bagażnika i lusterka. {miasto}. Rezerwacja terminu po krótkim formularzu.",
+        "eyebrow": "Folia ochronna PPF / {miasto}",
+        "nav_cta": "Zarezerwuj termin",
+        "menu": [
+          [
+            "Zakres",
+            "#pakiety"
+          ],
+          [
+            "Proces",
+            "#proces"
+          ],
+          [
+            "Pytania",
+            "#pytania"
+          ]
+        ],
+        "sceny": [
+          {
+            "naglowek": "Zabezpiecz to, co *niszczy się pierwsze*",
+            "tekst": "Reflektory, wnęki klamek, próg bagażnika, lusterka. Folia PPF na strefy, które zbierają najwięcej. W jeden dzień, {cena_tekst}.",
+            "cta": [
+              "Zarezerwuj termin",
+              "Zobacz zakres"
+            ]
+          },
+          {
+            "naglowek": "Rysy zaczynają się *od drobiazgów*",
+            "tekst": "Paznokcie przy klamce, walizka na progu bagażnika, żwir na reflektorze. Po dwóch latach widać to z kilku metrów.",
+            "podpis": "Strefy narażone"
+          },
+          {
+            "naglowek": "Folia wycinana *pod Twój model*",
+            "tekst": "Każdy element tniemy z szablonu dla konkretnego auta. Nie docinamy nożem po lakierze.",
+            "podpis": "Cięcie z szablonu"
+          },
+          {
+            "naglowek": "Niewidoczna, *dopóki nie jest potrzebna*",
+            "tekst": "Bezbarwna folia z krawędziami zawiniętymi za element. Na aucie widać lakier, nie folię.",
+            "podpis": "Aplikacja"
+          },
+          {
+            "naglowek": "Kamień trafia w folię, *nie w lakier*",
+            "tekst": "Drobne rysy na powierzchni folii znikają pod wpływem ciepła. Reflektor za kilka tysięcy zostaje nietknięty.",
+            "podpis": "Ochrona w trasie"
+          },
+          {
+            "naglowek": "Rano zostawiasz, *po południu odbierasz*",
+            "tekst": "Odpowiedz na kilka pytań. Oddzwonimy z terminem i dokładną ceną dla Twojego auta.",
+            "cta": [
+              "Zarezerwuj termin"
+            ]
+          }
+        ],
+        "realizacje": {
+          "etykieta": "Realizacje",
+          "naglowek": "Auta, które *wyjechały* ze studia",
+          "lead": "Zdjęcia z naszego studia. Przesuń, żeby zobaczyć kolejne."
+        },
+        "pakiety": {
+          "etykieta": "Zakres",
+          "naglowek": "Trzy zakresy *na start*",
+          "lead": "Wybierasz strefy, które chcesz zabezpieczyć. Każdy zakres robimy w jeden dzień.",
+          "lista": [
+            {
+              "nazwa": "Klamki i krawędzie",
+              "etykieta": "Najmniejszy zakres",
+              "punkty": [
+                "Wnęki czterech klamek",
+                "Krawędzie drzwi",
+                "Ochrona przed rysami od paznokci i kluczy"
+              ],
+              "cena": "390 zł"
+            },
+            {
+              "nazwa": "Strefy narażone",
+              "etykieta": "Najczęściej wybierany",
+              "punkty": [
+                "Reflektory przednie",
+                "Wnęki klamek i krawędzie drzwi",
+                "Próg bagażnika i lusterka"
+              ],
+              "cena": "890 zł",
+              "wyrozniony": true
+            },
+            {
+              "nazwa": "Pas przedni",
+              "etykieta": "Na trasy",
+              "punkty": [
+                "Pas maski i błotników",
+                "Reflektory i lusterka",
+                "Wnęki klamek"
+              ],
+              "cena": "1 900 zł"
+            }
+          ],
+          "uwaga": "Ceny orientacyjne. Dokładną cenę podajemy po poznaniu modelu auta."
+        },
+        "proces": {
+          "etykieta": "Proces",
+          "naglowek": "Co dzieje się *z autem*",
+          "lead": "Zostawiasz samochód rano. W ciągu dnia przechodzi cztery etapy.",
+          "kroki": [
+            {
+              "czas": "Rano",
+              "tytul": "Mycie i oględziny",
+              "tekst": "Myjemy auto i sprawdzamy lakier w miejscach, na które trafi folia.",
+              "kadr": 2
+            },
+            {
+              "czas": "Przed południem",
+              "tytul": "Cięcie z szablonu",
+              "tekst": "Wycinamy elementy folii dopasowane do modelu auta.",
+              "kadr": 3
+            },
+            {
+              "czas": "W południe",
+              "tytul": "Aplikacja",
+              "tekst": "Kładziemy folię i zawijamy krawędzie za elementy.",
+              "kadr": 4
+            },
+            {
+              "czas": "Odbiór",
+              "tytul": "Odbiór i instrukcja pielęgnacji",
+              "tekst": "Pokazujemy efekt i tłumaczymy, jak myć auto z folią.",
+              "kadr": 6
+            }
+          ]
+        },
+        "dowod": {
+          "naglowek": "Średnia ocen w Google *z {liczba_opinii} opinii*",
+          "lead": "Najlepszą rekomendacją są auta, które wyjechały ze studia. Opinie klientów przeczytasz bezpośrednio w Google.",
+          "naglowek_bez_ocen": "Sprawdź nas *po realizacjach*",
+          "lead_bez_ocen": "Każde auto z naszego studia trafia na Instagram. Zobacz, jak pracujemy, zanim zostawisz samochód."
+        },
+        "formularz": {
+          "etykieta": "Rezerwacja",
+          "naglowek": "Termin w *pięciu pytaniach*",
+          "lead": "Zajmie to około minuty. Oddzwonimy z terminem i dokładną ceną dla Twojego auta.",
+          "korzysci": [
+            [
+              "Znamy auto przed rozmową",
+              "Model i rocznik pozwalają od razu podać dokładną cenę."
+            ],
+            [
+              "Szablon gotowy na Twój przyjazd",
+              "Folię przygotowujemy wcześniej, dlatego auto odbierasz tego samego dnia."
+            ],
+            [
+              "Oddzwaniamy w kolejności terminów",
+              "Najpierw osoby, które chcą zabezpieczyć auto w tym miesiącu."
+            ]
+          ],
+          "kroki": [
+            {
+              "nazwa": "Auto",
+              "pytanie": "Jakie auto chcesz zabezpieczyć?",
+              "podpowiedz": "Marka i model wystarczą. Rocznik pomaga ocenić stan lakieru.",
+              "pola": [
+                {
+                  "typ": "tekst",
+                  "id": "auto",
+                  "etykieta": "Marka i model",
+                  "przyklad": "np. BMW M340i",
+                  "min": 3,
+                  "blad": "Wpisz markę i model auta."
+                },
+                {
+                  "typ": "lista",
+                  "id": "rocznik",
+                  "etykieta": "Rocznik",
+                  "blad": "Wybierz rocznik.",
+                  "opcje": [
+                    [
+                      "2024 lub nowsze",
+                      2
+                    ],
+                    [
+                      "2020-2023",
+                      1
+                    ],
+                    [
+                      "2019 lub starsze",
+                      0
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Zakres",
+              "pytanie": "Który zakres Cię interesuje?",
+              "podpowiedz": "Jeśli nie masz pewności, doradzimy przez telefon.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "zakres",
+                  "etykieta": "Zakres",
+                  "blad": "Wybierz zakres albo opcję doradztwa.",
+                  "opcje": [
+                    [
+                      "Klamki i krawędzie",
+                      1,
+                      "390 zł"
+                    ],
+                    [
+                      "Strefy narażone",
+                      2,
+                      "890 zł"
+                    ],
+                    [
+                      "Pas przedni",
+                      3,
+                      "1 900 zł"
+                    ],
+                    [
+                      "Potrzebuję doradztwa",
+                      1
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Plany",
+              "pytanie": "Czy myślisz o ochronie całego auta?",
+              "podpowiedz": "To pomaga nam zaplanować pracę tak, żeby nie robić niczego dwa razy.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "plany",
+                  "etykieta": "Plany",
+                  "blad": "Wybierz jedną odpowiedź.",
+                  "opcje": [
+                    [
+                      "Tak, jeszcze w tym roku",
+                      3
+                    ],
+                    [
+                      "Może później",
+                      1
+                    ],
+                    [
+                      "Nie, wystarczą mi strefy",
+                      0
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Termin",
+              "pytanie": "Kiedy chcesz to zrobić?",
+              "podpowiedz": "Terminy w studiu rezerwujemy z wyprzedzeniem.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "termin",
+                  "etykieta": "Termin",
+                  "blad": "Wybierz termin.",
+                  "opcje": [
+                    [
+                      "W tym miesiącu",
+                      3
+                    ],
+                    [
+                      "W ciągu trzech miesięcy",
+                      2
+                    ],
+                    [
+                      "Na razie się rozglądam",
+                      0
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "prog_priorytetu": 7,
+          "dzialania": {
+            "priorytet": "Oddzwonić w ciągu 2 godzin, zaproponować rozszerzenie zakresu",
+            "standard": "Oddzwonić w ciągu 24 godzin"
+          }
+        },
+        "faq": [
+          [
+            "Czy folię widać na aucie?",
+            "Dobrze położona folia bezbarwna jest praktycznie niewidoczna. Krawędzie zawijamy za elementy karoserii."
+          ],
+          [
+            "Czy folię można zdjąć?",
+            "Tak. Folia PPF jest zabezpieczeniem zdejmowalnym. Po jej usunięciu lakier pod spodem jest w takim stanie, w jakim został zabezpieczony."
+          ],
+          [
+            "Czy później mogę dołożyć kolejne elementy?",
+            "Tak. Strefy to dobry początek. Kolejne elementy dokładamy bez zdejmowania tego, co już jest na aucie."
+          ],
+          [
+            "Ile to trwa?",
+            "Każdy z trzech zakresów robimy w jeden dzień. Auto zostawiasz rano i odbierasz po południu."
+          ]
+        ],
+        "zamkniecie": {
+          "naglowek": "Umów termin",
+          "cta": "Zarezerwuj termin"
+        },
+        "stopka_opis": "Folia PPF, korekta i ochrona lakieru."
+      },
+      "storyboard": [
+        {
+          "plik": "01-hero",
+          "tytul": "Auto w studiu",
+          "prompt": "Cinematic wide shot of a {auto} parked inside a dark premium detailing studio, polished concrete floor, long LED light tubes reflecting on glossy paint, car positioned on the right side of the frame, empty dark space on the left for text, subtle {akcent} accent light on the wall, photorealistic, 35mm, shallow depth of field",
+          "ruch": "powolny najazd kamery na przedni reflektor"
+        },
+        {
+          "plik": "02-problem",
+          "tytul": "Rysy we wnęce klamki",
+          "prompt": "Extreme close-up of the same car door handle recess under a detailing inspection lamp, fine fingernail scratches and swirl marks clearly visible on the glossy paint, dark studio background, photorealistic macro",
+          "ruch": "lampa przesuwa się po lakierze"
+        },
+        {
+          "plik": "03-ciecie",
+          "tytul": "Folia wycinana z szablonu",
+          "prompt": "Clear paint protection film sheets precisely pre-cut by a plotter lying on a clean work table next to the same car in a dark detailing studio, cut shapes of headlight and door handle pieces, soft overhead light, photorealistic",
+          "ruch": "kamera przesuwa się nad stołem w stronę auta"
+        },
+        {
+          "plik": "04-aplikacja",
+          "tytul": "Aplikacja na reflektor",
+          "prompt": "Close-up of gloved hands applying a transparent paint protection film onto the headlight of the same car with a squeegee, water droplets under the film, dark studio, dramatic side light, photorealistic",
+          "ruch": "rakla przesuwa się po folii"
+        },
+        {
+          "plik": "05-ochrona",
+          "tytul": "Żwir i woda",
+          "prompt": "Slow motion shot of small gravel stones and water spray bouncing off the front headlight and bumper of the same car on a road at dusk, protective film intact, dramatic backlight, photorealistic",
+          "ruch": "zwolnione tempo, kamienie odbijają się"
+        },
+        {
+          "plik": "06-final",
+          "tytul": "Wyjazd ze studia",
+          "prompt": "The same car driving out of the dark detailing studio through an open garage door into bright daylight, car on the left side of the frame, empty space on the right for text, glossy reflections, cinematic, photorealistic",
+          "ruch": "auto wyjeżdża w światło"
+        }
+      ],
+      "fraza": {
+        "mianownik": "folia PPF",
+        "biernik": "folię PPF"
+      }
+    },
+    {
+      "id": "przeglad-lakieru",
+      "nazwa": "Przegląd lakieru pod lampą",
+      "krotko": "Oględziny pod lampą inspekcyjną, pomiar grubości lakieru i pole testowe korekty.",
+      "dla_uslug": [
+        "korekta",
+        "ceramika",
+        "ppf"
+      ],
+      "prowadzi_do": [
+        "korekta",
+        "ceramika",
+        "ppf"
+      ],
+      "dlaczego": "Najniższy próg wejścia w całej ofercie. Klient przyjeżdża do studia, widzi swój lakier pod lampą i efekt na polu testowym. To rozmowa sprzedażowa, za którą klient płaci.",
+      "cena_od": 149,
+      "cena_tekst": "od 149 zł",
+      "czas": "45 minut",
+      "tresc": {
+        "title": "Przegląd lakieru pod lampą - {nazwa}, {miasto}",
+        "opis_meta": "Oględziny lakieru pod lampą inspekcyjną z pomiarem grubości. {miasto}. Sprawdź stan lakieru, zanim wydasz pieniądze na ochronę.",
+        "eyebrow": "Przegląd lakieru / {miasto}",
+        "nav_cta": "Umów przegląd",
+        "menu": [
+          [
+            "Zakres",
+            "#pakiety"
+          ],
+          [
+            "Proces",
+            "#proces"
+          ],
+          [
+            "Pytania",
+            "#pytania"
+          ]
+        ],
+        "sceny": [
+          {
+            "naglowek": "Zobacz swój lakier *pod lampą*",
+            "tekst": "45 minut w studiu. Oględziny element po elemencie, pomiar grubości lakieru i uczciwa odpowiedź, czego auto naprawdę potrzebuje. {cena_tekst}.",
+            "cta": [
+              "Umów przegląd",
+              "Zobacz zakres"
+            ]
+          },
+          {
+            "naglowek": "W słońcu widać *połowę prawdy*",
+            "tekst": "Hologramy po myjni, mikrorysy, ślady po polerowaniu u poprzedniego właściciela. Lampa inspekcyjna pokazuje wszystko.",
+            "podpis": "Oględziny pod lampą"
+          },
+          {
+            "naglowek": "Miernik mówi, *ile lakieru zostało*",
+            "tekst": "Mierzymy grubość na każdym elemencie. Wiesz, co było lakierowane i ile można bezpiecznie skorygować.",
+            "podpis": "Pomiar grubości"
+          },
+          {
+            "naglowek": "Pole testowe *na Twoim aucie*",
+            "tekst": "Na jednym fragmencie robimy korektę. Widzisz efekt przed decyzją, nie na zdjęciu cudzego samochodu.",
+            "podpis": "Pole testowe 50/50"
+          },
+          {
+            "naglowek": "Wychodzisz *z planem*",
+            "tekst": "Dostajesz listę: co warto zrobić teraz, co może poczekać i ile to kosztuje. Bez zobowiązań.",
+            "podpis": "Raport"
+          },
+          {
+            "naglowek": "45 minut, które *oszczędzają tysiące*",
+            "tekst": "Odpowiedz na kilka pytań. Oddzwonimy z terminem przeglądu.",
+            "cta": [
+              "Umów przegląd"
+            ]
+          }
+        ],
+        "realizacje": {
+          "etykieta": "Realizacje",
+          "naglowek": "Auta, które *wyjechały* ze studia",
+          "lead": "Zdjęcia z naszego studia. Przesuń, żeby zobaczyć kolejne."
+        },
+        "pakiety": {
+          "etykieta": "Zakres",
+          "naglowek": "Trzy rodzaje *przeglądu*",
+          "lead": "Koszt przeglądu odliczamy od ceny usługi, jeśli zdecydujesz się na nią w ciągu 30 dni.",
+          "lista": [
+            {
+              "nazwa": "Przegląd",
+              "etykieta": "45 minut",
+              "punkty": [
+                "Oględziny pod lampą inspekcyjną",
+                "Pomiar grubości lakieru",
+                "Lista zaleceń"
+              ],
+              "cena": "149 zł"
+            },
+            {
+              "nazwa": "Przegląd z polem testowym",
+              "etykieta": "Najczęściej wybierany",
+              "punkty": [
+                "Wszystko z przeglądu",
+                "Korekta na jednym fragmencie",
+                "Zdjęcia przed i po"
+              ],
+              "cena": "290 zł",
+              "wyrozniony": true
+            },
+            {
+              "nazwa": "Przegląd przed zakupem",
+              "etykieta": "Dla kupujących auto",
+              "punkty": [
+                "Pomiar grubości każdego elementu",
+                "Ocena napraw lakierniczych",
+                "Raport ze zdjęciami"
+              ],
+              "cena": "390 zł"
+            }
+          ],
+          "uwaga": "Ceny orientacyjne. Koszt przeglądu odliczamy od ceny usługi wykonanej w ciągu 30 dni."
+        },
+        "proces": {
+          "etykieta": "Proces",
+          "naglowek": "Jak wygląda *przegląd*",
+          "lead": "Przyjeżdżasz na umówioną godzinę i jesteś przy aucie przez cały czas.",
+          "kroki": [
+            {
+              "czas": "10 minut",
+              "tytul": "Mycie fragmentów",
+              "tekst": "Oczyszczamy elementy, które będziemy oglądać.",
+              "kadr": 1
+            },
+            {
+              "czas": "15 minut",
+              "tytul": "Oględziny pod lampą",
+              "tekst": "Sprawdzamy lakier element po elemencie i pokazujemy, co widzimy.",
+              "kadr": 2
+            },
+            {
+              "czas": "10 minut",
+              "tytul": "Pomiar grubości",
+              "tekst": "Mierzymy lakier miernikiem i zapisujemy wyniki.",
+              "kadr": 3
+            },
+            {
+              "czas": "10 minut",
+              "tytul": "Omówienie i lista zaleceń",
+              "tekst": "Tłumaczymy wyniki i mówimy, co warto zrobić, a co może poczekać.",
+              "kadr": 5
+            }
+          ]
+        },
+        "dowod": {
+          "naglowek": "Średnia ocen w Google *z {liczba_opinii} opinii*",
+          "lead": "Najlepszą rekomendacją są auta, które wyjechały ze studia. Opinie klientów przeczytasz bezpośrednio w Google.",
+          "naglowek_bez_ocen": "Sprawdź nas *po realizacjach*",
+          "lead_bez_ocen": "Każde auto z naszego studia trafia na Instagram. Zobacz, jak pracujemy, zanim przyjedziesz."
+        },
+        "formularz": {
+          "etykieta": "Rezerwacja",
+          "naglowek": "Termin w *pięciu pytaniach*",
+          "lead": "Zajmie to około minuty. Oddzwonimy z terminem przeglądu.",
+          "korzysci": [
+            [
+              "Znamy auto przed wizytą",
+              "Model, rocznik i kolor mówią nam, na co zwrócić uwagę."
+            ],
+            [
+              "Bez zobowiązań",
+              "Po przeglądzie dostajesz listę zaleceń. Decyzję podejmujesz we własnym tempie."
+            ],
+            [
+              "Koszt wraca",
+              "Cenę przeglądu odliczamy od usługi wykonanej w ciągu 30 dni."
+            ]
+          ],
+          "kroki": [
+            {
+              "nazwa": "Auto",
+              "pytanie": "Jakie auto przyjedzie na przegląd?",
+              "podpowiedz": "Marka i model wystarczą. Rocznik pomaga ocenić stan lakieru.",
+              "pola": [
+                {
+                  "typ": "tekst",
+                  "id": "auto",
+                  "etykieta": "Marka i model",
+                  "przyklad": "np. Audi A5",
+                  "min": 3,
+                  "blad": "Wpisz markę i model auta."
+                },
+                {
+                  "typ": "lista",
+                  "id": "rocznik",
+                  "etykieta": "Rocznik",
+                  "blad": "Wybierz rocznik.",
+                  "opcje": [
+                    [
+                      "2024 lub nowsze",
+                      2
+                    ],
+                    [
+                      "2020-2023",
+                      2
+                    ],
+                    [
+                      "2019 lub starsze",
+                      1
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Zakres",
+              "pytanie": "Który przegląd Cię interesuje?",
+              "podpowiedz": "Pole testowe pokazuje efekt korekty na Twoim lakierze.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "zakres",
+                  "etykieta": "Zakres",
+                  "blad": "Wybierz rodzaj przeglądu.",
+                  "opcje": [
+                    [
+                      "Przegląd",
+                      1,
+                      "149 zł"
+                    ],
+                    [
+                      "Przegląd z polem testowym",
+                      3,
+                      "290 zł"
+                    ],
+                    [
+                      "Przegląd przed zakupem",
+                      1,
+                      "390 zł"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Cel",
+              "pytanie": "Co chcesz osiągnąć?",
+              "podpowiedz": "Dzięki temu przygotujemy się do rozmowy.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "cel",
+                  "etykieta": "Cel",
+                  "blad": "Wybierz jedną odpowiedź.",
+                  "opcje": [
+                    [
+                      "Chcę zabezpieczyć lakier na lata",
+                      3
+                    ],
+                    [
+                      "Chcę usunąć rysy i hologramy",
+                      2
+                    ],
+                    [
+                      "Chcę wiedzieć, w jakim stanie jest lakier",
+                      1
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Termin",
+              "pytanie": "Kiedy możesz przyjechać?",
+              "podpowiedz": "Przegląd trwa 45 minut.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "termin",
+                  "etykieta": "Termin",
+                  "blad": "Wybierz termin.",
+                  "opcje": [
+                    [
+                      "W tym tygodniu",
+                      3
+                    ],
+                    [
+                      "W tym miesiącu",
+                      2
+                    ],
+                    [
+                      "Na razie się rozglądam",
+                      0
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "prog_priorytetu": 8,
+          "dzialania": {
+            "priorytet": "Oddzwonić w ciągu 2 godzin, przygotować wycenę ochrony lakieru",
+            "standard": "Oddzwonić w ciągu 24 godzin"
+          }
+        },
+        "faq": [
+          [
+            "Czy muszę potem coś kupić?",
+            "Nie. Po przeglądzie dostajesz listę zaleceń i decyzję podejmujesz we własnym tempie."
+          ],
+          [
+            "Czy auto musi być umyte?",
+            "Nie musi. Fragmenty do oględzin oczyszczamy na miejscu."
+          ],
+          [
+            "Czy pomiar grubości uszkadza lakier?",
+            "Nie. Miernik przykładamy do powierzchni, pomiar jest bezinwazyjny."
+          ],
+          [
+            "Czy koszt przeglądu przepada?",
+            "Nie. Odliczamy go od ceny usługi wykonanej w ciągu 30 dni."
+          ]
+        ],
+        "zamkniecie": {
+          "naglowek": "Umów przegląd",
+          "cta": "Umów przegląd"
+        },
+        "stopka_opis": "Korekta lakieru, powłoki ochronne i folia PPF."
+      },
+      "storyboard": [
+        {
+          "plik": "01-hero",
+          "tytul": "Auto w studiu",
+          "prompt": "Cinematic wide shot of a {auto} parked inside a dark premium detailing studio, polished concrete floor, long LED light tubes reflecting on glossy dark paint, car positioned on the right side of the frame, empty dark space on the left for text, subtle {akcent} accent light on the wall, photorealistic, 35mm",
+          "ruch": "powolny najazd kamery na maskę"
+        },
+        {
+          "plik": "02-lampa",
+          "tytul": "Lakier pod lampą",
+          "prompt": "Close-up of the hood of the same car under a handheld detailing inspection lamp, swirl marks and holograms clearly visible in the light spot on dark glossy paint, dark studio, photorealistic macro",
+          "ruch": "lampa przesuwa się po lakierze"
+        },
+        {
+          "plik": "03-miernik",
+          "tytul": "Pomiar grubości",
+          "prompt": "Close-up of a gloved hand holding a digital paint thickness gauge against the fender of the same car, display showing a number, dark studio, soft side light, photorealistic",
+          "ruch": "miernik przykładany do kolejnych punktów"
+        },
+        {
+          "plik": "04-pole-testowe",
+          "tytul": "Pole testowe 50/50",
+          "prompt": "Hood of the same car with a masking tape line dividing it in two halves, left half dull with swirl marks, right half perfectly polished mirror gloss reflecting studio lights, dark studio, photorealistic",
+          "ruch": "granica przesuwa się, mat znika"
+        },
+        {
+          "plik": "05-raport",
+          "tytul": "Omówienie",
+          "prompt": "A detailer in black workwear showing a tablet with a car inspection report next to the same car in a dark detailing studio, face not visible, focus on the tablet and the glossy paint behind, photorealistic",
+          "ruch": "kamera odjeżdża od tabletu na całe auto"
+        },
+        {
+          "plik": "06-final",
+          "tytul": "Wyjazd ze studia",
+          "prompt": "The same car driving out of the dark detailing studio through an open garage door into bright daylight, car on the left side of the frame, empty space on the right for text, glossy reflections, cinematic, photorealistic",
+          "ruch": "auto wyjeżdża w światło"
+        }
+      ],
+      "fraza": {
+        "mianownik": "przegląd lakieru",
+        "biernik": "przegląd lakieru"
+      }
+    },
+    {
+      "id": "odswiezenie-lakieru",
+      "nazwa": "Mycie detailingowe z ochroną lakieru",
+      "krotko": "Mycie ręczne, dekontaminacja i ochrona lakieru na trzy miesiące.",
+      "dla_uslug": [
+        "mycie",
+        "ceramika",
+        "korekta"
+      ],
+      "prowadzi_do": [
+        "korekta",
+        "ceramika"
+      ],
+      "dlaczego": "Usługa powtarzalna i zrozumiała dla każdego. Po pierwszym myciu klient widzi różnicę względem myjni, a studio ma pretekst do rozmowy o korekcie i powłoce.",
+      "cena_od": 290,
+      "cena_tekst": "od 290 zł",
+      "czas": "3-5 godzin",
+      "tresc": {
+        "title": "Mycie detailingowe z ochroną lakieru - {nazwa}, {miasto}",
+        "opis_meta": "Ręczne mycie detailingowe, dekontaminacja i ochrona lakieru na trzy miesiące. {miasto}. Rezerwacja terminu po krótkim formularzu.",
+        "eyebrow": "Mycie detailingowe / {miasto}",
+        "nav_cta": "Zarezerwuj termin",
+        "menu": [
+          [
+            "Zakres",
+            "#pakiety"
+          ],
+          [
+            "Proces",
+            "#proces"
+          ],
+          [
+            "Pytania",
+            "#pytania"
+          ]
+        ],
+        "sceny": [
+          {
+            "naglowek": "Auto czyste *jak w dniu odbioru*",
+            "tekst": "Ręczne mycie, dekontaminacja i ochrona lakieru na trzy miesiące. Bez szczotek, bez rys. {cena_tekst}.",
+            "cta": [
+              "Zarezerwuj termin",
+              "Zobacz zakres"
+            ]
+          },
+          {
+            "naglowek": "Myjnia zostawia *ślad po każdej wizycie*",
+            "tekst": "Szczotki i brudne gąbki rysują lakier. Po roku widać to w każdym świetle.",
+            "podpis": "Hologramy po myjni"
+          },
+          {
+            "naglowek": "Piana, dwa wiadra, *osobne rękawice*",
+            "tekst": "Brud zdejmujemy z lakieru, zamiast go po nim rozcierać.",
+            "podpis": "Mycie ręczne"
+          },
+          {
+            "naglowek": "Lakier gładki *jak szkło*",
+            "tekst": "Usuwamy smołę, lotną rdzę i osady, których nie zmywa szampon.",
+            "podpis": "Dekontaminacja"
+          },
+          {
+            "naglowek": "Woda *ucieka z lakieru*",
+            "tekst": "Warstwa ochronna trzyma około trzech miesięcy. Auto brudzi się wolniej i myje się szybciej.",
+            "podpis": "Ochrona lakieru"
+          },
+          {
+            "naglowek": "Zostawiasz rano, *odbierasz po pracy*",
+            "tekst": "Odpowiedz na kilka pytań. Oddzwonimy z terminem.",
+            "cta": [
+              "Zarezerwuj termin"
+            ]
+          }
+        ],
+        "realizacje": {
+          "etykieta": "Realizacje",
+          "naglowek": "Auta, które *wyjechały* ze studia",
+          "lead": "Zdjęcia z naszego studia. Przesuń, żeby zobaczyć kolejne."
+        },
+        "pakiety": {
+          "etykieta": "Zakres",
+          "naglowek": "Trzy zakresy *mycia*",
+          "lead": "Każdy zakres zaczyna się od bezpiecznego mycia ręcznego.",
+          "lista": [
+            {
+              "nazwa": "Mycie detailingowe",
+              "etykieta": "Podstawa",
+              "punkty": [
+                "Piana aktywna i mycie ręczne",
+                "Felgi, nadkola, wnęki drzwi",
+                "Osuszanie bez dotykania lakieru"
+              ],
+              "cena": "290 zł"
+            },
+            {
+              "nazwa": "Mycie z ochroną",
+              "etykieta": "Najczęściej wybierany",
+              "punkty": [
+                "Wszystko z mycia detailingowego",
+                "Dekontaminacja lakieru",
+                "Ochrona lakieru na trzy miesiące"
+              ],
+              "cena": "490 zł",
+              "wyrozniony": true
+            },
+            {
+              "nazwa": "Mycie z ochroną i wnętrzem",
+              "etykieta": "Komplet",
+              "punkty": [
+                "Wszystko z mycia z ochroną",
+                "Odkurzanie i czyszczenie wnętrza",
+                "Szyby od środka i z zewnątrz"
+              ],
+              "cena": "790 zł"
+            }
+          ],
+          "uwaga": "Ceny orientacyjne dla auta osobowego. Dokładną cenę podajemy po poznaniu modelu."
+        },
+        "proces": {
+          "etykieta": "Proces",
+          "naglowek": "Co dzieje się *z autem*",
+          "lead": "Zostawiasz samochód na kilka godzin. W tym czasie przechodzi cztery etapy.",
+          "kroki": [
+            {
+              "czas": "Etap 1",
+              "tytul": "Mycie wstępne i piana",
+              "tekst": "Zmiękczamy i spłukujemy brud, zanim dotkniemy lakieru.",
+              "kadr": 3
+            },
+            {
+              "czas": "Etap 2",
+              "tytul": "Mycie ręczne",
+              "tekst": "Dwa wiadra i osobne rękawice na górę i dół auta.",
+              "kadr": 2
+            },
+            {
+              "czas": "Etap 3",
+              "tytul": "Dekontaminacja",
+              "tekst": "Usuwamy smołę, lotną rdzę i osady.",
+              "kadr": 4
+            },
+            {
+              "czas": "Etap 4",
+              "tytul": "Ochrona i odbiór",
+              "tekst": "Nakładamy warstwę ochronną i pokazujemy efekt.",
+              "kadr": 6
+            }
+          ]
+        },
+        "dowod": {
+          "naglowek": "Średnia ocen w Google *z {liczba_opinii} opinii*",
+          "lead": "Najlepszą rekomendacją są auta, które wyjechały ze studia. Opinie klientów przeczytasz bezpośrednio w Google.",
+          "naglowek_bez_ocen": "Sprawdź nas *po realizacjach*",
+          "lead_bez_ocen": "Każde auto z naszego studia trafia na Instagram. Zobacz, jak pracujemy, zanim zostawisz samochód."
+        },
+        "formularz": {
+          "etykieta": "Rezerwacja",
+          "naglowek": "Termin w *pięciu pytaniach*",
+          "lead": "Zajmie to około minuty. Oddzwonimy z terminem i dokładną ceną.",
+          "korzysci": [
+            [
+              "Znamy auto przed wizytą",
+              "Rozmiar i kolor auta decydują o czasie pracy."
+            ],
+            [
+              "Stała pora odbioru",
+              "Umawiamy godzinę, o której auto będzie gotowe."
+            ],
+            [
+              "Oddzwaniamy w kolejności terminów",
+              "Najpierw osoby, które chcą przyjechać w tym miesiącu."
+            ]
+          ],
+          "kroki": [
+            {
+              "nazwa": "Auto",
+              "pytanie": "Jakie auto do nas przyjedzie?",
+              "podpowiedz": "Marka i model wystarczą.",
+              "pola": [
+                {
+                  "typ": "tekst",
+                  "id": "auto",
+                  "etykieta": "Marka i model",
+                  "przyklad": "np. Volvo XC60",
+                  "min": 3,
+                  "blad": "Wpisz markę i model auta."
+                },
+                {
+                  "typ": "lista",
+                  "id": "rocznik",
+                  "etykieta": "Rocznik",
+                  "blad": "Wybierz rocznik.",
+                  "opcje": [
+                    [
+                      "2024 lub nowsze",
+                      2
+                    ],
+                    [
+                      "2020-2023",
+                      1
+                    ],
+                    [
+                      "2019 lub starsze",
+                      0
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Zakres",
+              "pytanie": "Który zakres Cię interesuje?",
+              "podpowiedz": "Jeśli nie masz pewności, doradzimy przez telefon.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "zakres",
+                  "etykieta": "Zakres",
+                  "blad": "Wybierz zakres.",
+                  "opcje": [
+                    [
+                      "Mycie detailingowe",
+                      1,
+                      "290 zł"
+                    ],
+                    [
+                      "Mycie z ochroną",
+                      2,
+                      "490 zł"
+                    ],
+                    [
+                      "Mycie z ochroną i wnętrzem",
+                      3,
+                      "790 zł"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Lakier",
+              "pytanie": "Jak oceniasz stan lakieru?",
+              "podpowiedz": "Podpowiemy, czy samo mycie wystarczy.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "lakier",
+                  "etykieta": "Stan lakieru",
+                  "blad": "Wybierz jedną odpowiedź.",
+                  "opcje": [
+                    [
+                      "Widzę rysy i hologramy, chcę je usunąć",
+                      3
+                    ],
+                    [
+                      "Jest matowy, stracił głębię",
+                      2
+                    ],
+                    [
+                      "Jest w dobrym stanie",
+                      1
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Termin",
+              "pytanie": "Kiedy chcesz przyjechać?",
+              "podpowiedz": "Terminy rezerwujemy z wyprzedzeniem.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "termin",
+                  "etykieta": "Termin",
+                  "blad": "Wybierz termin.",
+                  "opcje": [
+                    [
+                      "W tym tygodniu",
+                      3
+                    ],
+                    [
+                      "W tym miesiącu",
+                      2
+                    ],
+                    [
+                      "Na razie się rozglądam",
+                      0
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "prog_priorytetu": 8,
+          "dzialania": {
+            "priorytet": "Oddzwonić w ciągu 2 godzin, zaproponować korektę lakieru z ochroną",
+            "standard": "Oddzwonić w ciągu 24 godzin"
+          }
+        },
+        "faq": [
+          [
+            "Czym to się różni od myjni?",
+            "Nie używamy szczotek ani wspólnych gąbek. Brud zdejmujemy z lakieru etapami, dlatego mycie nie zostawia rys."
+          ],
+          [
+            "Czy mycie usunie rysy?",
+            "Nie. Mycie i dekontaminacja czyszczą lakier. Rysy usuwa korekta lakieru, którą możemy wycenić przy odbiorze."
+          ],
+          [
+            "Jak długo trzyma ochrona?",
+            "Około trzech miesięcy przy regularnym myciu. Potem warto ją odnowić."
+          ],
+          [
+            "Ile to trwa?",
+            "Od trzech do pięciu godzin, zależnie od zakresu i wielkości auta."
+          ]
+        ],
+        "zamkniecie": {
+          "naglowek": "Umów termin",
+          "cta": "Zarezerwuj termin"
+        },
+        "stopka_opis": "Mycie detailingowe, korekta i ochrona lakieru."
+      },
+      "storyboard": [
+        {
+          "plik": "01-hero",
+          "tytul": "Auto w studiu",
+          "prompt": "Cinematic wide shot of a freshly washed {auto} with water beads on glossy paint parked inside a dark premium detailing studio, polished wet concrete floor, LED light tubes reflecting on the paint, car on the right side of the frame, empty dark space on the left for text, subtle {akcent} accent light, photorealistic, 35mm",
+          "ruch": "powolny najazd kamery na maskę"
+        },
+        {
+          "plik": "02-problem",
+          "tytul": "Hologramy po myjni",
+          "prompt": "Close-up of the door of the same car in harsh sunlight showing circular swirl marks and wash scratches on dark paint, photorealistic macro",
+          "ruch": "światło przesuwa się po lakierze"
+        },
+        {
+          "plik": "03-piana",
+          "tytul": "Piana aktywna",
+          "prompt": "The same car fully covered in thick white snow foam inside a dark detailing wash bay, foam sliding down the doors, dramatic backlight, photorealistic",
+          "ruch": "piana spływa po karoserii"
+        },
+        {
+          "plik": "04-dekontaminacja",
+          "tytul": "Dekontaminacja",
+          "prompt": "Close-up of purple iron remover reacting and bleeding on the wheel and lower door of the same car, gloved hand with a clay mitt, dark wash bay, photorealistic",
+          "ruch": "rękawica przesuwa się po lakierze"
+        },
+        {
+          "plik": "05-ochrona",
+          "tytul": "Woda ucieka z lakieru",
+          "prompt": "Macro shot of perfect round water beads rolling off the glossy hood of the same car, strong hydrophobic effect, dark studio with reflections of LED tubes, photorealistic",
+          "ruch": "krople spływają z maski"
+        },
+        {
+          "plik": "06-final",
+          "tytul": "Wyjazd ze studia",
+          "prompt": "The same car driving out of the dark detailing studio through an open garage door into bright daylight, car on the left side of the frame, empty space on the right for text, glossy reflections, cinematic, photorealistic",
+          "ruch": "auto wyjeżdża w światło"
+        }
+      ],
+      "fraza": {
+        "mianownik": "mycie detailingowe",
+        "biernik": "mycie detailingowe"
+      }
+    },
+    {
+      "id": "wnetrze",
+      "nazwa": "Detailing wnętrza",
+      "krotko": "Pranie tapicerki, czyszczenie skór i plastików, zabezpieczenie wnętrza.",
+      "dla_uslug": [
+        "wnetrze",
+        "skory",
+        "wygluszanie"
+      ],
+      "prowadzi_do": [
+        "skory",
+        "korekta",
+        "ceramika"
+      ],
+      "dlaczego": "Problem, który klient widzi i czuje codziennie. Decyzja zapada szybko, a po odbiorze czystego wnętrza lakier zaczyna odstawać, co otwiera rozmowę o korekcie.",
+      "cena_od": 390,
+      "cena_tekst": "od 390 zł",
+      "czas": "1 dzień",
+      "tresc": {
+        "title": "Detailing wnętrza - {nazwa}, {miasto}",
+        "opis_meta": "Pranie tapicerki, czyszczenie skór i plastików, zabezpieczenie wnętrza. {miasto}. Rezerwacja terminu po krótkim formularzu.",
+        "eyebrow": "Detailing wnętrza / {miasto}",
+        "nav_cta": "Zarezerwuj termin",
+        "menu": [
+          [
+            "Zakres",
+            "#pakiety"
+          ],
+          [
+            "Proces",
+            "#proces"
+          ],
+          [
+            "Pytania",
+            "#pytania"
+          ]
+        ],
+        "sceny": [
+          {
+            "naglowek": "Wnętrze, do którego *chce się wsiadać*",
+            "tekst": "Pranie tapicerki, czyszczenie skór i plastików, zabezpieczenie na kolejne miesiące. W jeden dzień, {cena_tekst}.",
+            "cta": [
+              "Zarezerwuj termin",
+              "Zobacz zakres"
+            ]
+          },
+          {
+            "naglowek": "Odkurzacz *tego nie ruszy*",
+            "tekst": "Plamy w tapicerce, wybłyszczona kierownica, kurz w nawiewach. To zbiera się latami.",
+            "podpis": "Stan przed"
+          },
+          {
+            "naglowek": "Pranie, *nie odświeżanie*",
+            "tekst": "Brud wyciągamy z głębi tkaniny ekstrakcją, a nie przykrywamy zapachem.",
+            "podpis": "Pranie tapicerki"
+          },
+          {
+            "naglowek": "Skóra znów *jest matowa*",
+            "tekst": "Wybłyszczenie to brud i tłuszcz. Po czyszczeniu skóra wraca do fabrycznego wyglądu.",
+            "podpis": "Czyszczenie skór"
+          },
+          {
+            "naglowek": "Każdy nawiew, *każdy przycisk*",
+            "tekst": "Pędzelki, para i sprężone powietrze docierają tam, gdzie nie sięga szmatka.",
+            "podpis": "Detale"
+          },
+          {
+            "naglowek": "Zostawiasz rano, *odbierasz po pracy*",
+            "tekst": "Odpowiedz na kilka pytań. Oddzwonimy z terminem i ceną dla Twojego auta.",
+            "cta": [
+              "Zarezerwuj termin"
+            ]
+          }
+        ],
+        "realizacje": {
+          "etykieta": "Realizacje",
+          "naglowek": "Auta, które *wyjechały* ze studia",
+          "lead": "Zdjęcia z naszego studia. Przesuń, żeby zobaczyć kolejne."
+        },
+        "pakiety": {
+          "etykieta": "Zakres",
+          "naglowek": "Trzy zakresy *wnętrza*",
+          "lead": "Wybierasz, jak głęboko wchodzimy. Każdy zakres robimy w jeden dzień.",
+          "lista": [
+            {
+              "nazwa": "Odświeżenie",
+              "etykieta": "Podstawa",
+              "punkty": [
+                "Dokładne odkurzanie",
+                "Czyszczenie plastików i nawiewów",
+                "Szyby od środka"
+              ],
+              "cena": "390 zł"
+            },
+            {
+              "nazwa": "Pranie i skóry",
+              "etykieta": "Najczęściej wybierany",
+              "punkty": [
+                "Wszystko z odświeżenia",
+                "Pranie tapicerki i dywaników",
+                "Czyszczenie i zabezpieczenie skór"
+              ],
+              "cena": "690 zł",
+              "wyrozniony": true
+            },
+            {
+              "nazwa": "Komplet",
+              "etykieta": "Pełny zakres",
+              "punkty": [
+                "Wszystko z zakresu pranie i skóry",
+                "Pranie podsufitki i bagażnika",
+                "Ozonowanie i impregnacja tkanin"
+              ],
+              "cena": "990 zł"
+            }
+          ],
+          "uwaga": "Ceny orientacyjne dla auta osobowego. Dokładną cenę podajemy po poznaniu modelu i stanu wnętrza."
+        },
+        "proces": {
+          "etykieta": "Proces",
+          "naglowek": "Co dzieje się *z autem*",
+          "lead": "Zostawiasz samochód rano. W ciągu dnia przechodzi cztery etapy.",
+          "kroki": [
+            {
+              "czas": "Etap 1",
+              "tytul": "Odkurzanie i przedmuch",
+              "tekst": "Usuwamy piasek i kurz ze szczelin sprężonym powietrzem.",
+              "kadr": 2
+            },
+            {
+              "czas": "Etap 2",
+              "tytul": "Pranie tapicerki",
+              "tekst": "Pierzemy fotele, dywaniki i boczki metodą ekstrakcji.",
+              "kadr": 3
+            },
+            {
+              "czas": "Etap 3",
+              "tytul": "Skóry i plastiki",
+              "tekst": "Czyścimy i zabezpieczamy każdy element.",
+              "kadr": 4
+            },
+            {
+              "czas": "Etap 4",
+              "tytul": "Suszenie i odbiór",
+              "tekst": "Auto oddajemy suche i gotowe do jazdy.",
+              "kadr": 6
+            }
+          ]
+        },
+        "dowod": {
+          "naglowek": "Średnia ocen w Google *z {liczba_opinii} opinii*",
+          "lead": "Najlepszą rekomendacją są auta, które wyjechały ze studia. Opinie klientów przeczytasz bezpośrednio w Google.",
+          "naglowek_bez_ocen": "Sprawdź nas *po realizacjach*",
+          "lead_bez_ocen": "Każde auto z naszego studia trafia na Instagram. Zobacz, jak pracujemy, zanim zostawisz samochód."
+        },
+        "formularz": {
+          "etykieta": "Rezerwacja",
+          "naglowek": "Termin w *pięciu pytaniach*",
+          "lead": "Zajmie to około minuty. Oddzwonimy z terminem i dokładną ceną.",
+          "korzysci": [
+            [
+              "Znamy auto przed wizytą",
+              "Rodzaj tapicerki decyduje o metodzie i czasie pracy."
+            ],
+            [
+              "Auto wraca suche",
+              "Suszymy wnętrze przed oddaniem samochodu."
+            ],
+            [
+              "Oddzwaniamy w kolejności terminów",
+              "Najpierw osoby, które chcą przyjechać w tym miesiącu."
+            ]
+          ],
+          "kroki": [
+            {
+              "nazwa": "Auto",
+              "pytanie": "Jakie auto do nas przyjedzie?",
+              "podpowiedz": "Marka i model wystarczą.",
+              "pola": [
+                {
+                  "typ": "tekst",
+                  "id": "auto",
+                  "etykieta": "Marka i model",
+                  "przyklad": "np. Skoda Kodiaq",
+                  "min": 3,
+                  "blad": "Wpisz markę i model auta."
+                },
+                {
+                  "typ": "lista",
+                  "id": "tapicerka",
+                  "etykieta": "Tapicerka",
+                  "blad": "Wybierz rodzaj tapicerki.",
+                  "opcje": [
+                    [
+                      "Skóra",
+                      2
+                    ],
+                    [
+                      "Materiał",
+                      1
+                    ],
+                    [
+                      "Skóra i materiał",
+                      2
+                    ],
+                    [
+                      "Alcantara",
+                      2
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Zakres",
+              "pytanie": "Który zakres Cię interesuje?",
+              "podpowiedz": "Jeśli nie masz pewności, doradzimy przez telefon.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "zakres",
+                  "etykieta": "Zakres",
+                  "blad": "Wybierz zakres.",
+                  "opcje": [
+                    [
+                      "Odświeżenie",
+                      1,
+                      "390 zł"
+                    ],
+                    [
+                      "Pranie i skóry",
+                      2,
+                      "690 zł"
+                    ],
+                    [
+                      "Komplet",
+                      3,
+                      "990 zł"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Powód",
+              "pytanie": "Co jest największym problemem?",
+              "podpowiedz": "Przygotujemy się do konkretnego zadania.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "powod",
+                  "etykieta": "Powód",
+                  "blad": "Wybierz jedną odpowiedź.",
+                  "opcje": [
+                    [
+                      "Przygotowuję auto do sprzedaży",
+                      3
+                    ],
+                    [
+                      "Plamy i zabrudzenia",
+                      2
+                    ],
+                    [
+                      "Zapach",
+                      2
+                    ],
+                    [
+                      "Chcę po prostu czyste auto",
+                      1
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "nazwa": "Termin",
+              "pytanie": "Kiedy chcesz przyjechać?",
+              "podpowiedz": "Terminy rezerwujemy z wyprzedzeniem.",
+              "pola": [
+                {
+                  "typ": "wybor",
+                  "id": "termin",
+                  "etykieta": "Termin",
+                  "blad": "Wybierz termin.",
+                  "opcje": [
+                    [
+                      "W tym tygodniu",
+                      3
+                    ],
+                    [
+                      "W tym miesiącu",
+                      2
+                    ],
+                    [
+                      "Na razie się rozglądam",
+                      0
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "prog_priorytetu": 8,
+          "dzialania": {
+            "priorytet": "Oddzwonić w ciągu 2 godzin, zaproponować pakiet z lakierem",
+            "standard": "Oddzwonić w ciągu 24 godzin"
+          }
+        },
+        "faq": [
+          [
+            "Czy fotele będą mokre przy odbiorze?",
+            "Nie. Suszymy wnętrze przed oddaniem auta."
+          ],
+          [
+            "Czy usuniecie każdą plamę?",
+            "Większość tak. O plamach, które mogą zostać, mówimy przed rozpoczęciem pracy."
+          ],
+          [
+            "Czy czyszczenie szkodzi skórze?",
+            "Nie. Używamy środków przeznaczonych do skór samochodowych i na koniec je zabezpieczamy."
+          ],
+          [
+            "Ile to trwa?",
+            "Jeden dzień. Auto zostawiasz rano i odbierasz po południu."
+          ]
+        ],
+        "zamkniecie": {
+          "naglowek": "Umów termin",
+          "cta": "Zarezerwuj termin"
+        },
+        "stopka_opis": "Detailing wnętrza, renowacja skór i ochrona lakieru."
+      },
+      "storyboard": [
+        {
+          "plik": "01-hero",
+          "tytul": "Wnętrze auta",
+          "prompt": "Cinematic shot through the open driver door of a {auto} showing a spotless premium interior, clean leather seats and steering wheel, car inside a dark detailing studio, interior on the right side of the frame, dark empty space on the left for text, subtle {akcent} accent light, photorealistic, 35mm",
+          "ruch": "powolny najazd kamery do wnętrza"
+        },
+        {
+          "plik": "02-problem",
+          "tytul": "Stan przed",
+          "prompt": "Close-up of a dirty car seat of the same car with stains on fabric, crumbs and dust in seams, shiny worn steering wheel in the background, harsh inspection light, photorealistic macro",
+          "ruch": "światło przesuwa się po fotelu"
+        },
+        {
+          "plik": "03-pranie",
+          "tytul": "Pranie tapicerki",
+          "prompt": "Close-up of an upholstery extraction cleaner nozzle pulling dirty water from the fabric seat of the same car, clean stripe visible behind the nozzle, gloved hand, dark studio, photorealistic",
+          "ruch": "ssawka przesuwa się po fotelu, zostaje czysty pas"
+        },
+        {
+          "plik": "04-skory",
+          "tytul": "Czyszczenie skór",
+          "prompt": "Close-up of a leather car seat of the same car being cleaned with a soft brush and foam, half of the seat matte and clean, half shiny and dirty, dark studio, photorealistic",
+          "ruch": "szczotka przesuwa się po skórze"
+        },
+        {
+          "plik": "05-detale",
+          "tytul": "Detale",
+          "prompt": "Macro shot of a small detailing brush cleaning the air vents and buttons of the dashboard of the same car, dust particles in the light beam, dark interior, photorealistic",
+          "ruch": "pędzelek przesuwa się po nawiewie"
+        },
+        {
+          "plik": "06-final",
+          "tytul": "Wyjazd ze studia",
+          "prompt": "The same car driving out of the dark detailing studio through an open garage door into bright daylight, car on the left side of the frame, empty space on the right for text, glossy reflections, cinematic, photorealistic",
+          "ruch": "auto wyjeżdża w światło"
+        }
+      ],
+      "fraza": {
+        "mianownik": "detailing wnętrza",
+        "biernik": "detailing wnętrza"
+      }
+    }
+  ],
+  "branding": {
+    "archetypy": [
+      {
+        "id": "ewolucja",
+        "opis": "Rozwinięcie tego, co studio już ma: te same skojarzenia i kolor przewodni, ale uporządkowane. Najłatwiejsze do zaakceptowania przez właściciela."
+      },
+      {
+        "id": "premium",
+        "opis": "Przesunięcie w stronę aut z wyższej półki: stonowany akcent (szampan, stal, głęboka zieleń), więcej powietrza, szlachetniejszy krój."
+      },
+      {
+        "id": "odwazny",
+        "opis": "Wyrazisty, sportowy kierunek: mocny akcent, ciężki szeroki krój, wysoki kontrast. Dla studiów, które chcą się odróżnić od lokalnej konkurencji."
+      }
+    ],
+    "zasady": [
+      "Tło ciemne sprawdza się przy zdjęciach aut w studiu. Jasny schemat tylko wtedy, gdy studio ma jasne wnętrze i jasne zdjęcia.",
+      "Jeden akcent. Bez gradientów, bez złotych efektów metalicznych, bez rysunkowych ikon aut.",
+      "Nazwa w logo skracana do najmocniejszego słowa (np. Imperial), reszta jako dopisek krojem maszynowym."
+    ]
+  },
+  "instagram": {
+    "diagnoza_typowa": [
+      [
+        "Każda grafika w innym kroju i układzie.",
+        "Jeden krój tytułowy i jeden układ: znak u góry, tytuł na dole, linia z nazwą auta."
+      ],
+      [
+        "Gradienty i rysunkowe ikony w wyróżnionych relacjach.",
+        "Okładki typograficzne w kilku odmianach, czytelne w małym kółku."
+      ],
+      [
+        "Okładki rolek to przypadkowe klatki z filmu.",
+        "Każda rolka ma okładkę ze zdjęciem auta i nazwą usługi."
+      ],
+      [
+        "Zdjęcia z różną kolorystyką, od chłodnych po mocno nasycone.",
+        "Jeden preset obróbki dla wszystkich zdjęć."
+      ],
+      [
+        "Posty z tekstem obok siebie, potem długo same zdjęcia.",
+        "Rytm siatki: jedna grafika na rząd, zawsze w innej kolumnie."
+      ],
+      [
+        "Tytuły ucięte na krawędziach kafelka w siatce.",
+        "Tekst trzymany w polu 3:4, które Instagram pokazuje w siatce."
+      ]
+    ],
+    "haslo": "Feed na miarę aut, *które obsługujecie*",
+    "lead": "Te same zdjęcia, ten sam profil. Zmienia się oprawa: jedna typografia, jeden akcent, jeden sposób podpisywania realizacji.",
+    "poradniki": {
+      "ceramika": {
+        "tytul": "Ceramika. *Czy warto?*",
+        "obietnica": "Mniej brudu przywiera *do lakieru*",
+        "tresc": "Powłoka ceramiczna tworzy na lakierze warstwę ochronną, dzięki której brud, kurz i osady drogowe trudniej przywierają do powierzchni.",
+        "wniosek": "Auto dłużej wygląda dobrze"
+      },
+      "ppf": {
+        "tytul": "Folia PPF. *Na co?*",
+        "obietnica": "Kamień trafia w folię, *nie w lakier*",
+        "tresc": "Folia PPF przyjmuje uderzenia żwiru i drobne rysy. Lakier pod spodem zostaje w stanie, w jakim został zabezpieczony.",
+        "wniosek": "Lakier bez odprysków"
+      },
+      "korekta": {
+        "tytul": "Korekta lakieru. *Co daje?*",
+        "obietnica": "Hologramy znikają, *wraca głębia*",
+        "tresc": "Korekta usuwa cienką warstwę lakieru bezbarwnego razem z rysami i hologramami. Po niej lakier odbija światło równo.",
+        "wniosek": "Głębia koloru jak w salonie"
+      },
+      "wnetrze": {
+        "tytul": "Pranie tapicerki. *Jak często?*",
+        "obietnica": "Brud wychodzi *z głębi tkaniny*",
+        "tresc": "Odkurzacz zbiera to, co leży na wierzchu. Pranie ekstrakcyjne wyciąga brud, który wsiąkł w tkaninę przez lata.",
+        "wniosek": "Raz w roku wystarczy"
+      },
+      "mycie": {
+        "tytul": "Mycie bez rys. *Jak?*",
+        "obietnica": "Brud zdejmujemy, *nie rozcieramy*",
+        "tresc": "Piana zmiękcza brud, a dwa wiadra i osobne rękawice sprawiają, że piasek nie wraca na lakier.",
+        "wniosek": "Lakier bez hologramów"
+      },
+      "domyslny": {
+        "tytul": "Ochrona lakieru. *Od czego zacząć?*",
+        "obietnica": "Najpierw stan lakieru, *potem ochrona*",
+        "tresc": "Każde zabezpieczenie zachowuje to, co jest pod spodem. Dlatego zaczynamy od oględzin i korekty lakieru.",
+        "wniosek": "Ochrona ma sens na zadbanym lakierze"
+      }
+    }
+  },
+  "pokaz": {
+    "kurtyna": {
+      "etykieta": "Pokaz prywatny / 01 z 01",
+      "etykieta2": "Przygotowany dla jednej firmy",
+      "naglowek": "Marka na poziomie aut, *które obsługujecie*",
+      "lead1": "Nie znamy się. Od jakiegoś czasu oglądamy Wasze realizacje i uznaliśmy, że zamiast pisać ofertę, lepiej coś pokazać.",
+      "lead2": "Przygotowaliśmy dla Was nowy znak, nowy Instagram i stronę, która zbiera zapytania o {oferta_biernik}. Wszystko można tu kliknąć i sprawdzić. Całość zajmuje około 4 minut.",
+      "cta": "Rozpocznij pokaz",
+      "pod_cta": "Bez zobowiązań. Bez rejestracji.",
+      "lista": [
+        "Nowy znak",
+        "Nowy Instagram",
+        "Strona z zapytaniami"
+      ]
+    },
+    "znak": {
+      "refleks": {
+        "naglowek": "Refleks światła *na lakierze*",
+        "lead": "To, co robicie, widać najlepiej w jednym momencie: kiedy światło przechodzi po idealnie gładkiej karoserii. Ten moment zamknęliśmy w jednej literze."
+      },
+      "belka": {
+        "naglowek": "Kreska jak *linia nadwozia*",
+        "lead": "Jedna pozioma linia porządkuje cały znak, tak jak linia boczna porządkuje sylwetkę auta."
+      },
+      "punkt": {
+        "naglowek": "Znak z mocnym *zakończeniem*",
+        "lead": "Nazwa kończy się jednym wyraźnym punktem. Tak jak Wasza praca: auto jest gotowe, kiedy nie ma już czego poprawić."
+      },
+      "rama": {
+        "naglowek": "Znak w ramie, *jak tabliczka*",
+        "lead": "Rama nawiązuje do tabliczki znamionowej i plakietki wykonawcy. Mówi, że pod tą pracą ktoś się podpisał."
+      },
+      "ciecie": {
+        "naglowek": "Cięcie *co do milimetra*",
+        "lead": "Pozioma linia przecina litery tak, jak ploter tnie folię: równo i bez poprawek."
+      },
+      "fakty": [
+        [
+          "Czytelny z daleka",
+          "Działa na szyldzie, na ramce tablicy i w małym kółku na Instagramie."
+        ],
+        [
+          "Jeden akcent",
+          "Akcent jest jedynym kolorowym elementem. Reszta to dwa kolory bazowe, jak w studiu przy zgaszonym świetle."
+        ],
+        [
+          "Sygnet do małych formatów",
+          "Trafia na zdjęcie profilowe, brelok i naklejkę na szybę."
+        ]
+      ],
+      "uwaga_wiz": "Wizualizacje pokazują wariant {kierunek}."
+    },
+    "instagram": {
+      "naglowek": "Te same zdjęcia. *Inna liga.*",
+      "lead": "Zdjęcia są mocną stroną Waszego profilu. Niczego nie dorobiliśmy. Zmieniliśmy tylko oprawę. Przesuńcie suwak.",
+      "lead_bez_zdjec": "Tak wygląda profil w nowej oprawie. Po dostarczeniu zdjęć realizacji kafle wypełnią się autami z Waszego studia."
+    },
+    "strona": {
+      "naglowek": "Strona, która *odsiewa zapytania*",
+      "lead": "To działająca strona, nie makieta. Sprzedaje jedną usługę: {oferta_nazwa}. Formularz pyta o auto, zakres i termin. Wypełnijcie go jak klient i zobaczcie obok, co trafiłoby na Wasz telefon.",
+      "uwaga": "Niska cena wejścia przyciąga klienta do studia. Wy oddzwaniacie najpierw do tych, którzy chcą przyjechać w tym miesiącu, a kolejne usługi proponujecie przy odbiorze auta."
+    },
+    "system": {
+      "naglowek": "Jedna decyzja *zmienia wszystko*",
+      "lead": "Znak, Instagram i strona to jeden system. Wybierzcie kolor akcentu, a zmieni się cały pokaz: logo, posty i strona z formularzem.",
+      "probka": "{oferta_nazwa}. *Termin w 2 minuty.*"
+    },
+    "liczby": {
+      "naglowek": "Ile jest warte *jedno zapytanie*",
+      "lead": "Nie znamy Waszych liczb, więc niczego nie obiecujemy. Ustawcie suwaki tak, jak jest u Was.",
+      "zapytania": {
+        "etykieta": "Zapytania w miesiącu",
+        "min": 2,
+        "max": 60,
+        "krok": 1,
+        "start": 12
+      },
+      "skutecznosc": {
+        "etykieta": "Ile z nich kończy się zleceniem",
+        "min": 5,
+        "max": 80,
+        "krok": 5,
+        "start": 30
+      },
+      "wartosc": {
+        "etykieta": "Średnia wartość klienta z kolejnymi usługami",
+        "min": 500,
+        "max": 25000,
+        "krok": 500,
+        "start": 4000
+      },
+      "wynik_mc": "Wartość nowych klientów w miesiącu",
+      "wynik_rok": "W skali roku"
+    },
+    "rozmowa": {
+      "naglowek": "20 minut. Bez prezentacji sprzedażowej.",
+      "lead": "Opowiemy, co zrobiliśmy i dlaczego. Wy powiecie, co z tego pasuje do Waszych planów. Jeśli nic, rozstajemy się w zgodzie.",
+      "kroki": [
+        "Pokazujemy, jak wdrożyć znak, Instagram i stronę.",
+        "Pytamy o Wasze cele i wolne terminy w studiu.",
+        "Mówimy wprost, czy możemy pomóc i ile to kosztuje."
+      ],
+      "cta": "Wybierz termin rozmowy",
+      "cta2": "Napisz do nas"
+    },
+    "stopka": "Projekt koncepcyjny przygotowany z własnej inicjatywy, bez zlecenia studia. {stopka_ai}Zdjęcia realizacji pochodzą z publicznego profilu studia na Instagramie. Ceny na stronie są orientacyjne.",
+    "styl_wizualizacji": "Premium brand identity photography, palette limited to {tlo} and {tekst} with a single {akcent} accent, one linear light source, medium format camera look, shallow depth of field, no gold, no badges, no extra logos, no car brand emblems.",
+    "wizualizacje": [
+      {
+        "plik": "01-recepcja",
+        "podpis": "Ściana w studiu",
+        "uklad": "w",
+        "prompt": "Backlit dimensional logo sign mounted on a dark textured wall of a car detailing studio reception, the exact logo from the reference image, soft halo light behind the letters, polished concrete floor, a dark sports car partially visible in the background."
+      },
+      {
+        "plik": "02-ramka",
+        "podpis": "Ramka tablicy",
+        "uklad": "w",
+        "prompt": "Close-up of a European license plate frame (520 x 114 mm format) on the rear of a dark sports car, the exact logo from the reference image printed on the bottom edge of the frame, blank plate without characters, studio light."
+      },
+      {
+        "plik": "03-wizytowki",
+        "podpis": "Wizytówki",
+        "uklad": "",
+        "prompt": "Stack of matte black business cards with the exact logo from the reference image, one card standing upright, dark stone surface, single strip of light across the cards."
+      },
+      {
+        "plik": "04-stroj",
+        "podpis": "Strój zespołu",
+        "uklad": "",
+        "prompt": "Detailer seen from behind wearing a black hoodie with the exact logo from the reference image on the back, working on a car in a dark detailing studio, face not visible."
+      },
+      {
+        "plik": "05-brelok",
+        "podpis": "Brelok przy odbiorze auta",
+        "uklad": "",
+        "prompt": "Car key with a black leather key fob embossed with the brand mark from the reference image, lying on a dark surface next to a folded microfiber cloth, macro shot."
+      },
+      {
+        "plik": "06-zestaw",
+        "podpis": "Zestaw dla klienta",
+        "uklad": "",
+        "prompt": "Open black gift box for a car owner containing a care product bottle, a microfiber cloth and a card, all carrying the exact logo from the reference image, top-down view on dark stone."
+      },
+      {
+        "plik": "07-detal",
+        "podpis": "Detal",
+        "uklad": "x",
+        "prompt": "Extreme macro of the logo from the reference image as a raised metal emblem on glossy dark car paint, a single strip of light sliding across the letters, very shallow depth of field, wide panoramic crop."
+      }
+    ]
+  },
+  "oferta": {
+    "uwaga": "Pakiety i ceny są PRZYKŁADOWE (netto, zł). Ustaw własne przed wysłaniem pierwszej oferty.",
+    "naglowek": "Plan na pierwsze *90 dni*",
+    "intro": "Poniżej znajdziecie plan działań, trzy zakresy współpracy i rachunek, który zmienia się razem z Waszym wyborem. Wszystko można kliknąć.",
+    "start": "do 5 dni roboczych od podpisania umowy",
+    "polecany": "zapytania",
+    "budzet_reklamowy": 1500,
+    "cele_przykladowe": [
+      {
+        "cytat": "Chcemy więcej drogich zleceń, mniej drobnicy.",
+        "odp": "Strona przyciąga ofertą wejściową: {oferta_nazwa}. Drogie usługi sprzedajecie przy odbiorze auta klientowi, który już Wam zaufał.",
+        "gdzie": "Dni 15-45"
+      },
+      {
+        "cytat": "Ludzie pytają o cenę i znikają.",
+        "odp": "Formularz pyta o auto, zakres i termin, a Wy oddzwaniacie najpierw do gotowych.",
+        "gdzie": "Dni 1-14"
+      },
+      {
+        "cytat": "Nie mamy czasu na Instagram.",
+        "odp": "Publikacje planujemy i wstawiamy my. Od Was potrzebujemy kilku minut nagrań w tygodniu.",
+        "gdzie": "Co tydzień"
+      }
+    ],
+    "pakiety": [
+      {
+        "id": "widocznosc",
+        "poziom": 1,
+        "nazwa": "Instagram i strona",
+        "cena": 2900,
+        "wdrozenie": 4900,
+        "posty": 12,
+        "dla": "Dla studia, które chce wyglądać jak premium i mieć porządek w zapytaniach.",
+        "punkty": [
+          "Wdrożenie nowego znaku, Instagrama i strony z pokazu",
+          "12 publikacji w miesiącu: rolki, realizacje, poradniki",
+          "Montaż rolek z Waszych nagrań, scenariusze i lista ujęć",
+          "Formularz z oceną zapytań i powiadomienie na telefon",
+          "Wizytówka Google: zdjęcia, usługi, odpowiedzi na opinie",
+          "Raport raz w miesiącu"
+        ],
+        "wynik": "Spójny wizerunek i każde zapytanie w jednym miejscu."
+      },
+      {
+        "id": "zapytania",
+        "poziom": 2,
+        "nazwa": "Zapytania co miesiąc",
+        "cena": 5400,
+        "wdrozenie": 6900,
+        "posty": 18,
+        "dla": "Dla studia, które chce zapełnić kalendarz i sprzedawać więcej usług premium.",
+        "punkty": [
+          "Wszystko z pakietu Instagram i strona",
+          "Kampanie Meta Ads na ofertę wejściową",
+          "Trzy strony usługowe zamiast jednej",
+          "Panel zapytań: ocena, status, przypomnienie o oddzwonieniu",
+          "Automatyczna prośba o opinię Google po odbiorze auta",
+          "18 publikacji w miesiącu",
+          "Rozmowa co dwa tygodnie"
+        ],
+        "wynik": "Stały dopływ nowych klientów do studia."
+      },
+      {
+        "id": "system",
+        "poziom": 3,
+        "nazwa": "Pełna obsługa i system studia",
+        "cena": 8900,
+        "wdrozenie": 9900,
+        "posty": 24,
+        "dla": "Dla studia, które chce rosnąć także na klientach powracających i poleceniach.",
+        "punkty": [
+          "Wszystko z pakietu Zapytania co miesiąc",
+          "Kampanie Google Ads",
+          "Kalkulator wyceny na stronie",
+          "Panel klienta: status auta i zdjęcia z realizacji",
+          "Cyfrowa karta gwarancyjna usługi",
+          "Przypomnienia SMS o przeglądzie",
+          "Program poleceń dla klientów",
+          "24 publikacje w miesiącu",
+          "Stały opiekun, odpowiedź w 4 godziny w dni robocze"
+        ],
+        "wynik": "Marketing i obsługa klienta w jednym systemie."
+      }
+    ],
+    "dodatki": [
+      {
+        "id": "strona",
+        "nazwa": "Dodatkowa strona usługowa",
+        "opis": "Kolejna usługa studia z własnym formularzem i oceną zapytań.",
+        "cena": 1900,
+        "mc": false
+      },
+      {
+        "id": "druk",
+        "nazwa": "Paczka do druku",
+        "opis": "Wizytówki, szyld, ramki tablic, odzież. Pliki gotowe dla drukarni.",
+        "cena": 2400,
+        "mc": false
+      },
+      {
+        "id": "floty",
+        "nazwa": "Oferta dla flot i salonów",
+        "opis": "Strona i prezentacja dla dealerów oraz firm z flotą aut.",
+        "cena": 3500,
+        "mc": false
+      },
+      {
+        "id": "baza",
+        "nazwa": "Wiadomości do bazy klientów",
+        "opis": "Jedna kampania e-mail i SMS w miesiącu do dotychczasowych klientów.",
+        "cena": 900,
+        "mc": true
+      }
+    ],
+    "mapa": [
+      {
+        "dni": "Dni 1-14",
+        "nazwa": "Fundament",
+        "wynik": "Studio wygląda jak marka premium.",
+        "punkty": [
+          [
+            1,
+            "Nowy znak na profilach, stronie i wizytówce Google"
+          ],
+          [
+            1,
+            "Instagram: zdjęcie profilowe, opis, okładki, szablony"
+          ],
+          [
+            1,
+            "Strona z pokazu na Waszej domenie"
+          ],
+          [
+            1,
+            "Formularz i powiadomienia o zapytaniach"
+          ],
+          [
+            2,
+            "Konto reklamowe, piksel i pomiar zapytań"
+          ],
+          [
+            3,
+            "Projekt panelu klienta i karty gwarancyjnej"
+          ]
+        ]
+      },
+      {
+        "dni": "Dni 15-45",
+        "nazwa": "Ruch",
+        "wynik": "Zapytania przychodzą co tydzień.",
+        "punkty": [
+          [
+            1,
+            "Pierwszy pełny miesiąc publikacji"
+          ],
+          [
+            1,
+            "Porządek w opiniach i zdjęciach Google"
+          ],
+          [
+            2,
+            "Start kampanii Meta Ads na ofertę wejściową"
+          ],
+          [
+            2,
+            "Dwie kolejne strony usługowe"
+          ],
+          [
+            2,
+            "Panel zapytań dla zespołu"
+          ],
+          [
+            3,
+            "Start kampanii Google Ads"
+          ],
+          [
+            3,
+            "Kalkulator wyceny na stronie"
+          ]
+        ]
+      },
+      {
+        "dni": "Dni 46-90",
+        "nazwa": "System",
+        "wynik": "Klienci wracają i polecają.",
+        "punkty": [
+          [
+            1,
+            "Raport i korekta planu treści"
+          ],
+          [
+            2,
+            "Automatyczne prośby o opinię po odbiorze"
+          ],
+          [
+            2,
+            "Optymalizacja reklam pod koszt zapytania"
+          ],
+          [
+            3,
+            "Panel klienta ze statusem auta"
+          ],
+          [
+            3,
+            "Karty gwarancyjne i przypomnienia SMS"
+          ],
+          [
+            3,
+            "Program poleceń"
+          ]
+        ]
+      }
+    ],
+    "tresci_wzor": [
+      "Rolka",
+      "Realizacja",
+      "Poradnik",
+      "Rolka",
+      "Realizacja",
+      "Przed i po",
+      "Realizacja",
+      "Rolka",
+      "Poradnik",
+      "Realizacja",
+      "Rolka",
+      "Realizacja",
+      "Przed i po",
+      "Opinia",
+      "Realizacja",
+      "Rolka",
+      "Realizacja",
+      "Oferta",
+      "Rolka",
+      "Realizacja",
+      "Poradnik",
+      "Rolka",
+      "Realizacja",
+      "Poradnik"
+    ],
+    "tresci_tytuly": {
+      "Poradnik": [
+        "{poradnik}",
+        "Ile trzyma ochrona?",
+        "Mycie po wizycie",
+        "Co wybrać na start?"
+      ],
+      "Opinia": [
+        "Co mówi klient"
+      ],
+      "Oferta": [
+        "Wolne terminy"
+      ],
+      "Rolka": [
+        "Kulisy *pracy*",
+        "Odbiór *auta*",
+        "Test *ochrony*"
+      ]
+    },
+    "narzedzia": {
+      "auta": [
+        [
+          "Porsche Macan",
+          "2024"
+        ],
+        [
+          "BMW M340i",
+          "2025"
+        ],
+        [
+          "Audi Q5",
+          "2021"
+        ],
+        [
+          "Skoda Octavia",
+          "2018"
+        ]
+      ],
+      "etapy": [
+        "Przyjęcie auta",
+        "Mycie i dekontaminacja",
+        "Przygotowanie powierzchni",
+        "Usługa główna",
+        "Kontrola jakości",
+        "Gotowe do odbioru"
+      ],
+      "wielkosci": [
+        [
+          "Kompakt",
+          "np. Golf",
+          1
+        ],
+        [
+          "Sedan, SUV",
+          "np. BMW 5, Macan",
+          1.2
+        ],
+        [
+          "Duży SUV",
+          "np. Urus, G",
+          1.45
+        ]
+      ]
+    },
+    "zasady": {
+      "my": [
+        "Planujemy, tworzymy i publikujemy treści.",
+        "Prowadzimy kampanie i pilnujemy kosztu zapytania.",
+        "Budujemy i utrzymujemy strony oraz narzędzia.",
+        "Raz w miesiącu pokazujemy liczby: zapytania, koszt, zlecenia."
+      ],
+      "wy": [
+        "Kilka minut nagrań telefonem w tygodniu, według naszej listy ujęć.",
+        "Oddzwanianie do zapytań w czasie podanym w panelu.",
+        "Informacja, które zapytania skończyły się zleceniem.",
+        "Jedna osoba do kontaktu i akceptacji treści."
+      ],
+      "faq": [
+        [
+          "Na jak długo się wiążemy?",
+          "Pierwszy okres to 3 miesiące, bo tyle trwa plan z mapy. Potem umowa przechodzi na czas nieokreślony z miesięcznym wypowiedzeniem."
+        ],
+        [
+          "Czyje są strona, konta i materiały?",
+          "Wasze. Konta reklamowe, domena, profil i pliki znaku są zakładane na Waszą firmę. Po zakończeniu współpracy zostają u Was."
+        ],
+        [
+          "Czy gwarantujecie liczbę zleceń?",
+          "Nie. Odpowiadamy za liczbę i jakość zapytań oraz za to, jak wyglądacie. Zamknięcie sprzedaży zależy od rozmowy w studiu, ceny i wolnych terminów."
+        ],
+        [
+          "Czy można zmienić pakiet w trakcie?",
+          "Tak, od kolejnego miesiąca. Przy przejściu wyżej dopłacacie różnicę we wdrożeniu."
+        ],
+        [
+          "Co, jeśli nie mamy czasu nagrywać?",
+          "Wtedy opieramy treści na zdjęciach realizacji i poradnikach. Rolek będzie mniej, a zasięg niższy, powiemy to wprost w raporcie."
+        ]
+      ]
+    },
+    "start_14": [
+      [
+        "Dzień 1",
+        "Umowa i faktura",
+        "Wysyłamy umowę do podpisu elektronicznego i fakturę za wdrożenie."
+      ],
+      [
+        "Dzień 2",
+        "Dostępy",
+        "Dostajecie listę: Instagram, wizytówka Google, domena. Każdy dostęp z instrukcją krok po kroku."
+      ],
+      [
+        "Dzień 3",
+        "Rozmowa startowa",
+        "45 minut. Ustalamy osobę kontaktową, usługi priorytetowe i wolne terminy w studiu."
+      ],
+      [
+        "Dni 4-7",
+        "Wdrożenie znaku i Instagrama",
+        "Nowe zdjęcie profilowe, opis, okładki i pierwsze publikacje."
+      ],
+      [
+        "Dni 8-14",
+        "Strona na Waszej domenie",
+        "Strona z pokazu, formularz i powiadomienia o zapytaniach."
+      ]
+    ]
+  },
+  "slownik": {
+    "firma": "studio",
+    "firmy": "studia",
+    "firmie": "studiu",
+    "obiekt": "auto",
+    "obiektu": "auta",
+    "obiektem": "autem",
+    "realizacja_opis": "model auta",
+    "split_podpis": "Korekta lakieru",
+    "probka_tytulu": "Lakier jak *z salonu*",
+    "probka_posta": "Ceramika. Czy warto?",
+    "brak_zdjec": "Po dostarczeniu zdjęć realizacji kafle wypełnią się autami ze studia.",
+    "przyklad_klienta": "np. Porsche Macan"
+  },
+  "nazwa_klienta": "studio detailingu",
+  "zwiad_podpowiedzi": [
+    "cennik na stronie www albo w wyróżnionych relacjach",
+    "wizytówka Google: ocena, liczba opinii, adres",
+    "modele aut na zdjęciach (podpisy realizacji)",
+    "druga lokalizacja, jeśli jest"
+  ]
+}

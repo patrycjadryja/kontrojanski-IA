@@ -1,0 +1,11 @@
+{
+  "nazwa": "",
+  "nadawca": "",
+  "kalendarz": "",
+  "wiadomosc": "",
+  "chrome": true,
+  "hosting": {"host": "", "port": 22, "user": "", "sciezka": "", "adres": "", "klucz": ""},
+  "telegram": {"token": "", "chat_id": ""},
+  "oferta": {},
+  "_opis": "nadawca = podpis pod wezwaniem do rozmowy; kalendarz = link do rezerwacji rozmowy; wiadomosc = link do DM albo mailto:; hosting i telegram ustawisz w panelu albo poprosisz Claude: podlacz serwer"
+}

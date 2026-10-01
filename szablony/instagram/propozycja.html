@@ -1,0 +1,190 @@
+{% import "instagram/_kafle.html" as K %}
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ d.nazwa }} - redesign Instagrama</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="{{ fonty_url }}">
+<style>
+:root{ {{ css }} }
+{% include "_baza.css" %}
+body{background:var(--ink);color:var(--bone);font-family:var(--body);font-size:16px;line-height:1.55;margin:0}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:20px;padding-block:40px 96px;display:flex;flex-direction:column;gap:88px}
+.top{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-end}
+.top h1{font-size:clamp(30px,5.4vw,64px);max-width:14ch}
+.top .lead{max-width:46ch;color:var(--mute);font-size:15px}
+section{display:flex;flex-direction:column;gap:28px}
+.shead{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--graphite);padding-top:20px}
+.shead h2{font-size:clamp(22px,3vw,34px)}
+.shead p{color:var(--mute);max-width:62ch;font-size:15px}
+
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px 56px;justify-items:center}
+.pcol{display:flex;flex-direction:column;gap:14px;width:100%;max-width:400px;min-width:0}
+.ptag{display:flex;justify-content:space-between;align-items:baseline}
+.ptag b{font-family:var(--display);font-stretch:var(--display-stretch);font-weight:var(--display-weight-2);text-transform:var(--display-case);font-size:20px}
+.phone{border:1px solid var(--graphite);border-radius:34px;padding:10px;background:#000}
+.screen{border-radius:25px;overflow:hidden;background:#0c0f14;container-type:inline-size;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#f4f5f7}
+.ig-bar{text-align:center;font-weight:700;font-size:4cqw;padding:4cqw 0 3cqw}
+.ig-head{display:flex;gap:5cqw;align-items:center;padding:1cqw 4cqw 3cqw}
+.ava{width:21cqw;height:21cqw;border-radius:50%;flex:none;overflow:hidden;background:#000;display:grid;place-items:center}
+.ava img{width:100%;height:100%;object-fit:cover;display:block}
+.ig-name{font-weight:700;font-size:4.4cqw;line-height:1.2}
+.ig-cat{font-size:3cqw;color:#c9ccd1;line-height:1.35;margin-top:.6cqw}
+.ig-stats{display:flex;gap:4cqw;font-size:3.1cqw;margin-top:1.6cqw}
+.ig-bio{padding:0 4cqw;font-size:3.2cqw;line-height:1.4}
+.ig-bio a{color:#8aa2ff;text-decoration:none;font-weight:600;display:block;margin-top:1cqw}
+.ig-btn{margin:3cqw 4cqw;background:#4a5df0;border-radius:2.2cqw;text-align:center;font-weight:600;font-size:3.3cqw;padding:2cqw}
+.hl{display:flex;gap:3.4cqw;padding:1cqw 4cqw 4cqw;overflow:hidden}
+.hl figure{flex:none;width:16cqw;display:flex;flex-direction:column;gap:1.4cqw;align-items:center}
+.hl .c{width:16cqw;height:16cqw;border-radius:50%;overflow:hidden;border:.5cqw solid #2b2f36;padding:.6cqw;display:block}
+.hl .c>*{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.hl .c>img{display:block}
+.hl .c.pusty{background:#1b1f26}
+.hl .c.pusty::after{content:"";display:block;width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#2a2f38,#171b21)}
+.hl figcaption{font-size:2.7cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4cqw}
+.ig-grid .brak{aspect-ratio:3/4;background:#151a21}
+
+.covers{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:26px 20px}
+.covers figure{display:flex;flex-direction:column;gap:10px;align-items:center}
+.covers figcaption{font-size:13px;color:var(--bone)}
+.tpl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:32px 24px;align-items:start}
+.tpl figure{display:flex;flex-direction:column;gap:12px;min-width:0}
+.tpl figcaption{display:flex;flex-direction:column;gap:4px}
+.tpl figcaption b{font-weight:600;font-size:15px}
+.tpl figcaption span{color:var(--mute);font-size:13.5px;line-height:1.45}
+.tpl .tile{border:1px solid var(--graphite)}
+.diag{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:0 56px}
+.diag div{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-block:16px;border-bottom:1px solid var(--graphite);font-size:14.5px;line-height:1.45}
+.diag div p:first-child{color:var(--mute)}
+.diag .hd{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.diag .hd p:last-child{color:var(--accent)}
+.sys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:36px 40px}
+.sys>div{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sw{display:flex;gap:0;border:1px solid var(--graphite)}
+.sw i{flex:1;height:64px;display:block}
+.spec{font-size:clamp(26px,3.4vw,40px)}
+.sys p{color:var(--mute);font-size:14px}
+.sys ul{margin:0;padding-left:18px;color:var(--mute);font-size:14px;display:flex;flex-direction:column;gap:6px}
+.foot{color:var(--mute);font-size:13.5px;max-width:70ch;border-top:1px solid var(--graphite);padding-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+    <p class="mono">{{ d.nazwa }}{% if d.miasto %} / {{ d.miasto }}{% endif %}{% if probka %} / propozycja{% endif %}</p>
+    <h1 class="wide">{{ ig.haslo|akcent }}</h1>
+    <p class="lead">{{ ig.lead }}</p>
+  </div>
+  <img src="{{ baza }}branding/final/logo-podstawowe-{{ 'ciemne-na-jasnym' if kier.schemat == 'light' else 'jasne-na-ciemnym' }}.svg" alt="Logo {{ d.nazwa }}" style="width:min(100%,260px)">
+</header>
+
+<section id="telefony">
+  <div class="phones">
+    {% for strona in ["przed", "po"] %}
+    <div class="pcol">
+      <div class="ptag">{% if strona == "przed" %}<b>Przed</b><span class="mono">{{ "stan na dziś" if ig.prawdziwa_siatka else "te same zdjęcia bez oprawy" }}</span>{% else %}<b class="acc">Po</b><span class="mono">propozycja</span>{% endif %}</div>
+      <div class="phone"><div class="screen">
+        <div class="ig-bar">{{ d.ig_handle or d.nazwa }}</div>
+        <div class="ig-head">
+          <div class="ava">{% if strona == "przed" %}{% if ig.awatar_przed %}<img src="{{ baza }}{{ ig.awatar_przed }}" alt="Obecne zdjęcie profilowe">{% endif %}{% else %}<img src="{{ baza }}branding/final/awatar-instagram.svg" alt="Nowe zdjęcie profilowe">{% endif %}</div>
+          <div>
+            <div class="ig-name">{{ d.ig_handle or d.nazwa }}</div>
+            {% if d.kategorie %}<div class="ig-cat">{{ d.kategorie }}</div>{% endif %}
+            <div class="ig-stats">{% if d.posty %}<span>Posty: <b>{{ d.posty|tysiace }}</b></span>{% endif %}{% if d.obserwujacy %}<span><b>{{ d.obserwujacy|tysiace }}</b> obserwujących</span>{% endif %}</div>
+          </div>
+        </div>
+        <div class="ig-bio">{% for l in (ig.bio_przed if strona == "przed" else ig.bio_po) %}{{ l }}{% if not loop.last %}<br>{% endif %}{% endfor %}{% if k.zrodlo.www %}<a>{{ k.zrodlo.www|replace("https://","")|replace("http://","")|trim("/") }}</a>{% endif %}</div>
+        <div class="ig-btn">Obserwuj</div>
+        <div class="hl">
+          {% for w in ig.wyroznione[:5] %}
+          <figure>{% if strona == "przed" %}<span class="c{{ '' if w.img_przed else ' pusty' }}">{% if w.img_przed %}<img src="{{ baza }}{{ w.img_przed }}" alt="">{% endif %}</span>{% else %}<span class="c">{{ K.okladka(w, baza) }}</span>{% endif %}<figcaption>{{ w.nazwa }}</figcaption></figure>
+          {% endfor %}
+        </div>
+        <div class="ig-grid">
+          {% if strona == "przed" %}
+            {% for p in ig.siatka_przed[:12] %}<div class="tile"><img src="{{ baza }}{{ p }}" alt=""></div>{% endfor %}
+          {% else %}
+            {% for t in ig.siatka_po[:12] %}{{ K.kafel(t, baza, dopisek) }}{% endfor %}
+          {% endif %}
+        </div>
+      </div></div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <div class="shead"><p class="mono">Diagnoza</p><h2 class="wide">Co dziś obniża odbiór</h2>
+  <p>{{ ig.diagnoza_lead }}</p></div>
+  <div class="diag">
+    <div class="hd"><p>Teraz</p><p>Po zmianie</p></div>
+    <div class="hd"><p>Teraz</p><p>Po zmianie</p></div>
+    {% for w in ig.diagnoza %}<div><p>{{ w[0] }}</p><p>{{ w[1] }}</p></div>{% endfor %}
+  </div>
+</section>
+
+<section>
+  <div class="shead"><p class="mono">Szablony</p><h2 class="wide">Okładka rolki i podpis realizacji</h2>
+  <p>Rolka ma format 9:16, ale w siatce widać tylko jej środek w proporcji 3:4. Przerywana ramka pokazuje to pole, dlatego cały tekst leży w jego wnętrzu.</p></div>
+  <div class="tpl">
+    {% for g in ig.szablony.rolki %}
+    <figure>{{ K.kafel(g, baza, dopisek, "r916", false, true) }}<figcaption><b>{{ g.nazwa }}</b><span>{{ g.opis }}</span></figcaption></figure>
+    {% endfor %}
+    {% for g in ig.szablony.posty %}
+    <figure>{{ K.kafel(g, baza, dopisek, "r45") }}<figcaption><b>{{ g.nazwa }}</b><span>{{ g.opis }}</span></figcaption></figure>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <div class="shead"><p class="mono">Szablony</p><h2 class="wide">Karuzela poradnikowa</h2>
+  <p>Cztery slajdy w formacie 1080 x 1350 px. Jedna myśl na slajd, duży tekst, kontakt na końcu.</p></div>
+  <div class="tpl">
+    {% for g in ig.szablony.karuzela %}
+    <figure>{{ K.kafel(g, baza, dopisek, "r45") }}<figcaption><b>{{ g.nazwa }}</b><span>{{ g.opis }}</span></figcaption></figure>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <div class="shead"><p class="mono">Wyróżnione relacje</p><h2 class="wide">Okładki bez rysunków</h2>
+  <p>Krótkie hasło zamiast ikony, cztery odmiany tła na zmianę. Czytelne w małym kółku.</p></div>
+  <div class="covers">
+    {% for w in ig.wyroznione %}<figure>{{ K.okladka(w, baza) }}<figcaption>{{ w.nazwa }}</figcaption></figure>{% endfor %}
+  </div>
+</section>
+
+<section>
+  <div class="shead"><p class="mono">System</p><h2 class="wide">Z czego to jest zbudowane</h2></div>
+  <div class="sys">
+    <div>
+      <p class="mono">Kolory</p>
+      <div class="sw">{% for t in ["ink","carbon","graphite","bone","accent"] %}<i style="background:var(--{{ t }})"></i>{% endfor %}</div>
+      <p>Tło, dwa odcienie powierzchni, kolor tekstu i jeden akcent. Akcent pojawia się w jednym słowie tytułu albo na jednym slajdzie, nigdy w obu naraz.</p>
+    </div>
+    <div>
+      <p class="mono">Typografia</p>
+      <div class="wide spec">{{ ig.probka_typografii|akcent }}</div>
+      <p>Tytuły krojem {{ fonty.display.rodzina }}. Nazwy aut i usług krojem maszynowym {{ fonty.mono.rodzina }}, jak na tabliczce znamionowej.</p>
+    </div>
+    <div>
+      <p class="mono">Zasady siatki</p>
+      <ul>
+        <li>Najwyżej jedna grafika z tekstem obok zdjęć w rzędzie.</li>
+        <li>Grafika w każdym rzędzie w innej kolumnie.</li>
+        <li>Tekst tylko w polu 3:4.</li>
+        <li>Jeden preset obróbki dla wszystkich zdjęć.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="foot">{{ ig.uwagi }}</p>
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Generator Agencji: katalog pokazow. Ustawienia i zdarzenia niedostepne z sieci.
+<Files "_config.php">
+  Require all denied
+</Files>
+Options -Indexes
+AddDefaultCharset UTF-8
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>

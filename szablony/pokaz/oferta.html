@@ -1,0 +1,373 @@
+{% import "instagram/_kafle.html" as K with context %}
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oferta współpracy - {{ d.nazwa }}</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="{{ fonty_url }}" rel="stylesheet">
+<style>
+/* SALA OFERTOWA (warstwa 2, po rozmowie sprzedazowej). Wygenerowane przez Generator Agencji, zmiany wprowadzaj w klient.json. */
+:root{ {{ css }};--ease:cubic-bezier(.16,1,.3,1);--pad:clamp(20px,5vw,72px);--bar:56px;--sum:0px }
+{{ css_akcentow }}
+{% include "_baza.css" %}
+{% include "pokaz/_oferta.css" %}
+</style>
+<script>
+(function(){var ok={{ akcenty_id|tojson }},a=new URLSearchParams(location.search).get('akcent');if(a&&ok.indexOf(a)>0)document.documentElement.setAttribute('data-accent',a);})();
+</script>
+</head>
+<body>
+
+<div class="bar">
+  <div class="who mono">{{ sygnet(1) }}<span>Oferta / {{ znak_nazwa }}</span></div>
+  <nav id="nav">
+    <a href="#cele">Cele</a><a href="#mapa">90 dni</a><a href="#pakiety">Pakiety</a><a href="#tresci">Treści</a><a href="#narzedzia">Narzędzia</a><a href="#zwrot">Zwrot</a><a href="#zasady">Zasady</a>
+  </nav>
+  <a class="btn sm" href="#akceptacja">Akceptacja</a>
+</div>
+
+<main>
+
+<section class="scene open" id="start">
+  <div class="wrap">
+    <p class="sub">Oferta współpracy / {{ d.nazwa }}</p>
+    <h1>{{ o.naglowek|akcent }}</h1>
+    <div class="g">
+      <p class="lead" id="intro"></p>
+      <div class="meta">
+        <div><span class="mono">Przygotowano dla</span><b id="m-dla"></b></div>
+        <div><span class="mono">Po rozmowie z dnia</span><b id="m-rozmowa"></b></div>
+        <div><span class="mono">Oferta ważna do</span><b id="m-wazna"></b></div>
+        <div><span class="mono">Start prac</span><b id="m-start"></b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="cele">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>01</b><span class="mono">Cele</span></p>
+      <h2 class="rv">Co od Was <em>usłyszeliśmy</em></h2>
+      <p class="lead rv" style="--d:1">Oferta odpowiada na to, co padło w rozmowie. Jeśli coś zrozumieliśmy inaczej, poprawimy ją przed startem.</p>
+    </div>
+    {% if cele_przykladowe %}<p class="przyklad">Cele przykładowe. Podmień na słowa klienta po rozmowie.</p>{% endif %}
+    <div class="goals" id="goals"></div>
+  </div>
+</section>
+
+<section class="scene" id="gotowe">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>02</b><span class="mono">Punkt wyjścia</span></p>
+      <h2 class="rv">To już jest <em>gotowe</em></h2>
+      <p class="lead rv" style="--d:1">Nie zaczynamy od zera. Znak, Instagram i strona z pokazu są zrobione. Wdrożenie oznacza przeniesienie ich na Wasze konta i domenę.</p>
+    </div>
+    <div class="ready">
+      <a class="rv" href="../index.html#znak" target="_blank" rel="noopener"><div class="k-logo">{{ logo_stat }}</div><div class="c"><b>Znak</b><span class="mono">Zobacz</span></div></a>
+      <a class="rv" style="--d:1" href="../index.html#instagram" target="_blank" rel="noopener">{% if foto_ig %}<img src="../{{ foto_ig }}" alt="" loading="lazy">{% endif %}<div class="c"><b>Instagram</b><span class="mono">Zobacz</span></div></a>
+      <a class="rv" style="--d:2" href="../landing/index.html" target="_blank" rel="noopener"><img src="../{{ foto_strony }}" alt="" loading="lazy" style="filter:var(--film)"><div class="c"><b>Strona: {{ oferta.fraza.mianownik }}</b><span class="mono">Zobacz</span></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="mapa">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>03</b><span class="mono">Mapa 90 dni</span></p>
+      <h2 class="rv">Co się wydarzy <em>i kiedy</em></h2>
+      <p class="lead rv" style="--d:1">Plan zmienia się razem z wybranym pakietem. Przekreślone punkty nie wchodzą w zakres pakietu: <b id="map-p" style="color:var(--bone)"></b>.</p>
+    </div>
+    <div class="track" id="track"><i></i></div>
+    <div class="map" id="map"></div>
+  </div>
+</section>
+
+<section class="scene" id="pakiety">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>04</b><span class="mono">Pakiety</span></p>
+      <h2 class="rv">Trzy zakresy. <em>Jedna decyzja.</em></h2>
+      <p class="lead rv" style="--d:1">Kliknijcie pakiet, żeby zobaczyć, jak zmienia się plan, treści, narzędzia i rachunek. Ceny netto.</p>
+    </div>
+    <div class="pk" id="pk" role="radiogroup" aria-label="Pakiet"></div>
+    <div class="add rv" id="add"><div class="hd mono">Dodatki, do każdego pakietu</div></div>
+    <p class="fine" style="margin-top:18px">Budżet reklamowy opłacacie bezpośrednio w Meta i Google, z własnej karty. Nie doliczamy do niego prowizji. Rekomendowany budżet na start to {{ o.budzet_reklamowy|tysiace }} zł miesięcznie.</p>
+  </div>
+</section>
+
+<section class="scene" id="tresci">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>05</b><span class="mono">Treści</span></p>
+      <h2 class="rv">Pierwszy miesiąc <em>na Instagramie</em></h2>
+      <p class="lead rv" style="--d:1">Tak wygląda miesiąc publikacji w wybranym pakiecie: <b id="cal-n" style="color:var(--bone)"></b>. Rolki montujemy z Waszych nagrań. Dostajecie od nas scenariusz i listę ujęć, nagranie telefonem zajmuje kilka minut przy aucie.</p>
+    </div>
+    <div class="cal" id="cal">
+      {% for x in tresci %}<figure data-i="{{ loop.index0 }}">{{ K.kafel(x, "../", dopisek, "r45") }}<figcaption class="mono"><span>{{ "%02d"|format(loop.index) }}</span><span>{{ x.nazwa }}</span></figcaption></figure>
+      {% endfor %}</div>
+  </div>
+</section>
+
+<section class="scene" id="narzedzia">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>06</b><span class="mono">Narzędzia</span></p>
+      <h2 class="rv">Oprogramowanie <em>szyte pod studio</em></h2>
+      <p class="lead rv" style="--d:1">Poza marketingiem budujemy narzędzia, których nie da się kupić z półki. Poniżej działające podglądy, można je klikać.</p>
+    </div>
+    <div class="tools rv">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="app">
+        <div class="chrome"><i></i><i></i><i></i><div class="url" id="app-url"></div></div>
+        <div id="panes"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="zwrot">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>07</b><span class="mono">Zwrot</span></p>
+      <h2 class="rv">Kiedy to się <em>zwraca</em></h2>
+      <p class="lead rv" style="--d:1">Liczymy na Waszych liczbach. Nie obiecujemy konkretnej liczby zleceń, pokazujemy próg, od którego współpraca zarabia na siebie.</p>
+    </div>
+    <div class="calc rv">
+      <div class="ins">
+        <div class="fld"><label for="z-v"><span class="mono">Średnia wartość zlecenia</span><output id="zo-v"></output></label><input type="range" id="z-v" min="2000" max="25000" step="500" value="8000"></div>
+        <div class="fld"><label for="z-m"><span class="mono">Marża na zleceniu</span><output id="zo-m"></output></label><input type="range" id="z-m" min="20" max="80" step="5" value="50"></div>
+        <div class="fld"><label for="z-a"><span class="mono">Budżet reklamowy w miesiącu</span><output id="zo-a"></output></label><input type="range" id="z-a" min="0" max="8000" step="500" value="1500"></div>
+      </div>
+      <div class="out">
+        <div><p class="mono" style="margin-bottom:12px">Koszt miesięczny razem</p><p class="num" id="zn-c"></p></div>
+        <div><p class="mono" style="margin-bottom:12px">Próg zwrotu</p><p class="num acc" id="zn-j"></p></div>
+        <p class="fine" id="zn-t"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="zasady">
+  <div class="wrap">
+    <div class="head">
+      <p class="no"><b>08</b><span class="mono">Zasady</span></p>
+      <h2 class="rv">Jak <em>pracujemy</em></h2>
+    </div>
+    <div class="rules">
+      <div class="rv"><h3>Po naszej stronie</h3><ul id="r-my"></ul></div>
+      <div class="rv" style="--d:1"><h3>Po Waszej stronie</h3><ul id="r-wy"></ul></div>
+    </div>
+    <div id="faq"></div>
+  </div>
+</section>
+
+<section class="scene end" id="akceptacja">
+  <div class="wrap">
+    <p class="mono">09 / Akceptacja</p>
+    <h2 style="margin-top:18px" id="a-title"></h2>
+    <div class="g">
+      <div>
+        <div class="bill" id="bill"></div>
+        <p style="margin-top:16px;font-size:14px;font-weight:500;max-width:52ch">Kwoty netto, doliczamy 23% VAT. Po akceptacji wysyłamy umowę do podpisu i fakturę. Prace ruszają po podpisaniu umowy.</p>
+      </div>
+      <form class="form" id="af" novalidate>
+        <label class="f"><span>Imię i nazwisko</span><input type="text" name="osoba" autocomplete="name" required></label>
+        <label class="f"><span>NIP firmy</span><input type="text" name="nip" inputmode="numeric" placeholder="10 cyfr" required></label>
+        <label class="f"><span>E-mail do umowy i faktur</span><input type="email" name="email" autocomplete="email" required></label>
+        <label class="ck"><input type="checkbox" name="ok" required><span>Akceptuję zakres i ceny z tej oferty. Wiem, że współpracę wiąże dopiero podpisana umowa.</span></label>
+        <p class="err" id="a-err" role="alert"></p>
+        <button class="btn" type="submit" id="a-btn">Akceptuję ofertę</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap"><p class="fine" id="foot"></p></div></footer>
+
+<div class="sum" id="sum">
+  <div class="wrap">
+    <div class="n"><span class="mono">Wybrany pakiet</span><b id="s-n"></b></div>
+    <div><span class="mono">Miesięcznie</span><div class="v" id="s-m"></div></div>
+    <div class="one"><span class="mono">Wdrożenie, jednorazowo</span><div class="v" id="s-o"></div></div>
+    <a class="btn" href="#akceptacja">Przejdź do akceptacji</a>
+  </div>
+</div>
+
+<div class="go" id="go" hidden>
+  <div class="wrap">
+    {{ logo_go }}
+    <p class="sub">Oferta zaakceptowana</p>
+    <h2>Zaczynamy. <em id="go-n"></em></h2>
+    <p style="max-width:60ch;color:var(--mute);font-size:17px" id="go-t"></p>
+    <ol id="go-l"></ol>
+    <div class="cta"><a class="btn" id="go-pay" hidden target="_blank" rel="noopener">Opłać pierwszą fakturę</a><button class="btn ghost" type="button" onclick="print()">Zapisz ofertę jako PDF</button></div>
+  </div>
+</div>
+
+<script type="application/json" id="cfg">{{ cfg_json|safe }}</script>
+<script>
+const CFG = JSON.parse(document.getElementById('cfg').textContent);
+
+/* ===== LOGIKA ===== */
+(() => {
+  const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const zl = n => String(Math.round(n)).replace(/\B(?=(\d{3})+$)/g, ' ');
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const brak = '<span class="acc">do uzupełnienia</span>';
+  const PAKIETY = CFG.pakiety, DODATKI = CFG.dodatki, MAPA = CFG.mapa, ZASADY = CFG.zasady, START = CFG.start_14, N = CFG.narzedzia;
+  const state = { p: PAKIETY.find(p => p.id === CFG.polecany) || PAKIETY[1], add: new Set() };
+
+  /* otwarcie */
+  $('#intro').textContent = CFG.intro;
+  $('#m-dla').textContent = CFG.dla;
+  $('#m-rozmowa').innerHTML = CFG.rozmowa ? esc(CFG.rozmowa) : brak;
+  $('#m-wazna').innerHTML = CFG.wazna_do ? esc(CFG.wazna_do) : brak;
+  $('#m-start').textContent = CFG.start;
+  $('#foot').textContent = 'Oferta przygotowana dla ' + CFG.dla + '.' + (CFG.nadawca ? ' ' + CFG.nadawca + '.' : '') + ' Ceny netto w złotych. Podglądy narzędzi pokazują przykładowe dane.' + (CFG.probka ? ' Pakiety i ceny w wersji roboczej.' : '');
+
+  /* cele */
+  $('#goals').innerHTML = CFG.cele.map((c, i) => '<div class="goal rv" style="--d:' + i + '"><span class="mono">' + esc(c.gdzie) + '</span><q>' + esc(c.cytat) + '</q><p><b>Odpowiedź:</b> ' + esc(c.odp) + '</p></div>').join('');
+
+  /* mapa */
+  $('#map').innerHTML = MAPA.map(f => '<div class="ph"><div class="d"><span class="mono acc">' + f.dni + '</span></div><h3>' + f.nazwa + '</h3><ul>' +
+    f.punkty.map(p => '<li data-l="' + p[0] + '">' + p[1] + '</li>').join('') + '</ul><p class="res">' + f.wynik + '</p></div>').join('');
+
+  /* pakiety */
+  $('#pk').innerHTML = PAKIETY.map(p => '<button type="button" class="p rv" role="radio" data-id="' + p.id + '" style="--d:' + (p.poziom - 1) + '">' +
+    '<div class="t"><span class="mono">Pakiet 0' + p.poziom + '</span>' + (p.id === CFG.polecany ? '<span class="chip">Polecany dla Was</span>' : '') + '</div>' +
+    '<h3>' + p.nazwa + '</h3><p class="for">' + p.dla + '</p>' +
+    '<div><div class="price">' + zl(p.cena) + '<small>zł / mc</small></div><p class="setup">Wdrożenie ' + zl(p.wdrozenie) + ' zł jednorazowo</p></div>' +
+    '<ul>' + p.punkty.map((x, i) => '<li' + (i === 0 && p.poziom > 1 ? ' class="inh"' : '') + '>' + x + '</li>').join('') + '</ul>' +
+    '<p class="out">' + p.wynik + '</p><span class="sel"><i></i><span></span></span></button>').join('');
+  $('#add').insertAdjacentHTML('beforeend', DODATKI.map(d => '<label><input type="checkbox" value="' + d.id + '"><span><b>' + d.nazwa + '</b><span class="ds">' + d.opis + '</span></span>' +
+    '<span class="pr">' + zl(d.cena) + ' zł<small>' + (d.mc ? 'miesięcznie' : 'jednorazowo') + '</small></span></label>').join(''));
+
+  /* narzędzia */
+  const A = N.auta, oc = [['PRIORYTET', ''], ['PRIORYTET', ''], ['STANDARD', 'q'], ['INNA USŁUGA', 'q']];
+  const NARZ = [
+    { id: 'panel', l: 2, n: 'Panel zapytań', o: 'Każde zapytanie z oceną i terminem oddzwonienia.', url: 'panel.' + N.domena + '/zapytania', html:
+      '<h3>Zapytania</h3><p class="mono">Ten tydzień</p><div class="kpis"><div><span class="mono">Nowe</span><b>14</b></div><div><span class="mono">Priorytet</span><b class="acc">5</b></div><div><span class="mono">Do oddzwonienia</span><b id="kp-o">3</b></div></div>' +
+      '<div class="leads">' + A.map((a, i) => '<div class="lead-r"><span><span class="chip ' + oc[i % 4][1] + '">' + oc[i % 4][0] + '</span></span><b>' + esc(a[0]) + ', ' + esc(a[1]) + '</b><span class="m">' + esc(N.zakresy[i % N.zakresy.length][0]) + ' / ' + (i < 2 ? 'w tym miesiącu' : 'do 3 miesięcy') + '</span><button type="button" class="btn ghost sm" data-call' + (i > 2 ? ' disabled style="visibility:hidden"' : '') + '>Oddzwoniono</button></div>').join('') + '</div>' },
+    { id: 'status', l: 3, n: 'Panel klienta', o: 'Klient widzi, na jakim etapie jest jego auto.', url: N.domena + '/moje-auto', html:
+      '<h3>' + esc(N.auto_glowne) + '</h3><p class="mono">' + esc(N.usluga_glowna) + ' / odbiór w piątek</p><ul class="steps" id="steps">' +
+      N.etapy.map((s, i) => '<li class="' + (i < 3 ? 'ok' : i === 3 ? 'now' : '') + '"><i></i><b>' + esc(s) + '</b><span class="mono">' + (i < 3 ? 'zrobione' : i === 3 ? 'w trakcie' : '') + '</span></li>').join('') + '</ul>' +
+      '<div class="shots">' + N.zdjecia.map(x => '<img src="../' + esc(x) + '" alt="" loading="lazy">').join('') + '</div>' +
+      '<div style="margin-top:18px"><button type="button" class="btn ghost sm" id="st-next">Przesuń etap</button></div>' },
+    { id: 'gwar', l: 3, n: 'Karta gwarancyjna', o: 'Cyfrowa karta z terminem przeglądu i przypomnieniem SMS.', url: N.domena + '/gwarancja/' + N.numer, html:
+      '<div class="cert"><h3>Karta gwarancyjna</h3><dl><dt>Numer</dt><dd>' + esc(N.numer) + '</dd><dt>Auto</dt><dd>' + esc(N.auto_glowne) + '</dd><dt>Usługa</dt><dd>' + esc(N.usluga_glowna) + '</dd><dt>Przegląd</dt><dd>za 12 miesięcy</dd></dl></div>' +
+      '<p class="fine" style="margin-top:16px">Miesiąc przed terminem klient dostaje SMS z propozycją przeglądu. Wraca do studia bez Waszego telefonu.</p>' },
+    { id: 'kalk', l: 3, n: 'Kalkulator wyceny', o: 'Klient sam sprawdza orientacyjną cenę i zostawia kontakt.', url: N.domena + '/wycena', html:
+      '<h3>Wycena: ' + esc(N.oferta) + '</h3><p class="mono">Wielkość auta</p><div class="qz" data-g="s">' + N.wielkosci.map((b, i) => '<button type="button" aria-pressed="' + (i === 1) + '" data-v="' + b[2] + '"><b>' + esc(b[0]) + '</b><span>' + esc(b[1]) + '</span></button>').join('') + '</div>' +
+      '<p class="mono">Zakres</p><div class="qz" data-g="z">' + N.zakresy.map((b, i) => '<button type="button" aria-pressed="' + (i === 1) + '" data-v="' + b[2] + '"><b>' + esc(b[0]) + '</b><span>' + esc(b[1]) + '</span></button>').join('') + '</div>' +
+      '<div class="qres"><div><p class="mono">Orientacyjnie od</p><p class="num" style="font-size:clamp(34px,4vw,54px)" id="qv"></p></div><span class="btn" style="pointer-events:none">Zostaw numer</span></div>' }
+  ];
+  $('#tabs').innerHTML = NARZ.map((n, i) => '<button type="button" role="tab" aria-selected="' + (i === 0) + '" data-t="' + n.id + '"><b>' + n.n + '</b><span>' + n.o + '</span><span class="in-p" data-l="' + n.l + '"></span></button>').join('');
+  $('#panes').innerHTML = NARZ.map((n, i) => '<div class="pane" role="tabpanel" data-t="' + n.id + '"' + (i ? ' hidden' : '') + '>' + n.html + '</div>').join('');
+  function tab(id) {
+    $$('#tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.t === id));
+    $$('#panes .pane').forEach(p => p.hidden = p.dataset.t !== id);
+    $('#app-url').textContent = NARZ.find(n => n.id === id).url;
+  }
+  $$('#tabs button').forEach(b => b.addEventListener('click', () => tab(b.dataset.t)));
+  tab('panel');
+  $$('[data-call]').forEach(b => b.addEventListener('click', () => {
+    if (b.disabled) return; b.disabled = true; b.textContent = 'Zrobione'; b.style.opacity = .5;
+    const k = $('#kp-o'); k.textContent = Math.max(0, +k.textContent - 1);
+  }));
+  $('#st-next').addEventListener('click', () => {
+    const li = $$('#steps li'), i = li.findIndex(l => l.classList.contains('now'));
+    if (i < 0) { li.forEach((l, k) => { l.className = k < 1 ? 'now' : ''; l.querySelector('.mono').textContent = k < 1 ? 'w trakcie' : ''; }); return; }
+    li[i].className = 'ok'; li[i].querySelector('.mono').textContent = 'zrobione';
+    if (li[i + 1]) { li[i + 1].className = 'now'; li[i + 1].querySelector('.mono').textContent = 'w trakcie'; }
+  });
+  function quote() { $('#qv').innerHTML = zl(Math.round($('[data-g=z] [aria-pressed=true]').dataset.v * $('[data-g=s] [aria-pressed=true]').dataset.v / 10) * 10) + '<small>zł</small>'; }
+  $$('.qz button').forEach(b => b.addEventListener('click', () => { $$('button', b.parentNode).forEach(x => x.setAttribute('aria-pressed', x === b)); quote(); }));
+  quote();
+
+  /* zasady */
+  $('#r-my').innerHTML = ZASADY.my.map(x => '<li>' + x + '</li>').join('');
+  $('#r-wy').innerHTML = ZASADY.wy.map(x => '<li>' + x + '</li>').join('');
+  $('#faq').innerHTML = ZASADY.faq.map(f => '<details><summary>' + f[0] + '</summary><p>' + f[1] + '</p></details>').join('');
+
+  /* rachunek */
+  const sums = () => {
+    let m = state.p.cena, o = state.p.wdrozenie;
+    DODATKI.forEach(d => { if (state.add.has(d.id)) d.mc ? m += d.cena : o += d.cena; });
+    return { m, o };
+  };
+  const zv = $('#z-v'), zm = $('#z-m'), za = $('#z-a');
+  function render() {
+    const p = state.p, { m, o } = sums();
+    $$('#pk .p').forEach(b => { const on = b.dataset.id === p.id; b.setAttribute('aria-checked', on); b.querySelector('.sel span').textContent = on ? 'Wybrany' : 'Wybierz'; });
+    $$('#map li').forEach(l => l.classList.toggle('off', +l.dataset.l > p.poziom));
+    $('#map-p').textContent = p.nazwa;
+    $$('#cal figure').forEach(f => f.classList.toggle('off', +f.dataset.i >= p.posty));
+    $('#cal-n').textContent = p.posty + ' publikacji';
+    $$('#tabs .in-p').forEach(s => { const l = +s.dataset.l; s.textContent = l <= p.poziom ? 'W Waszym pakiecie' : 'Od pakietu 0' + l; s.style.color = l <= p.poziom ? '' : 'var(--mute)'; });
+    $('#s-n').textContent = p.nazwa; $('#s-m').textContent = zl(m) + ' zł'; $('#s-o').textContent = zl(o) + ' zł';
+    $('#a-title').innerHTML = 'Pakiet: ' + p.nazwa;
+    const ad = DODATKI.filter(d => state.add.has(d.id));
+    $('#bill').innerHTML = '<div><span>' + p.nazwa + ', miesięcznie</span><b>' + zl(p.cena) + ' zł</b></div><div><span>Wdrożenie, jednorazowo</span><b>' + zl(p.wdrozenie) + ' zł</b></div>' +
+      ad.map(d => '<div><span>' + d.nazwa + (d.mc ? ', miesięcznie' : '') + '</span><b>' + zl(d.cena) + ' zł</b></div>').join('') +
+      '<div><span>Pierwsza faktura netto</span><b>' + zl(m + o) + ' zł</b></div>';
+    // zwrot
+    [zv, zm, za].forEach(r => r.style.setProperty('--f', ((r.value - r.min) / (r.max - r.min) * 100) + '%'));
+    const cost = m + +za.value, per = zv.value * zm.value / 100, jobs = Math.ceil(cost / per);
+    $('#zo-v').textContent = zl(zv.value) + ' zł'; $('#zo-m').textContent = zm.value + '%'; $('#zo-a').textContent = zl(za.value) + ' zł';
+    $('#zn-c').innerHTML = zl(cost) + '<small>zł</small>';
+    const forma = jobs === 1 ? 'zlecenie' : (jobs % 10 >= 2 && jobs % 10 <= 4 && (jobs % 100 < 12 || jobs % 100 > 14)) ? 'zlecenia' : 'zleceń';
+    $('#zn-j').innerHTML = jobs + '<small>' + forma + ' w miesiącu</small>';
+    $('#zn-t').textContent = 'Jedno zlecenie zostawia u Was ' + zl(per) + ' zł marży. Pakiet ' + p.nazwa + ' z budżetem reklamowym zwraca się od ' + jobs + '. dodatkowego zlecenia w miesiącu. Wdrożenie (' + zl(o) + ' zł) płacicie raz.';
+  }
+  $$('#pk .p').forEach(b => b.addEventListener('click', () => { state.p = PAKIETY.find(p => p.id === b.dataset.id); render(); }));
+  $$('#add input').forEach(i => i.addEventListener('change', () => { i.checked ? state.add.add(i.value) : state.add.delete(i.value); render(); }));
+  [zv, zm, za].forEach(r => r.addEventListener('input', render));
+  render();
+
+  /* pojawianie, nawigacja, pasek */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+  $$('.rv,.track').forEach(el => io.observe(el));
+  const links = $$('#nav a');
+  const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-45% 0px -45% 0px' });
+  $$('main section').forEach(s => so.observe(s));
+  const sum = $('#sum'), pk = $('#pakiety'), ak = $('#akceptacja');
+  function bar() {
+    const on = pk.getBoundingClientRect().top < innerHeight * .4 && ak.getBoundingClientRect().top > innerHeight * .75;
+    sum.classList.toggle('on', on);
+    document.documentElement.style.setProperty('--sum', on ? sum.offsetHeight + 'px' : '0px');
+  }
+  addEventListener('scroll', bar, { passive: true }); bar();
+
+  /* akceptacja */
+  const lokalnie = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  $('#af').addEventListener('submit', async e => {
+    e.preventDefault();
+    const f = new FormData(e.target), err = $('#a-err'), btn = $('#a-btn');
+    const nip = (f.get('nip') || '').replace(/\D/g, '');
+    if ((f.get('osoba') || '').trim().length < 5) return err.textContent = 'Wpisz imię i nazwisko.';
+    if (nip.length !== 10) return err.textContent = 'NIP ma 10 cyfr.';
+    if (!/^\S+@\S+\.\S+$/.test(f.get('email') || '')) return err.textContent = 'Wpisz poprawny adres e-mail.';
+    if (!f.get('ok')) return err.textContent = 'Zaznacz akceptację zakresu i cen.';
+    err.textContent = ''; btn.disabled = true; btn.textContent = 'Zapisuję...';
+    const { m, o } = sums();
+    const body = new URLSearchParams({ k: CFG.klient, pakiet: state.p.id, dodatki: [...state.add].join(','), mc: m, wdrozenie: o, osoba: f.get('osoba').trim(), nip, email: f.get('email').trim() });
+    let ok = false;
+    try { const r = await fetch(CFG.akceptacja, { method: 'POST', body }); ok = r.ok; } catch (x) {}
+    if (!ok && !lokalnie) { btn.disabled = false; btn.textContent = 'Akceptuję ofertę'; return err.textContent = 'Nie udało się zapisać akceptacji. Spróbujcie ponownie albo napiszcie do nas.'; }
+    $('#go-n').textContent = state.p.nazwa + '.';
+    $('#go-t').textContent = 'Dziękujemy, ' + f.get('osoba').trim().split(' ')[0] + '. Umowa i faktura przyjdą na adres ' + f.get('email').trim() + '. Poniżej plan pierwszych 14 dni.' + (ok ? '' : ' (Podgląd lokalny: akceptacja nie została nigdzie wysłana.)');
+    $('#go-l').innerHTML = START.map(s => '<li><span class="mono acc">' + s[0] + '</span><div><b>' + s[1] + '</b><span>' + s[2] + '</span></div></li>').join('');
+    const pay = CFG.platnosc[state.p.id]; if (pay) { $('#go-pay').href = pay; $('#go-pay').hidden = false; }
+    $('#go').hidden = false; sum.classList.remove('on'); $('#go').scrollTop = 0; document.body.style.overflow = 'hidden';
+  });
+})();
+</script>
+</body>
+</html>
